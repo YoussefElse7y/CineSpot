@@ -9,8 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:  
+    sdk: flutter
   flutter_bloc: ^9.1.1
   get_it: ^8.2.0
+  intl: ^0.20.2
   shared_preferences: ^2.5.3
 
 dev_dependencies:
@@ -20,3 +23,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
+
+
+
+# l10n.yaml - CREATE NEW FILE IN ROOT
+# This file configures the localization generation
+arb-dir: 'lib/l10n'
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/gen/l10n
+nullable-getter: false

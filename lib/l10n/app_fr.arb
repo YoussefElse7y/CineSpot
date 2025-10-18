@@ -1,0 +1,25 @@
+{
+  "@@locale": "fr",
+  
+  "appTitle": "Mon Application",
+  "welcome": "Bienvenue",
+  "hello": "Bonjour, {name}!",
+  
+  "settings": "Paramètres",
+  "language": "Langue",
+  "theme": "Thème",
+  "lightTheme": "Thème Clair",
+  "darkTheme": "Thème Sombre",
+  "systemTheme": "Thème Système",
+  
+  "home": "Accueil",
+  "profile": "Profil",
+  "logout": "Déconnexion",
+  
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "delete": "Supprimer",
+  
+  "itemCount": "{count, plural, =0{Aucun élément} =1{1 élément} other{{count} éléments}}"
+}

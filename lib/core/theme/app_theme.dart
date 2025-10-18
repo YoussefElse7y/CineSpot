@@ -10,6 +10,7 @@ class AppTheme {
       secondary: ThemeConstants.secondaryLight,
       surface: ThemeConstants.surfaceLight,
       error: ThemeConstants.errorLight,
+      onSecondary: ThemeConstants.primaryDark,
     ),
     scaffoldBackgroundColor: ThemeConstants.backgroundLight,
     appBarTheme: AppBarTheme(
@@ -30,6 +31,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
+
     textTheme: const TextTheme(
       displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -46,6 +48,7 @@ class AppTheme {
       secondary: ThemeConstants.secondaryDark,
       surface: ThemeConstants.surfaceDark,
       error: ThemeConstants.errorDark,
+      onSecondary: Colors.white,
     ),
     scaffoldBackgroundColor: ThemeConstants.backgroundDark,
     appBarTheme: AppBarTheme(

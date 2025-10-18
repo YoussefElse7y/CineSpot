@@ -1,0 +1,49 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "CineSpot",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  
+  "hello": "Hello, {name}!",
+  "@hello": {
+    "description": "Greeting with name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "settings": "Settings",
+  "language": "Language",
+  "theme": "Theme",
+  "lightTheme": "Light Theme",
+  "darkTheme": "Dark Theme",
+  "systemTheme": "System Theme",
+  
+  "home": "Home",
+  "profile": "Profile",
+  "logout": "Logout",
+  
+  "save": "Save",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "delete": "Delete",
+  
+  "itemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@itemCount": {
+    "description": "Number of items",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}
