@@ -7,6 +7,7 @@ class ThemeConstants {
   static const Color backgroundLight = Color(0xFFFFFFFF);
   static const Color surfaceLight = Colors.white;
   static const Color errorLight = Color(0xFFB00020);
+  static const Color textFieldBackgroundColorLight = Color(0xFFFAFAFA);
 
   // Dark Theme Colors
   static const Color primaryDark = Color(0xFFE21221);
@@ -14,6 +15,7 @@ class ThemeConstants {
   static const Color backgroundDark = Color(0xFF181A20);
   static const Color surfaceDark = Color(0xFF181A20);
   static const Color errorDark = Color(0xFFCF6679);
+  static const Color textFieldBackgroundColorDark = Color(0xFF1F222B);
 
   // Common Spacing
   static const double spacingXS = 4.0;

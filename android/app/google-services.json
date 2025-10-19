@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "913530838601",
+    "project_id": "cinespot-1",
+    "storage_bucket": "cinespot-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913530838601:android:9115deb385c870c244e998",
+        "android_client_info": {
+          "package_name": "com.example.cine_spot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913530838601-s2d4ur05i7koe7u225ppl7g0vqnvqa3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cine_spot",
+            "certificate_hash": "db2480d052a47f690c4fe933b89ebfd2ed718b00"
+          }
+        },
+        {
+          "client_id": "913530838601-3ejftsv6u9f2v9j1dhdb0cjkeiebaqip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC17J1Nk2YdOhUKPNPPzdq6ih63g5Z9CtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913530838601-3ejftsv6u9f2v9j1dhdb0cjkeiebaqip.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "913530838601-kvrv1poqonnvhm54f66a7u5ej6o46sel.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cineSpot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
