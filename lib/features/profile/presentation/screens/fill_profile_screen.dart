@@ -1,6 +1,8 @@
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
+import 'package:cine_spot/features/profile/domain/entities/profile_entity.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,16 +53,45 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
     }
   }
 
-  void _handleContinue() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Save to Firestore and upload image to Cloudinary
-      // Navigate to home or next screen
-    }
-  }
+  // Replace your _handleContinue method with this:
 
-  void _handleSkip() {
-    // Navigate to home without completing profile
+void _handleContinue() {
+  if (_formKey.currentState!.validate()) {
+    // Get the current user ID from Firebase Auth
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('User not authenticated'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Create profile entity
+    final profile = ProfileEntity(
+      userId: userId,
+      fullName: _fullNameController.text.trim(),
+      nickname: _nicknameController.text.trim(),
+      email: _emailController.text.trim(),
+      phoneNumber: _phoneController.text.trim(),
+      countryCode: _selectedCountryCode,
+      gender: _selectedGender!,
+    );
+
+    // Dispatch create profile event
+    context.read<ProfileBloc>().add(
+      ProfileEvent.createProfile(profile, _selectedImage),
+    );
   }
+}
+
+void _handleSkip() {
+  // Navigate to home without completing profile
+  Navigator.pushReplacementNamed(context, Routes.homeScreen);
+}
 
    @override
   Widget build(BuildContext context) {
