@@ -40,6 +40,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
         countryCode: profile.countryCode,
         gender: profile.gender,
         photoUrl: photoUrl,
+        favoriteIds: profile.favoriteIds ?? [],
+        wishlistIds: profile.wishlistIds ?? [],
       );
 
       final createdProfile = await remoteDataSource.createProfile(profileModel);

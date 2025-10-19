@@ -34,8 +34,10 @@ abstract class ProfileModel with _$ProfileModel {
     List<int>? favoriteIds,
     List<int>? wishlistIds,
 
+    // ignore: invalid_annotation_target
     @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
         DateTime? createdAt,
+    // ignore: invalid_annotation_target
     @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
         DateTime? updatedAt,
   }) = _ProfileModel;
