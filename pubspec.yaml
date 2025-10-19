@@ -28,6 +28,9 @@ dependencies:
   freezed: ^3.2.3
   injectable_generator: ^2.9.0
   lottie: ^3.3.2
+  image_picker: ^1.2.0
+  retrofit: ^4.7.3
+  retrofit_generator: ^10.0.6
 
 dev_dependencies:
   flutter_test:

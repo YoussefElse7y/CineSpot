@@ -1,5 +1,6 @@
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
@@ -44,20 +45,42 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       // backgroundColor: const Color(0xFF1C1C1E),
       body: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          state.maybeWhen(
-            authenticated: (user) {
-              // Navigate to home screen
-              Navigator.of(context).pushReplacementNamed('/home');
-            },
-            error: (message) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(message)));
-            },
-            orElse: () {},
+  listener: (context, state) {
+    state.maybeWhen(
+      authenticated: (user) {
+        // Check if profile exists
+        context.read<ProfileBloc>().add(
+          ProfileEvent.checkProfileExists(user.id),
+        );
+      },
+      error: (message) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+      },
+      orElse: () {},
+    );
+  },
+  child: BlocListener<ProfileBloc, ProfileState>(
+    listener: (context, profileState) {
+      profileState.maybeWhen(
+        notFound: () {
+          // No profile, go to fill profile
+          Navigator.pushReplacementNamed(
+            context,
+            Routes.fillProfileScreen,
           );
         },
+        loaded: (profile) {
+          // Profile exists, go to home
+          Navigator.pushReplacementNamed(
+            context,
+            Routes.homeScreen,
+          );
+        },
+        orElse: () {},
+      );
+    },
         child: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -342,7 +365,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildSocialButton({

@@ -5,6 +5,16 @@ import 'package:cine_spot/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:cine_spot/features/profile/data/datasources/cloudinary_service.dart';
+import 'package:cine_spot/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:cine_spot/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:cine_spot/features/profile/domain/repositories/profile_repository.dart';
+import 'package:cine_spot/features/profile/domain/usecase/check_profile_exists_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/create_profile_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/get_profile_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/update_profile_usecase.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +38,28 @@ import '../../features/language/presentation/bloc/language_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+
+    // Dio instance
+  sl.registerLazySingleton<Dio>(() {
+    final dio = Dio();
+    dio.options = BaseOptions(
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    
+    // Optional: Add interceptors for logging
+    dio.interceptors.add(LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+      error: true,
+    ));
+    
+    return dio;
+  });
+
   // ========== BLoC ==========
   // Theme BLoC
   sl.registerFactory(
@@ -54,6 +86,16 @@ Future<void> init() async {
       sl(),
     ),
   );
+    // Profile BLoC
+  sl.registerFactory(
+    () => ProfileBloc(
+      createProfileUseCase: sl(),
+      updateProfileUseCase: sl(),
+      getProfileUseCase: sl(),
+      checkProfileExistsUseCase: sl(),
+    ),
+  );
+
 
   // ========== Use Cases ==========
   // Theme
@@ -68,6 +110,13 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
+
+    // Profile Use Cases
+  sl.registerLazySingleton(() => CreateProfileUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
+  sl.registerLazySingleton(() => GetProfileUseCase(sl()));
+  sl.registerLazySingleton(() => CheckProfileExistsUseCase(sl()));
+
 
 
   // ========== Repositories ==========
@@ -85,6 +134,14 @@ Future<void> init() async {
     () => AuthRepositoryImpl( sl()),
   );
 
+  // Profile Repository
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(
+      remoteDataSource: sl(),
+      cloudinaryService: sl(),
+    ),
+  );
+
   // ========== Data Sources ==========
   // Theme
   sl.registerLazySingleton<ThemeLocalDataSource>(
@@ -99,6 +156,15 @@ Future<void> init() async {
     // Auth
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(sl()),
+  );
+
+   // Profile Data Source
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(sl()),
+  );
+// Cloudinary Service
+   sl.registerLazySingleton<CloudinaryService>(
+    () => CloudinaryService(dio: sl()),
   );
 
 

@@ -1,6 +1,7 @@
 import 'package:cine_spot/cine_spot.dart';
 import 'package:cine_spot/core/routing/app_router.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection_container.dart' as di;
@@ -34,7 +35,10 @@ class CineSpotApp extends StatelessWidget {
         BlocProvider(
           create: (context) => di.sl<LanguageBloc>()..add(LoadLanguageEvent()),
         ),
-        BlocProvider(create: (context) => di.sl<AuthBloc>()..add(CheckAuthStatus()),)
+        BlocProvider(create: (context) => di.sl<AuthBloc>()..add(CheckAuthStatus()),),
+        BlocProvider(
+  create: (context) => di.sl<ProfileBloc>(),
+),
       ],
       child:  CineSpot(appRouter: AppRouter(),),
     );
