@@ -85,7 +85,7 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
 
   void _handleSkip() {
     // Navigate to home without completing profile
-    Navigator.pushReplacementNamed(context, Routes.homeScreen);
+    Navigator.pushReplacementNamed(context, Routes.mainScreen);
   }
 
   @override
@@ -99,7 +99,7 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Profile created successfully!')),
             );
-            Navigator.pushReplacementNamed(context, Routes.homeScreen);
+            Navigator.pushReplacementNamed(context, Routes.mainScreen);
           },
           error: (message) {
             ScaffoldMessenger.of(context).showSnackBar(

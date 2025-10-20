@@ -12,7 +12,7 @@ class LandingPage extends StatelessWidget {
       listener: (context, state) {
         state.maybeWhen(
           authenticated: (user) {
-            Navigator.pushReplacementNamed(context, Routes.homeScreen);
+            Navigator.pushReplacementNamed(context, Routes.mainScreen);
           },
           unauthenticated: () {
             Navigator.pushReplacementNamed(context, Routes.onBoardingScreen);

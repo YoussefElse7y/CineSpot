@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "locale_language": "en",
+
   
   "appTitle": "CineSpot",
   "@appTitle": {

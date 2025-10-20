@@ -1,6 +1,8 @@
 {
   "@@locale": "fr",
-  
+  "locale_language": "fr",
+
+
   "appTitle": "Mon Application",
   "welcome": "Bienvenue",
   "hello": "Bonjour, {name}!",

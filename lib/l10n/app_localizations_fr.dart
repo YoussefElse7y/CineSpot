@@ -9,6 +9,9 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get locale_language => 'fr';
+
+  @override
   String get appTitle => 'Mon Application';
 
   @override

@@ -9,7 +9,7 @@ class CloudinaryService {
   
   final Dio _dio;
 
-  CloudinaryService({Dio? dio}) : _dio = dio ?? Dio() {
+  CloudinaryService({Dio? dio}) : _dio = Dio() {
     _dio.options = BaseOptions(
       baseUrl: 'https://api.cloudinary.com/v1_1/$cloudName',
       connectTimeout: const Duration(seconds: 30),

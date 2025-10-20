@@ -100,6 +100,12 @@ abstract class AppLocalizations {
     Locale('fr'),
   ];
 
+  /// No description provided for @locale_language.
+  ///
+  /// In en, this message translates to:
+  /// **'en'**
+  String get locale_language;
+
   /// Application title
   ///
   /// In en, this message translates to:

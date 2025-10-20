@@ -73,7 +73,7 @@ class _SignInScreenState extends State<SignInScreen> {
               },
               loaded: (profile) {
                 // Profile exists, go to home
-                Navigator.pushReplacementNamed(context, Routes.homeScreen);
+                Navigator.pushReplacementNamed(context, Routes.mainScreen);
               },
               orElse: () {},
             );

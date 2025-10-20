@@ -1,337 +1,438 @@
-// lib/features/home/presentation/screens/home_screen.dart
-import 'package:cine_spot/core/routing/routes.dart';
-import 'package:cine_spot/core/theme/theme_constants.dart';
-import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cine_spot/core/helpers/geners.dart';
+import 'package:cine_spot/core/network/api_constants.dart';
+import 'package:cine_spot/features/home/domain/entities/movie_entity.dart';
+import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Load user profile
-    final authState = context.read<AuthBloc>().state;
-    authState.maybeWhen(
-      authenticated: (user) {
-        context.read<ProfileBloc>().add(ProfileEvent.loadProfile(user.id));
-      },
-
-      orElse: () {},
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: SizedBox.shrink(),
-        title: const Text(
-          'CineSpot',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // TODO: Implement search
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              // TODO: Implement notifications
-            },
-          ),
-
-          IconButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(const AuthEvent.signOut());
-              Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, Routes.letYouInScreen);
-            },
-            icon: Icon(Icons.logout),
-          ),
-        ],
-      ),
-      body: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, profileState) {
-          return BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, authState) {
-              return authState.maybeWhen(
-                authenticated: (user) {
-                  return profileState.maybeWhen(
-                    loaded: (profile) {
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                            ThemeConstants.spacingL,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // User Header
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: profile.photoUrl != null
-                                        ? NetworkImage(profile.photoUrl!)
-                                        : null,
-                                    child: profile.photoUrl == null
-                                        ? const Icon(Icons.person, size: 30)
-                                        : null,
-                                  ),
-                                  const SizedBox(
-                                    width: ThemeConstants.spacingM,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Welcome back,',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: isDark
-                                                ? Colors.grey[400]
-                                                : Colors.grey[600],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          profile.fullName,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: ThemeConstants.spacingXL),
-
-                              // Categories
-                              const Text(
-                                'Categories',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: ThemeConstants.spacingM),
-                              SizedBox(
-                                height: 120,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    _buildCategoryCard(
-                                      'Action',
-                                      Icons.local_fire_department,
-                                      isDark,
-                                    ),
-                                    _buildCategoryCard(
-                                      'Comedy',
-                                      Icons.emoji_emotions,
-                                      isDark,
-                                    ),
-                                    _buildCategoryCard(
-                                      'Drama',
-                                      Icons.theater_comedy,
-                                      isDark,
-                                    ),
-                                    _buildCategoryCard(
-                                      'Horror',
-                                      Icons.nightlight,
-                                      isDark,
-                                    ),
-                                    _buildCategoryCard(
-                                      'Sci-Fi',
-                                      Icons.rocket_launch,
-                                      isDark,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: ThemeConstants.spacingXL),
-
-                              // Popular Movies
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Popular Movies',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text('See All'),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: ThemeConstants.spacingM),
-
-                              // Placeholder for movie grid
-                              Center(
-                                child: Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: isDark
-                                        ? ThemeConstants.surfaceDark
-                                        : ThemeConstants.surfaceLight,
-                                    borderRadius: BorderRadius.circular(
-                                      ThemeConstants.radiusL,
-                                    ),
-                                  ),
-                                  child: const Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.movie_outlined, size: 64),
-                                        SizedBox(height: 16),
-                                        Text(
-                                          'Movies coming soon!',
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+    String language = Localizations.localeOf(context).languageCode;
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          initial: () {
+            context.read<HomeBloc>().add(HomeEvent.getTopTenMovies(language));
+          },
+          orElse: () {},
+        );
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            // App Bar with Logo and Icons
+            SliverAppBar(
+              floating: true,
+              backgroundColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              title: Text(
+                'CineSpot',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFE21221),
+                ),
+              ),
+              actions: [
+                IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+                IconButton(
+                  icon: const Icon(Icons.notifications_outlined),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            // Main Content
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Featured Movie/Show Banner
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        orElse: () {
+                          return const SizedBox();
+                        },
+                        topMoviesLoading: () {
+                          return const SizedBox(
+                            height: 500,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        },
+                        topMoviesLoaded: (movie) {
+                          MovieEntity randomMovie = getRandomElement(
+                            movie.results,
+                          );
+                          return _buildFeaturedBanner(
+                            context,
+                            isDark,
+                            '${ApiConstants.baseImageUrl}${randomMovie.posterPath}',
+                            randomMovie.title,
+                            randomMovie.overview,
+                            randomMovie.genreIds,
+                          );
+                        },
                       );
                     },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (message) => Center(child: Text('Error: $message')),
-                    orElse: () {
-                      return Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Warning'),
-                            Text('Please Complete Your Profile'),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  Routes.fillProfileScreen,
-                                );
-                              },
-                              child: Text('To Continue'),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Top 10 Movies This Week
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        topMoviesLoading: () {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        topMoviesLoaded: (movies) {
+                          return _buildMovieSection(
+                            context,
+                            'Top Movies This Week',
+                            movies.results
+                                .map(
+                                  (movie) => _MovieItem(
+                                    movie.title,
+                                    movie.voteAverage,
+                                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                                  ),
+                                  //i want to remove
+                                )
+                                .toList(),
+                          );
+                        },
+                        orElse: () {
+                          return Center(
+                            child: SizedBox(
+                              height: 200,
+                              child: Text('No movies found'),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                loading: () {
-                  return Center(child: CircularProgressIndicator());
-                },
-                orElse: () => const Center(child: Text('Not authenticated')),
-              );
-            },
-          );
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: ThemeConstants.primaryLight,
-        unselectedItemColor: isDark ? Colors.grey[600] : Colors.grey[500],
-        currentIndex: 0,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore'),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'My List'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (index) {
-          // TODO: Implement navigation
-          if (index == 3) {
-            // Show logout dialog or profile screen
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Sign Out'),
-                content: const Text('Do you want to sign out?'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(const AuthEvent.signOut());
-                      Navigator.pop(context);
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.letYouInScreen,
-                      );
-                    },
-                    child: const Text(
-                      'Sign Out',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
+
+                  const SizedBox(height: 24),
+
+                  // New Releases
+                  _buildMovieSection(context, 'Now Playing', [
+                    _MovieItem('Inside Out 2', 9.5, ''),
+                    _MovieItem('The Marvels', 9.8, ''),
+                    _MovieItem('Black Adam', 9.7, ''),
+                    _MovieItem('Thor', 9.4, ''),
+                  ]),
+
+                  const SizedBox(height: 24),
+
+                  // Trending Now
+                  _buildMovieSection(context, 'Trending Now', [
+                    _MovieItem('Dune', 9.3, ''),
+                    _MovieItem('Oppenheimer', 9.6, ''),
+                    _MovieItem('Barbie', 9.1, ''),
+                    _MovieItem('Mission Impossible', 9.2, ''),
+                  ]),
+
+                  const SizedBox(height: 100),
                 ],
               ),
-            );
-          }
-        },
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildCategoryCard(String name, IconData icon, bool isDark) {
+  Widget _buildFeaturedBanner(
+    BuildContext context,
+    bool isDark,
+    String imageUrl,
+    String title,
+    String description,
+    List<int> genres,
+  ) {
     return Container(
-      width: 100,
-      margin: const EdgeInsets.only(right: ThemeConstants.spacingM),
+      height: 500,
       decoration: BoxDecoration(
         gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           colors: [
-            ThemeConstants.primaryLight,
-            ThemeConstants.primaryLight.withOpacity(0.7),
+            Colors.transparent,
+            isDark ? const Color(0xFF181A20) : Colors.white,
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(ThemeConstants.radiusL),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [
-          Icon(icon, color: Colors.white, size: 36),
-          const SizedBox(height: 8),
-          Text(
-            name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
+          // Background Image
+          Container(
+            decoration: BoxDecoration(
+              color: isDark ? Colors.grey[850] : Colors.grey[300],
+              image: DecorationImage(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // Gradient Overlay
+
+          // Content
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    shadows: [Shadow(color: Colors.black, blurRadius: 10)],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[300],
+                      shadows: const [
+                        Shadow(color: Colors.black, blurRadius: 10),
+                      ],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Padding(padding: const EdgeInsets.only(top: 8.0)),
+                Wrap(
+                  spacing: 8, // horizontal space
+                  runSpacing: 8, // vertical space
+                  children: getGenreNames(genres).map((genre) {
+                    return Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.white),
+                      ),
+                      child: Text(
+                        genre,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black,
+                              offset: Offset(0, 1),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 10),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Play Button
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.play_arrow),
+                      label: const Text('Play'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE21221),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // My List Button
+                    OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.add),
+                      label: const Text('My List'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildMovieSection(
+    BuildContext context,
+    String title,
+    List<_MovieItem> movies,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'See all',
+                  style: TextStyle(color: Color(0xFFE21221), fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 240,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: movies.length,
+            itemBuilder: (context, index) {
+              final movie = movies[index];
+              return Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: _buildMovieCard(context, movie),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMovieCard(BuildContext context, _MovieItem movie) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      width: 160,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: isDark ? Colors.grey[850] : Colors.grey[200],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Movie Poster
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
+                ),
+                child: Container(
+                  height: 200,
+                  width: 160,
+                  color: isDark ? Colors.grey[800] : Colors.grey[300],
+                  child: Image.network(
+                    movie.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.movie, size: 60, color: Colors.grey),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              // Rating Badge
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE21221),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    movie.rating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Movie Title
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              movie.title,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MovieItem {
+  final String title;
+  final double rating;
+  final String imageUrl;
+
+  _MovieItem(this.title, this.rating, this.imageUrl);
 }

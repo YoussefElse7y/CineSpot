@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProfileModel {
 
- String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; String? get photoUrl; List<int>? get favoriteIds; List<int>? get wishlistIds;@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get createdAt;@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get updatedAt;
+ String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; String? get photoUrl; List<int>? get favoriteIds; List<int>? get wishlistIds;// ignore: invalid_annotation_target
+@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get createdAt;// ignore: invalid_annotation_target
+@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get updatedAt;
 /// Create a copy of ProfileModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -249,7 +251,9 @@ class _ProfileModel extends ProfileModel {
   return EqualUnmodifiableListView(value);
 }
 
+// ignore: invalid_annotation_target
 @override@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) final  DateTime? createdAt;
+// ignore: invalid_annotation_target
 @override@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) final  DateTime? updatedAt;
 
 /// Create a copy of ProfileModel

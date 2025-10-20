@@ -38,7 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               Navigator.pushNamed(context, Routes.fillProfileScreen);
             },
             loaded: (profile) {
-              Navigator.pushReplacementNamed(context, Routes.homeScreen);
+              Navigator.pushReplacementNamed(context, Routes.mainScreen);
             },
 
             orElse: () {},

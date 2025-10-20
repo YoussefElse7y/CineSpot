@@ -29,6 +29,7 @@ dependencies:
   image_picker: ^1.2.0
   retrofit: ^4.7.3
   retrofit_generator: ^10.0.6
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:
