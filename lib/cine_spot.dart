@@ -51,7 +51,7 @@ class CineSpot extends StatelessWidget {
               darkTheme: AppTheme.darkTheme,
               themeMode: themeMode,
               onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.onBoardingScreen,
+              initialRoute: Routes.landingScreen,
               locale: locale,
               supportedLocales: AppLanguage.values
                   .map((e) => e.locale)

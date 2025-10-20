@@ -29,6 +29,14 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 2),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 1),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 2),
+      ),
       hintStyle: TextStyle(color: Colors.grey[600]),
       filled: true,
       fillColor: ThemeConstants.textFieldBackgroundColorLight,
@@ -78,7 +86,7 @@ class AppTheme {
       foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
     ),
-     inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -86,6 +94,14 @@ class AppTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 2),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: ThemeConstants.primaryLight, width: 1),
       ),
       hintStyle: TextStyle(color: Colors.grey[600]),
       filled: true,
@@ -99,7 +115,7 @@ class AppTheme {
       foregroundColor: Colors.white,
       elevation: 0,
     ),
-    
+
     cardTheme: CardThemeData(
       color: ThemeConstants.surfaceDark,
       elevation: 2,

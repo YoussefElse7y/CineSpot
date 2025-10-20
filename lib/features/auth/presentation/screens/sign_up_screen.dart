@@ -43,296 +43,241 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
-  listener: (context, state) {
-    state.maybeWhen(
-      authenticated: (user) {
-        // Check if profile exists
-        context.read<ProfileBloc>().add(
-          ProfileEvent.checkProfileExists(user.id),
-        );
-      },
-      error: (message) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
-      },
-      orElse: () {},
-    );
-  },
-  child: BlocListener<ProfileBloc, ProfileState>(
-    listener: (context, profileState) {
-      profileState.maybeWhen(
-        notFound: () {
-          // No profile, go to fill profile
-          Navigator.pushReplacementNamed(
-            context,
-            Routes.fillProfileScreen,
+        listener: (context, state) {
+          state.maybeWhen(
+            authenticated: (user) {
+              context.read<ProfileBloc>().add(
+                ProfileEvent.checkProfileExists(user.id),
+              );
+            },
+            error: (message) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+            },
+            orElse: () {},
           );
         },
-        loaded: (profile) {
-          // Profile exists, go to home
-          Navigator.pushReplacementNamed(
-            context,
-            Routes.homeScreen,
-          );
-        },
-        orElse: () {},
-      );
-    },
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                // Back button
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop(),
+        child: BlocListener<ProfileBloc, ProfileState>(
+          listener: (context, profileState) {
+            profileState.maybeWhen(
+              notFound: () {
+                // No profile, go to fill profile
+                Navigator.pushReplacementNamed(
+                  context,
+                  Routes.fillProfileScreen,
+                );
+              },
+              loaded: (profile) {
+                // Profile exists, go to home
+                Navigator.pushReplacementNamed(context, Routes.homeScreen);
+              },
+              orElse: () {},
+            );
+          },
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  // Back button
+                  _backButton(context),
+                  const SizedBox(height: 10),
+                  // Logo
+                  _signUpAnimation(),
+                  const SizedBox(height: 40),
+                  // Title
+                  const Text(
+                    'Create Your Account',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
-                ),
-                const SizedBox(height: 10),
-                // Logo
-                Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    // color: const Color(0xFFD32F2F),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Lottie.asset('assets/lotties/login.json'),
-                ),
-                const SizedBox(height: 40),
-                // Title
-                const Text(
-                  'Create Your Account',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 40),
-                // Email field
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: TextField(
-                    controller: _emailController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.grey[600]),
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                        color: Colors.grey[600],
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(16),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Password field
-                TextField(
-                  controller: _passwordController,
-                  style: const TextStyle(color: Colors.white),
-                  obscureText: !_isPasswordVisible,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: TextStyle(color: Colors.grey[600]),
-                    prefixIcon: Icon(
-                      Icons.lock_outline,
-                      color: Colors.grey[600],
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: Colors.grey[600],
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.all(16),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                // Remember me
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _rememberMe = !_rememberMe;
-                        });
-                      },
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color(0xFFD32F2F),
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                          color: _rememberMe
-                              ? const Color(0xFFD32F2F)
-                              : Colors.transparent,
-                        ),
-                        child: _rememberMe
-                            ? const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 18,
-                              )
-                            : null,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    const Text('Remember me', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                // Sign up button
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    final isLoading = state.maybeWhen(
-                      loading: () => true,
-                      orElse: () => false,
-                    );
-
-                    return SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: isLoading ? null : _handleSignUp,
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                        ),
-                        child: isLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Text(
-                                'Sign up',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-                // Divider
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: Colors.grey[400])),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'or continue with',
-                        style: TextStyle(color: Colors.grey[400]),
-                      ),
-                    ),
-                    Expanded(child: Divider(color: Colors.grey[400])),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                // Social login buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildSocialButton(
-                      icon: Icons.facebook,
-                      color: const Color(0xFF1877F2),
-                      onTap: () {
-                        // Handle Facebook login
-                      },
-                    ),
-                    const SizedBox(width: 20),
-                    _buildSocialButton(
-                      icon: Icons.g_mobiledata_outlined,
-                      color: Colors.white,
-                      onTap: () {
-                        // Handle Google login
-                      },
-                    ),
-                    const SizedBox(width: 20),
-                    _buildSocialButton(
-                      icon: Icons.apple,
-                      color: Colors.white,
-                      onTap: () {
-                        // Handle Apple login
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                // Sign in link
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account? ',
-                      style: TextStyle(color: Colors.grey[400]),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          Routes.signInScreen,
-                        );
-                      },
-                      child: const Text(
-                        'Sign in',
-                        style: TextStyle(
-                          color: Color(0xFFD32F2F),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-              ],
+                  const SizedBox(height: 40),
+                  // Email field
+                  _emailField(),
+                  const SizedBox(height: 20),
+                  // Password field
+                  _passwordField(),
+                  const SizedBox(height: 20),
+                  // Remember me
+                  _rememberMePart(),
+                  const SizedBox(height: 30),
+                  // Sign up button
+                  _signUpButton(),
+                  const SizedBox(height: 30),
+                  // // Divider
+                  // MyDivider(),
+                  // const SizedBox(height: 30),
+                  // // Social login buttons
+                  // _socialLoginButtons(),
+                  // const SizedBox(height: 30),
+                  // // Sign in link
+                  _signInLink(context),
+                  const SizedBox(height: 30),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ));
+    );
   }
 
-  Widget _buildSocialButton({
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: const Color(0xFF2C2C2E),
-          borderRadius: BorderRadius.circular(12),
+  Row _signInLink(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Already have an account? ',
+          style: TextStyle(color: Colors.grey[400]),
         ),
-        child: Icon(icon, color: color, size: 32),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushReplacementNamed(context, Routes.signInScreen);
+          },
+          child: const Text(
+            'Sign in',
+            style: TextStyle(
+              color: Color(0xFFD32F2F),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  BlocBuilder<AuthBloc, AuthState> _signUpButton() {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        final isLoading = state.maybeWhen(
+          loading: () => true,
+          orElse: () => false,
+        );
+
+        return SizedBox(
+          width: double.infinity,
+          height: 56,
+          child: ElevatedButton(
+            onPressed: isLoading ? null : _handleSignUp,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
+            ),
+            child: isLoading
+                ? const SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : const Text(
+                    'Sign up',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+          ),
+        );
+      },
+    );
+  }
+
+  Row _rememberMePart() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _rememberMe = !_rememberMe;
+            });
+          },
+          child: Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              border: Border.all(color: const Color(0xFFD32F2F), width: 2),
+              borderRadius: BorderRadius.circular(6),
+              color: _rememberMe ? const Color(0xFFD32F2F) : Colors.transparent,
+            ),
+            child: _rememberMe
+                ? const Icon(Icons.check, color: Colors.white, size: 18)
+                : null,
+          ),
+        ),
+        const SizedBox(width: 12),
+        const Text('Remember me', style: TextStyle(fontSize: 16)),
+      ],
+    );
+  }
+
+  TextField _passwordField() {
+    return TextField(
+      controller: _passwordController,
+      style: const TextStyle(color: Colors.white),
+      obscureText: !_isPasswordVisible,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        hintStyle: TextStyle(color: Colors.grey[600]),
+        prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[600]),
+        suffixIcon: IconButton(
+          icon: Icon(
+            _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+            color: Colors.grey[600],
+          ),
+          onPressed: () {
+            setState(() {
+              _isPasswordVisible = !_isPasswordVisible;
+            });
+          },
+        ),
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.all(16),
+      ),
+    );
+  }
+
+  Container _emailField() {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+      child: TextField(
+        controller: _emailController,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          hintText: 'Email',
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          prefixIcon: Icon(Icons.email_outlined, color: Colors.grey[600]),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.all(16),
+        ),
+        keyboardType: TextInputType.emailAddress,
+      ),
+    );
+  }
+
+  Container _signUpAnimation() {
+    return Container(
+      width: 200,
+      height: 200,
+      decoration: BoxDecoration(
+        // color: const Color(0xFFD32F2F),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Lottie.asset('assets/lotties/login.json'),
+    );
+  }
+
+  Align _backButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }

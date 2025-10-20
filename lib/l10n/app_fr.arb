@@ -11,6 +11,8 @@
   "lightTheme": "Thème Clair",
   "darkTheme": "Thème Sombre",
   "systemTheme": "Thème Système",
+    "lets_you_in":"Let's you in",
+
   
   "home": "Accueil",
   "profile": "Profil",
@@ -21,5 +23,9 @@
   "confirm": "Confirmer",
   "delete": "Supprimer",
   
-  "itemCount": "{count, plural, =0{Aucun élément} =1{1 élément} other{{count} éléments}}"
+  "itemCount": "{count, plural, =0{Aucun élément} =1{1 élément} other{{count} éléments}}",
+
+  "continue_with_facebook" : "Continue with Facebook" ,
+  "continue_with_google" : "Continue with Google",
+    "continue_with_apple" : "Continue with Apple"
 }

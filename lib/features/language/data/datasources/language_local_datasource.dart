@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/entities/app_language.dart';
 
@@ -11,14 +12,22 @@ class LanguageLocalDataSourceImpl implements LanguageLocalDataSource {
   static const String languageKey = 'LANGUAGE_CODE';
 
   LanguageLocalDataSourceImpl({required this.sharedPreferences});
-
+  
   @override
   Future<AppLanguage> getLanguage() async {
     final languageCode = sharedPreferences.getString(languageKey);
+      final systemLocale = PlatformDispatcher.instance.locale;
+    final systemLanguageCode = systemLocale.languageCode;
     if (languageCode != null) {
       return AppLanguage.fromJson(languageCode);
     }
-    return AppLanguage.english; // Default
+    if (systemLanguageCode == 'ar') {
+      return AppLanguage.arabic;
+    }
+    if (systemLanguageCode == 'fr') {
+      return AppLanguage.french;
+    }
+    return AppLanguage.english; 
   }
 
   @override

@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Hello, {name}!'**
   String hello(String name);
 
+  /// No description provided for @lets_you_in.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s you in'**
+  String get lets_you_in;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -201,6 +207,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{No items} =1{1 item} other{{count} items}}'**
   String itemCount(int count);
+
+  /// No description provided for @continue_with_facebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Facebook'**
+  String get continue_with_facebook;
+
+  /// No description provided for @continue_with_google.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continue_with_google;
+
+  /// No description provided for @continue_with_apple.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Apple'**
+  String get continue_with_apple;
 }
 
 class _AppLocalizationsDelegate

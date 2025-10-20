@@ -1,4 +1,5 @@
 // lib/features/home/presentation/screens/home_screen.dart
+import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
@@ -20,10 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final authState = context.read<AuthBloc>().state;
     authState.maybeWhen(
       authenticated: (user) {
-        context.read<ProfileBloc>().add(
-          ProfileEvent.loadProfile(user.id),
-        );
+        context.read<ProfileBloc>().add(ProfileEvent.loadProfile(user.id));
       },
+
       orElse: () {},
     );
   }
@@ -34,14 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        
-        
+        leading: SizedBox.shrink(),
         title: const Text(
           'CineSpot',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -56,6 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
               // TODO: Implement notifications
             },
           ),
+
+          IconButton(
+            onPressed: () {
+              context.read<AuthBloc>().add(const AuthEvent.signOut());
+              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, Routes.letYouInScreen);
+            },
+            icon: Icon(Icons.logout),
+          ),
         ],
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -68,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     loaded: (profile) {
                       return SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(ThemeConstants.spacingL),
+                          padding: const EdgeInsets.all(
+                            ThemeConstants.spacingL,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -84,10 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? const Icon(Icons.person, size: 30)
                                         : null,
                                   ),
-                                  const SizedBox(width: ThemeConstants.spacingM),
+                                  const SizedBox(
+                                    width: ThemeConstants.spacingM,
+                                  ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Welcome back,',
@@ -127,11 +137,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: [
-                                    _buildCategoryCard('Action', Icons.local_fire_department, isDark),
-                                    _buildCategoryCard('Comedy', Icons.emoji_emotions, isDark),
-                                    _buildCategoryCard('Drama', Icons.theater_comedy, isDark),
-                                    _buildCategoryCard('Horror', Icons.nightlight, isDark),
-                                    _buildCategoryCard('Sci-Fi', Icons.rocket_launch, isDark),
+                                    _buildCategoryCard(
+                                      'Action',
+                                      Icons.local_fire_department,
+                                      isDark,
+                                    ),
+                                    _buildCategoryCard(
+                                      'Comedy',
+                                      Icons.emoji_emotions,
+                                      isDark,
+                                    ),
+                                    _buildCategoryCard(
+                                      'Drama',
+                                      Icons.theater_comedy,
+                                      isDark,
+                                    ),
+                                    _buildCategoryCard(
+                                      'Horror',
+                                      Icons.nightlight,
+                                      isDark,
+                                    ),
+                                    _buildCategoryCard(
+                                      'Sci-Fi',
+                                      Icons.rocket_launch,
+                                      isDark,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -139,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               // Popular Movies
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'Popular Movies',
@@ -155,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                               const SizedBox(height: ThemeConstants.spacingM),
-                              
+
                               // Placeholder for movie grid
                               Center(
                                 child: Container(
@@ -170,7 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   child: const Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(Icons.movie_outlined, size: 64),
                                         SizedBox(height: 16),
@@ -188,20 +220,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    error: (message) => Center(
-                      child: Text('Error: $message'),
-                    ),
-                    orElse: () => const Center(
-                      child: Text('No profile found'),
-                    ),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (message) => Center(child: Text('Error: $message')),
+                    orElse: () {
+                      return Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Warning'),
+                            Text('Please Complete Your Profile'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.fillProfileScreen,
+                                );
+                              },
+                              child: Text('To Continue'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
-                orElse: () => const Center(
-                  child: Text('Not authenticated'),
-                ),
+                loading: () {
+                  return Center(child: CircularProgressIndicator());
+                },
+                orElse: () => const Center(child: Text('Not authenticated')),
               );
             },
           );
@@ -213,22 +261,10 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor: isDark ? Colors.grey[600] : Colors.grey[500],
         currentIndex: 0,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'My List',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore'),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'My List'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         onTap: (index) {
           // TODO: Implement navigation
@@ -248,6 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       context.read<AuthBloc>().add(const AuthEvent.signOut());
                       Navigator.pop(context);
+                      Navigator.pushReplacementNamed(
+                        context,
+                        Routes.letYouInScreen,
+                      );
                     },
                     child: const Text(
                       'Sign Out',

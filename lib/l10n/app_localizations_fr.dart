@@ -20,6 +20,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get lets_you_in => 'Let\'s you in';
+
+  @override
   String get settings => 'Paramètres';
 
   @override
@@ -69,4 +72,13 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get continue_with_facebook => 'Continue with Facebook';
+
+  @override
+  String get continue_with_google => 'Continue with Google';
+
+  @override
+  String get continue_with_apple => 'Continue with Apple';
 }

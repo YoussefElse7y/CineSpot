@@ -20,6 +20,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get lets_you_in => 'هيا لنبدأ';
+
+  @override
   String get settings => 'الإعدادات';
 
   @override
@@ -69,4 +72,13 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get continue_with_facebook => 'المتابعة بواسطة فيسبوك';
+
+  @override
+  String get continue_with_google => 'المتابعة بواسطة جوجل';
+
+  @override
+  String get continue_with_apple => 'المتابعة بواسطة اّبل';
 }

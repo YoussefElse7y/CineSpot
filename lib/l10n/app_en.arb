@@ -20,6 +20,8 @@
       }
     }
   },
+
+    "lets_you_in":"Let's you in",
   
   "settings": "Settings",
   "language": "Language",
@@ -45,5 +47,12 @@
         "type": "int"
       }
     }
-  }
+  },
+
+  "continue_with_facebook" : "Continue with Facebook" ,
+  "continue_with_google" : "Continue with Google",
+    "continue_with_apple" : "Continue with Apple"
+
+
+  
 }
