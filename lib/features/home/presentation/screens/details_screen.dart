@@ -1,5 +1,9 @@
+import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/screens/home_screen.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailsScreen extends StatefulWidget {
   final List<MovieItem> movies;
@@ -49,6 +53,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF181A20) : Colors.white,
@@ -78,14 +83,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ),
                     ),
                   ),
+
                   // Search icon in header
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.search,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -175,6 +174,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         final movie = _filteredMovies[index];
                         return _buildMovieCard(
                           context,
+                          userId,
                           movie,
                           index + 1,
                           isDark,
@@ -190,6 +190,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   Widget _buildMovieCard(
     BuildContext context,
+    String userId,
     MovieItem movie,
     int rank,
     bool isDark,
@@ -218,26 +219,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Rank Badge
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE21221),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                    '$rank',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   width: 30,
+              //   height: 30,
+              //   decoration: BoxDecoration(
+              //     color: const Color(0xFFE21221),
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: Center(
+              //     child: Text(
+              //       '$rank',
+              //       style: const TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 20,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //   ),
+              // ),
 
-              const SizedBox(width: 12),
+              // const SizedBox(width: 12),
 
               // Movie Poster
               ClipRRect(
@@ -335,14 +336,63 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
 
               // Bookmark Icon
-              IconButton(
-                onPressed: () {
-                  // Add to favorites/watchlist
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  bool isFavorite = false;
+                  bool isExist = false;
+                  if (state is Loaded) {
+                    isFavorite =
+                        state.profile.favoriteIds?.contains(movie.id) ?? false;
+                    isExist =
+                        state.profile.wishlistIds?.contains(movie.id) ?? false;
+                  }
+                  return Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                           if (isFavorite) {
+                          context.read<ProfileBloc>().add(
+                            ProfileEvent.removeFavoriteMovie(userId, movie.id),
+                          );
+                        } else {
+                          context.read<ProfileBloc>().add(
+                            ProfileEvent.addFavoriteMovie(userId, movie.id),
+                          );
+                        }
+                        },
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite
+                              ? ThemeConstants.primaryLight
+                              : isDark
+                              ? Colors.grey[400]
+                              : Colors.grey[600],
+                        ),
+                      ),
+                      SizedBox(height: 30),
+
+                      IconButton(
+                        onPressed: () {
+                           if (isExist) {
+                          context.read<ProfileBloc>().add(
+                            ProfileEvent.removeWishlistMovie(userId, movie.id),
+                          );
+                        } else {
+                          context.read<ProfileBloc>().add(
+                            ProfileEvent.addWishlistMovie(userId, movie.id),
+                          );
+                        }
+                        },
+                        icon: Icon(
+                         isExist?Icons.bookmark: Icons.bookmark_border,
+                          color: 
+                          isExist? ThemeConstants.primaryDark:
+                          isDark ? Colors.grey[400] : Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  );
                 },
-                icon: Icon(
-                  Icons.bookmark_border,
-                  color: isDark ? Colors.grey[400] : Colors.grey[600],
-                ),
               ),
             ],
           ),

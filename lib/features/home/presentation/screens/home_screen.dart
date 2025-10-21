@@ -6,7 +6,9 @@ import 'package:cine_spot/core/network/api_constants.dart';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +17,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
     // String language = Localizations.localeOf(context).languageCode;
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
@@ -43,7 +47,9 @@ class HomeScreen extends StatelessWidget {
                       return _buildFeaturedBanner(
                         context,
                         l10n,
+                        userId,
                         isDark,
+                        randomMovie.id,
                         '${ApiConstants.baseImageUrl}${randomMovie.posterPath}',
                         randomMovie.title,
                         randomMovie.overview,
@@ -203,7 +209,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-    BlocBuilder<HomeBloc, HomeState> _trendingTvShows() {
+  BlocBuilder<HomeBloc, HomeState> _trendingTvShows() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state.isLoadingTrendingTvShows) {
@@ -244,8 +250,9 @@ class HomeScreen extends StatelessWidget {
   Widget _buildFeaturedBanner(
     BuildContext context,
     AppLocalizations l10n,
-
+    String userId,
     bool isDark,
+    int movieId,
     String imageUrl,
     String title,
     String description,
@@ -275,6 +282,64 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          // favorite button
+          Positioned(
+            top: 40,
+            right: 40,
+            child: BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                bool isFavorite = false;
+                if (state is Loaded) {
+                  isFavorite =
+                      state.profile.favoriteIds?.contains(movieId) ?? false;
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                    color: isFavorite
+                        ? ThemeConstants.primaryDark.withOpacity(0.15)
+                        : Colors.white.withOpacity(0.15), // glassy look
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.4), // subtle glow
+                        blurRadius: 15,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 1.2,
+                    ),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      if (isFavorite) {
+                        context.read<ProfileBloc>().add(
+                          ProfileEvent.removeFavoriteMovie(userId, movieId),
+                        );
+                      } else {
+                        context.read<ProfileBloc>().add(
+                          ProfileEvent.addFavoriteMovie(userId, movieId),
+                        );
+                      }
+                    },
+                    icon: Icon(
+                      isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: isFavorite
+                          ? ThemeConstants.primaryDark
+                          : Colors.white,
+                      size: 28,
+                    ),
+                    splashRadius: 26,
+                  ),
+                );
+              },
+            ),
+          ),
+
           // Content
           Positioned(
             bottom: 10,
@@ -374,30 +439,86 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(width: 12),
 
                     // My List Button (Glassy + Glow)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.add),
-                          label: const Text('My List'),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            side: const BorderSide(color: Colors.white),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            shadowColor: Colors.white.withOpacity(0.8),
-                            elevation: 8,
-                            backgroundColor: Colors.white.withOpacity(0.08),
+                    BlocBuilder<ProfileBloc, ProfileState>(
+                      builder: (context, state) {
+                        bool isExist = false;
+                        if (state is Loaded) {
+                          isExist =
+                              state.profile.wishlistIds?.contains(movieId) ??
+                              false;
+                        }
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: !isExist
+                                ? OutlinedButton.icon(
+                                    onPressed: () {
+                                      context.read<ProfileBloc>().add(
+                                        ProfileEvent.addWishlistMovie(
+                                          userId,
+                                          movieId,
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.add),
+                                    label: const Text('My List'),
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      side: const BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 12,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      shadowColor: Colors.white.withOpacity(
+                                        0.8,
+                                      ),
+                                      elevation: 8,
+                                      backgroundColor: Colors.white.withOpacity(
+                                        0.08,
+                                      ),
+                                    ),
+                                    // favorite button
+                                  )
+                                : OutlinedButton.icon(
+                                    onPressed: () {
+                                      context.read<ProfileBloc>().add(
+                                        ProfileEvent.removeWishlistMovie(
+                                          userId,
+                                          movieId,
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.check),
+                                    label: const Text('My List'),
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      side: BorderSide(
+                                        color: ThemeConstants.primaryDark,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 12,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      shadowColor: ThemeConstants.primaryDark
+                                          .withOpacity(0.8),
+                                      elevation: 8,
+                                      backgroundColor: ThemeConstants
+                                          .primaryDark
+                                          .withOpacity(0.08),
+                                    ),
+                                  ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
