@@ -1,13 +1,11 @@
 {
   "@@locale": "en",
   "locale_language": "en",
-
-  
+  "native_language": "English",
   "appTitle": "CineSpot",
   "@appTitle": {
     "description": "Application title"
   },
-  
   "welcome": "Welcome",
   "@welcome": {
     "description": "Welcome message"
@@ -22,24 +20,61 @@
       }
     }
   },
-
-    "lets_you_in":"Let's you in",
-  
+  "lets_you_in":"Let's you in",
   "settings": "Settings",
   "language": "Language",
   "theme": "Theme",
   "lightTheme": "Light Theme",
   "darkTheme": "Dark Theme",
   "systemTheme": "System Theme",
-  
+  "editProfile": "Edit Profile",
+  "notifications": "Notifications",
+  "help": "Help",
+  "download": "Download",
+  "about": "About",
+  "security": "Security",
+  "english": "English",
+  "arabic": "Arabic",
+  "french": "French",
+  "myList": "My List",
+  "explore": "Explore",
+  "downloads": "Downloads",
+  "joinPremium": "Join Premium",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "helpCenter": "Help Center",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "topMoviesThisWeek" : "Top Movies This Week",
+  "topTvShowsThisWeek" : "Top Tv Shows This Week",
+  "popularMovies" : "Popular Movies",
+  "popularTvShows" : "Popular Tv Shows",
+  "trendingMovies" : "Trending Movies",
+  "trendingTvShows" : "Trending Tv Shows",
+  "topRatedMovies" : "Top Rated Movies",
+  "nowPlaying": "Now Playing",
+  "upcoming": "Upcoming",
+  "topRatedTvShows" : "Top Rated Tv Shows",
+  "movies": "Movies",
+  "tvShows": "Tv Shows",
+  "search": "Search",
+  "movie": "Movie",
+  "tvShow": "Tv Show",
+  "movieDetails": "Movie Details",
+  "tvShowDetails": "Tv Show Details",
+  "play": "Play",
+  "seeAll": "See All",
   "home": "Home",
   "profile": "Profile",
   "logout": "Logout",
-  
+  "logoutConfirmation": "Are you sure you want to log out?",
+
   "save": "Save",
   "cancel": "Cancel",
   "confirm": "Confirm",
   "delete": "Delete",
+  "suggested": "Suggested",
+
   
   "itemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
   "@itemCount": {

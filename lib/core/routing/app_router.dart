@@ -7,7 +7,9 @@ import 'package:cine_spot/features/home/presentation/screens/main_screen.dart';
 import 'package:cine_spot/features/home/presentation/screens/details_screen.dart';
 import 'package:cine_spot/features/landing_page.dart';
 import 'package:cine_spot/features/on_boarding_screen.dart';
+import 'package:cine_spot/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/fill_profile_screen.dart';
+import 'package:cine_spot/features/profile/presentation/screens/language_selection_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -27,11 +29,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const FillProfileScreen());
       case Routes.mainScreen:
         return MaterialPageRoute(builder: (_) => const MainScreen());
-      case Routes.DetailsScreen:
+      case Routes.detailsScreen:
         Map<String,dynamic> data = settings.arguments as Map<String,dynamic>;
         List<MovieItem> movies = data['movies'] as List<MovieItem>;
        String title = data['title'] as String;
         return MaterialPageRoute(builder: (_) => DetailsScreen(movies: movies,pageTitle: title,));
+      case Routes.editProfileScreen:
+  return MaterialPageRoute(builder: (_) => const EditProfileScreen());
+  case Routes.languageScreen:
+  return MaterialPageRoute(builder: (_) => const LanguageScreen());
       default:
         return MaterialPageRoute(builder: (_) => MainScreen());
     }

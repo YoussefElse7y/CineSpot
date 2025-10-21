@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get locale_language => 'en';
 
   @override
+  String get native_language => 'English';
+
+  @override
   String get appTitle => 'CineSpot';
 
   @override
@@ -44,6 +47,117 @@ class AppLocalizationsEn extends AppLocalizations {
   String get systemTheme => 'System Theme';
 
   @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get help => 'Help';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get security => 'Security';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get french => 'French';
+
+  @override
+  String get myList => 'My List';
+
+  @override
+  String get explore => 'Explore';
+
+  @override
+  String get downloads => 'Downloads';
+
+  @override
+  String get joinPremium => 'Join Premium';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get helpCenter => 'Help Center';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get topMoviesThisWeek => 'Top Movies This Week';
+
+  @override
+  String get topTvShowsThisWeek => 'Top Tv Shows This Week';
+
+  @override
+  String get popularMovies => 'Popular Movies';
+
+  @override
+  String get popularTvShows => 'Popular Tv Shows';
+
+  @override
+  String get trendingMovies => 'Trending Movies';
+
+  @override
+  String get trendingTvShows => 'Trending Tv Shows';
+
+  @override
+  String get topRatedMovies => 'Top Rated Movies';
+
+  @override
+  String get nowPlaying => 'Now Playing';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get topRatedTvShows => 'Top Rated Tv Shows';
+
+  @override
+  String get movies => 'Movies';
+
+  @override
+  String get tvShows => 'Tv Shows';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get movie => 'Movie';
+
+  @override
+  String get tvShow => 'Tv Show';
+
+  @override
+  String get movieDetails => 'Movie Details';
+
+  @override
+  String get tvShowDetails => 'Tv Show Details';
+
+  @override
+  String get play => 'Play';
+
+  @override
+  String get seeAll => 'See All';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -51,6 +165,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to log out?';
 
   @override
   String get save => 'Save';
@@ -63,6 +180,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get suggested => 'Suggested';
 
   @override
   String itemCount(int count) {

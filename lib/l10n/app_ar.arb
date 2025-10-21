@@ -1,35 +1,67 @@
 {
   "@@locale": "ar",
   "locale_language": "ar",
-  
-  "appTitle": "ساين سبوت",
+  "native_language": "العربية",
+  "appTitle": "سين سبوت",
   "welcome": "مرحباً",
   "hello": "مرحباً، {name}!",
-  "lets_you_in":"هيا لنبدأ",
-  
+  "lets_you_in": "دعنا ندخلك",
   "settings": "الإعدادات",
   "language": "اللغة",
-  "theme": "المظهر",
-  "lightTheme": "المظهر الفاتح",
-  "darkTheme": "المظهر الداكن",
-  "systemTheme": "مظهر النظام",
-  
+  "theme": "السمة",
+  "lightTheme": "الوضع الفاتح",
+  "darkTheme": "الوضع الداكن",
+  "systemTheme": "سمة النظام",
+  "editProfile": "تعديل الملف الشخصي",
+  "notifications": "الإشعارات",
+  "help": "مساعدة",
+  "Download": "تنزيل",
+  "logoutConfirmation": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "suggested": "مقترَح"
+
+,
+  "about": "حول",
+  "security": "الأمان",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "french": "الفرنسية",
+  "myList": "قائمتي",
+  "explore": "استكشاف",
+  "downloads": "التنزيلات",
+  "joinPremium": "اشترك في بريميوم",
+  "privacyPolicy": "سياسة الخصوصية",
+  "termsOfService": "شروط الخدمة",
+  "helpCenter": "مركز المساعدة",
+  "signIn": "تسجيل الدخول",
+  "signUp": "إنشاء حساب",
+  "topMoviesThisWeek": "أفضل الأفلام هذا الأسبوع",
+  "topTvShowsThisWeek": "أفضل المسلسلات هذا الأسبوع",
+  "popularMovies": "الأفلام الشائعة",
+  "popularTvShows": "المسلسلات الشائعة",
+  "trendingMovies": "الأفلام الرائجة",
+  "trendingTvShows": "المسلسلات الرائجة",
+  "topRatedMovies": "الأفلام الأعلى تقييماً",
+  "nowPlaying": "يعرض الآن",
+  "upcoming": "قريباً",
+  "topRatedTvShows": "المسلسلات الأعلى تقييماً",
+  "movies": "أفلام",
+  "tvShows": "مسلسلات",
+  "search": "بحث",
+  "movie": "فيلم",
+  "tvShow": "مسلسل",
+  "movieDetails": "تفاصيل الفيلم",
+  "tvShowDetails": "تفاصيل المسلسل",
+  "play": "تشغيل",
+  "seeAll": "عرض الكل",
   "home": "الرئيسية",
   "profile": "الملف الشخصي",
   "logout": "تسجيل الخروج",
-  
   "save": "حفظ",
   "cancel": "إلغاء",
   "confirm": "تأكيد",
   "delete": "حذف",
-  
   "itemCount": "{count, plural, =0{لا توجد عناصر} =1{عنصر واحد} other{{count} عناصر}}",
-
-  
-  "continue_with_facebook" : "المتابعة بواسطة فيسبوك" ,
-  "continue_with_google" : "المتابعة بواسطة جوجل",
-  "continue_with_apple" : "المتابعة بواسطة اّبل"
-
-  
-  
+  "continue_with_facebook": "المتابعة باستخدام فيسبوك",
+  "continue_with_google": "المتابعة باستخدام جوجل",
+  "continue_with_apple": "المتابعة باستخدام أبل"
 }

@@ -106,6 +106,12 @@ abstract class AppLocalizations {
   /// **'en'**
   String get locale_language;
 
+  /// No description provided for @native_language.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get native_language;
+
   /// Application title
   ///
   /// In en, this message translates to:
@@ -166,6 +172,228 @@ abstract class AppLocalizations {
   /// **'System Theme'**
   String get systemTheme;
 
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @help.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get french;
+
+  /// No description provided for @myList.
+  ///
+  /// In en, this message translates to:
+  /// **'My List'**
+  String get myList;
+
+  /// No description provided for @explore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get explore;
+
+  /// No description provided for @downloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloads'**
+  String get downloads;
+
+  /// No description provided for @joinPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Premium'**
+  String get joinPremium;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @helpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center'**
+  String get helpCenter;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @topMoviesThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Movies This Week'**
+  String get topMoviesThisWeek;
+
+  /// No description provided for @topTvShowsThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Tv Shows This Week'**
+  String get topTvShowsThisWeek;
+
+  /// No description provided for @popularMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Movies'**
+  String get popularMovies;
+
+  /// No description provided for @popularTvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Tv Shows'**
+  String get popularTvShows;
+
+  /// No description provided for @trendingMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending Movies'**
+  String get trendingMovies;
+
+  /// No description provided for @trendingTvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending Tv Shows'**
+  String get trendingTvShows;
+
+  /// No description provided for @topRatedMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated Movies'**
+  String get topRatedMovies;
+
+  /// No description provided for @nowPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Now Playing'**
+  String get nowPlaying;
+
+  /// No description provided for @upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// No description provided for @topRatedTvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Rated Tv Shows'**
+  String get topRatedTvShows;
+
+  /// No description provided for @movies.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies'**
+  String get movies;
+
+  /// No description provided for @tvShows.
+  ///
+  /// In en, this message translates to:
+  /// **'Tv Shows'**
+  String get tvShows;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @movie.
+  ///
+  /// In en, this message translates to:
+  /// **'Movie'**
+  String get movie;
+
+  /// No description provided for @tvShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tv Show'**
+  String get tvShow;
+
+  /// No description provided for @movieDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Movie Details'**
+  String get movieDetails;
+
+  /// No description provided for @tvShowDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tv Show Details'**
+  String get tvShowDetails;
+
+  /// No description provided for @play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get play;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get seeAll;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -183,6 +411,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logout'**
   String get logout;
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirmation;
 
   /// No description provided for @save.
   ///
@@ -207,6 +441,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @suggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested'**
+  String get suggested;
 
   /// Number of items
   ///

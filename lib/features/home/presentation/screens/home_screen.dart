@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         // Add cacheExtent to preload content
         cacheExtent: 500,
         slivers: [
-          _appBar(isDark),
+          _appBar(isDark, l10n),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,10 @@ class HomeScreen extends StatelessWidget {
                         userId,
                         isDark,
                         randomMovie.id,
-                        TMDBImageHelper.getPoster(randomMovie.posterPath!, PosterSize.w500),
+                        TMDBImageHelper.getPoster(
+                          randomMovie.posterPath!,
+                          PosterSize.w500,
+                        ),
                         randomMovie.title,
                         randomMovie.overview,
                         randomMovie.genreIds,
@@ -63,11 +66,11 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24),
-                _topMoviesThisWeek(),
+                _topMoviesThisWeek(l10n),
                 const SizedBox(height: 24),
-                _nowPlaying(),
+                _nowPlaying(l10n),
                 const SizedBox(height: 24),
-                _trendingTvShows(),
+                _trendingTvShows(l10n),
                 const SizedBox(height: 160),
               ],
             ),
@@ -78,7 +81,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   // OPTIMIZED: Simplified AppBar with less blur
-  SliverAppBar _appBar(bool isDark) {
+  SliverAppBar _appBar(bool isDark, AppLocalizations l10n) {
     return SliverAppBar(
       pinned: true,
       floating: false,
@@ -90,7 +93,7 @@ class HomeScreen extends StatelessWidget {
           ? const Color(0xFF181A20).withOpacity(0.95)
           : Colors.white.withOpacity(0.95),
       title: Text(
-        'Home',
+        l10n.home,
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -112,7 +115,9 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek() {
+  BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek(
+    AppLocalizations localization,
+  ) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous.topMovies != current.topMovies,
       builder: (context, state) {
@@ -130,19 +135,23 @@ class HomeScreen extends StatelessWidget {
         } else if (state.topMovies != null) {
           return _buildMovieSection(
             context,
-            'Top Movies This Week',
+            localization.topMoviesThisWeek,
             state.topMovies!.results
                 .map(
                   (movie) => MovieItem(
                     movie.id,
                     movie.title,
                     movie.voteAverage,
-                    TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
+                    TMDBImageHelper.getPoster(
+                      movie.posterPath!,
+                      PosterSize.w185,
+                    ),
                     movie.overview,
                     movie.releaseDate,
                   ),
                 )
                 .toList(),
+            localization,
           );
         }
         return const SizedBox();
@@ -150,7 +159,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> _nowPlaying() {
+  BlocBuilder<HomeBloc, HomeState> _nowPlaying(AppLocalizations l10n) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
           previous.nowPlayingMovies != current.nowPlayingMovies,
@@ -169,19 +178,23 @@ class HomeScreen extends StatelessWidget {
         } else if (state.nowPlayingMovies != null) {
           return _buildMovieSection(
             context,
-            'Now Playing',
+            l10n.nowPlaying,
             state.nowPlayingMovies!
                 .map(
                   (movie) => MovieItem(
                     movie.id,
                     movie.title,
                     movie.voteAverage,
-                     TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
+                    TMDBImageHelper.getPoster(
+                      movie.posterPath!,
+                      PosterSize.w185,
+                    ),
                     movie.overview,
                     movie.releaseDate,
                   ),
                 )
                 .toList(),
+            l10n,
           );
         }
         return const SizedBox();
@@ -189,7 +202,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> _trendingTvShows() {
+  BlocBuilder<HomeBloc, HomeState> _trendingTvShows(AppLocalizations l10n) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
           previous.trendingTvShows != current.trendingTvShows,
@@ -208,19 +221,23 @@ class HomeScreen extends StatelessWidget {
         } else if (state.trendingTvShows != null) {
           return _buildMovieSection(
             context,
-            'Trending TV Shows',
+            l10n.trendingTvShows,
             state.trendingTvShows!
                 .map(
                   (movie) => MovieItem(
                     movie.id,
                     movie.name,
                     movie.voteAverage,
-                    TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
+                    TMDBImageHelper.getPoster(
+                      movie.posterPath!,
+                      PosterSize.w185,
+                    ),
                     movie.overview,
                     movie.firstAirDate,
                   ),
                 )
                 .toList(),
+            l10n,
           );
         }
         return const SizedBox();
@@ -390,7 +407,7 @@ class HomeScreen extends StatelessWidget {
                     ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.play_arrow),
-                      label: const Text('Play'),
+                      label: Text(l10n.play),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ThemeConstants.primaryDark,
                         foregroundColor: Colors.white,
@@ -436,7 +453,7 @@ class HomeScreen extends StatelessWidget {
                             }
                           },
                           icon: Icon(isExist ? Icons.check : Icons.add),
-                          label: const Text('My List'),
+                          label: Text(l10n.myList),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: BorderSide(
@@ -471,8 +488,10 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildMovieSection(
     BuildContext context,
+
     String title,
     List<MovieItem> movies,
+    AppLocalizations l10n,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -493,12 +512,12 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
-                    Routes.DetailsScreen,
+                    Routes.detailsScreen,
                     arguments: {'movies': movies, 'title': title},
                   );
                 },
-                child: const Text(
-                  'See all',
+                child: Text(
+                  l10n.seeAll,
                   style: TextStyle(
                     color: ThemeConstants.primaryDark,
                     fontSize: 14,

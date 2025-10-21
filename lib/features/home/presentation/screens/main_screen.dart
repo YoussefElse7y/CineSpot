@@ -3,6 +3,8 @@
 
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:cine_spot/features/profile/presentation/screens/profile_sceen.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_spot/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-
   final List<Widget> _screens = const [
     HomeScreen(),
     ExploreScreen(),
@@ -32,22 +33,18 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       extendBody: true,
       // OPTIMIZED: Removed AnimatedSwitcher - causes unnecessary rebuilds
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Container(
           decoration: BoxDecoration(
             // OPTIMIZED: Simplified styling, removed BackdropFilter
-            color: isDark
-                ? const Color(0xFF1F222B)
-                : Colors.white,
+            color: isDark ? const Color(0xFF1F222B) : Colors.white,
             borderRadius: BorderRadius.circular(32),
             border: Border.all(
               color: isDark
@@ -90,11 +87,11 @@ class _MainScreenState extends State<MainScreen> {
                 Icons.person_outline,
               ];
               final labels = [
-                'Home',
-                'Explore',
-                'My List',
-                'Download',
-                'Profile',
+                l10n.home,
+                l10n.explore,
+                l10n.myList,
+                l10n.downloads,
+                l10n.profile,
               ];
               final isSelected = index == _currentIndex;
 
@@ -117,9 +114,7 @@ class _MainScreenState extends State<MainScreen> {
                             color: const Color(0xFFE21221).withOpacity(0.1),
                           ),
                         ),
-                      Icon(
-                        isSelected ? icons[index] : outlinedIcons[index],
-                      ),
+                      Icon(isSelected ? icons[index] : outlinedIcons[index]),
                     ],
                   ),
                 ),
@@ -137,29 +132,32 @@ class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => _buildPlaceholder("Explore");
+  Widget build(BuildContext context) =>
+      _buildPlaceholder(AppLocalizations.of(context)!.explore);
 }
 
 class MyListScreen extends StatelessWidget {
   const MyListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => _buildPlaceholder("My List");
+  Widget build(BuildContext context) =>
+      _buildPlaceholder(AppLocalizations.of(context)!.myList);
 }
 
 class DownloadScreen extends StatelessWidget {
   const DownloadScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => _buildPlaceholder("Downloads");
+  Widget build(BuildContext context) =>
+      _buildPlaceholder(AppLocalizations.of(context)!.downloads);
 }
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+// class ProfileScreen extends StatelessWidget {
+//   const ProfileScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) => _buildPlaceholder("Profile");
-}
+//   @override
+//   Widget build(BuildContext context) => _buildPlaceholder("Profile");
+// }
 
 // ---------- Helper ----------
 Widget _buildPlaceholder(String title) {

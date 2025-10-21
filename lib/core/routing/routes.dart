@@ -6,5 +6,7 @@ class Routes {
   static const String fillProfileScreen = '/fillProfileScreen';
   static const String mainScreen = '/mainScreen';
   static const String signUpScreen = '/signUpScreen';
-  static const String DetailsScreen = '/DetailsScreen';
+  static const String detailsScreen = '/DetailsScreen';
+  static const String editProfileScreen = '/editProfileScreen';
+static const String languageScreen = '/languageScreen';
 }

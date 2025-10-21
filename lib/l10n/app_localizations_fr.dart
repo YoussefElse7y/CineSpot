@@ -12,7 +12,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get locale_language => 'fr';
 
   @override
-  String get appTitle => 'Mon Application';
+  String get native_language => 'Français';
+
+  @override
+  String get appTitle => 'CineSpot';
 
   @override
   String get welcome => 'Bienvenue';
@@ -23,7 +26,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get lets_you_in => 'Let\'s you in';
+  String get lets_you_in => 'Laissez-vous entrer';
 
   @override
   String get settings => 'Paramètres';
@@ -35,13 +38,124 @@ class AppLocalizationsFr extends AppLocalizations {
   String get theme => 'Thème';
 
   @override
-  String get lightTheme => 'Thème Clair';
+  String get lightTheme => 'Thème clair';
 
   @override
-  String get darkTheme => 'Thème Sombre';
+  String get darkTheme => 'Thème sombre';
 
   @override
-  String get systemTheme => 'Thème Système';
+  String get systemTheme => 'Thème du système';
+
+  @override
+  String get editProfile => 'Modifier le profil';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get help => 'Aide';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get about => 'À propos';
+
+  @override
+  String get security => 'Sécurité';
+
+  @override
+  String get english => 'Anglais';
+
+  @override
+  String get arabic => 'Arabe';
+
+  @override
+  String get french => 'Français';
+
+  @override
+  String get myList => 'Ma liste';
+
+  @override
+  String get explore => 'Explorer';
+
+  @override
+  String get downloads => 'Téléchargements';
+
+  @override
+  String get joinPremium => 'Rejoindre Premium';
+
+  @override
+  String get privacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get termsOfService => 'Conditions d\'utilisation';
+
+  @override
+  String get helpCenter => 'Centre d\'aide';
+
+  @override
+  String get signIn => 'Se connecter';
+
+  @override
+  String get signUp => 'S\'inscrire';
+
+  @override
+  String get topMoviesThisWeek => 'Meilleurs films de la semaine';
+
+  @override
+  String get topTvShowsThisWeek => 'Meilleures séries de la semaine';
+
+  @override
+  String get popularMovies => 'Films populaires';
+
+  @override
+  String get popularTvShows => 'Séries populaires';
+
+  @override
+  String get trendingMovies => 'Films tendances';
+
+  @override
+  String get trendingTvShows => 'Séries tendances';
+
+  @override
+  String get topRatedMovies => 'Films les mieux notés';
+
+  @override
+  String get nowPlaying => 'En salle';
+
+  @override
+  String get upcoming => 'À venir';
+
+  @override
+  String get topRatedTvShows => 'Séries les mieux notées';
+
+  @override
+  String get movies => 'Films';
+
+  @override
+  String get tvShows => 'Séries';
+
+  @override
+  String get search => 'Recherche';
+
+  @override
+  String get movie => 'Film';
+
+  @override
+  String get tvShow => 'Série';
+
+  @override
+  String get movieDetails => 'Détails du film';
+
+  @override
+  String get tvShowDetails => 'Détails de la série';
+
+  @override
+  String get play => 'Lire';
+
+  @override
+  String get seeAll => 'Voir tout';
 
   @override
   String get home => 'Accueil';
@@ -51,6 +165,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get logout => 'Déconnexion';
+
+  @override
+  String get logoutConfirmation =>
+      'Êtes-vous sûr de vouloir vous déconnecter ?';
 
   @override
   String get save => 'Enregistrer';
@@ -65,6 +183,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get delete => 'Supprimer';
 
   @override
+  String get suggested => 'Suggéré';
+
+  @override
   String itemCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -77,11 +198,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get continue_with_facebook => 'Continue with Facebook';
+  String get continue_with_facebook => 'Continuer avec Facebook';
 
   @override
-  String get continue_with_google => 'Continue with Google';
+  String get continue_with_google => 'Continuer avec Google';
 
   @override
-  String get continue_with_apple => 'Continue with Apple';
+  String get continue_with_apple => 'Continuer avec Apple';
 }
