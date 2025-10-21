@@ -1,8 +1,9 @@
+// Optimized home_screen.dart
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/core/helpers/functions.dart';
-import 'package:cine_spot/core/network/api_constants.dart';
+import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
@@ -14,24 +15,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     String userId = FirebaseAuth.instance.currentUser!.uid;
-
-    // String language = Localizations.localeOf(context).languageCode;
     final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: CustomScrollView(
+        // Add cacheExtent to preload content
+        cacheExtent: 500,
         slivers: [
           _appBar(isDark),
-          // Main Content
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 🎬 Featured Movie/Show Banner
+                // Featured Banner
                 BlocBuilder<HomeBloc, HomeState>(
+                  buildWhen: (previous, current) =>
+                      previous.topMovies != current.topMovies,
                   builder: (context, state) {
                     if (state.isLoadingTopMovies) {
                       return const SizedBox(
@@ -43,32 +47,26 @@ class HomeScreen extends StatelessWidget {
                       final randomMovie = getRandomElement(
                         state.topMovies!.results,
                       );
-
                       return _buildFeaturedBanner(
                         context,
                         l10n,
                         userId,
                         isDark,
                         randomMovie.id,
-                        '${ApiConstants.baseImageUrl}${randomMovie.posterPath}',
+                        TMDBImageHelper.getPoster(randomMovie.posterPath!, PosterSize.w500),
                         randomMovie.title,
                         randomMovie.overview,
                         randomMovie.genreIds,
                       );
-                    } else {
-                      return const SizedBox();
                     }
+                    return const SizedBox();
                   },
                 ),
-
                 const SizedBox(height: 24),
-                // Top Movies This Week
                 _topMoviesThisWeek(),
                 const SizedBox(height: 24),
-                // Now Playing
                 _nowPlaying(),
                 const SizedBox(height: 24),
-                // Trending Now
                 _trendingTvShows(),
                 const SizedBox(height: 160),
               ],
@@ -79,37 +77,18 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // OPTIMIZED: Simplified AppBar with less blur
   SliverAppBar _appBar(bool isDark) {
     return SliverAppBar(
       pinned: true,
       floating: false,
       automaticallyImplyLeading: false,
       centerTitle: true,
-      elevation: 50,
-
-      backgroundColor: Colors.transparent,
-      flexibleSpace: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              color:
-                  (isDark
-                          ? Colors.black.withOpacity(0.35)
-                          : Colors.white.withOpacity(0.35))
-                      .withOpacity(0.35),
-              boxShadow: [
-                BoxShadow(
-                  color: ThemeConstants.primaryDark.withOpacity(0.1),
-                  blurRadius: 25,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      elevation: 0,
+      // Remove expensive BackdropFilter
+      backgroundColor: isDark
+          ? const Color(0xFF181A20).withOpacity(0.95)
+          : Colors.white.withOpacity(0.95),
       title: Text(
         'Home',
         style: TextStyle(
@@ -135,11 +114,12 @@ class HomeScreen extends StatelessWidget {
 
   BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek() {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) => previous.topMovies != current.topMovies,
       builder: (context, state) {
         if (state.isLoadingTopMovies) {
-          return SizedBox(
+          return const SizedBox(
             height: 240,
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 height: 20,
                 width: 20,
@@ -157,27 +137,28 @@ class HomeScreen extends StatelessWidget {
                     movie.id,
                     movie.title,
                     movie.voteAverage,
-                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                    TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
                     movie.overview,
                     movie.releaseDate,
                   ),
                 )
                 .toList(),
           );
-        } else {
-          return const SizedBox();
         }
+        return const SizedBox();
       },
     );
   }
 
   BlocBuilder<HomeBloc, HomeState> _nowPlaying() {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.nowPlayingMovies != current.nowPlayingMovies,
       builder: (context, state) {
         if (state.isLoadingNowPlaying) {
-          return SizedBox(
+          return const SizedBox(
             height: 240,
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 height: 20,
                 width: 20,
@@ -195,27 +176,28 @@ class HomeScreen extends StatelessWidget {
                     movie.id,
                     movie.title,
                     movie.voteAverage,
-                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                     TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
                     movie.overview,
                     movie.releaseDate,
                   ),
                 )
                 .toList(),
           );
-        } else {
-          return const SizedBox();
         }
+        return const SizedBox();
       },
     );
   }
 
   BlocBuilder<HomeBloc, HomeState> _trendingTvShows() {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.trendingTvShows != current.trendingTvShows,
       builder: (context, state) {
         if (state.isLoadingTrendingTvShows) {
-          return SizedBox(
+          return const SizedBox(
             height: 240,
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 height: 20,
                 width: 20,
@@ -233,20 +215,20 @@ class HomeScreen extends StatelessWidget {
                     movie.id,
                     movie.name,
                     movie.voteAverage,
-                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                    TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w185),
                     movie.overview,
                     movie.firstAirDate,
                   ),
                 )
                 .toList(),
           );
-        } else {
-          return const SizedBox();
         }
+        return const SizedBox();
       },
     );
   }
 
+  // OPTIMIZED: Simplified featured banner
   Widget _buildFeaturedBanner(
     BuildContext context,
     AppLocalizations l10n,
@@ -272,22 +254,32 @@ class HomeScreen extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // Background Image
-          Container(
-            decoration: BoxDecoration(
+          // OPTIMIZED: Use cached network image
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: 500,
+            placeholder: (context, url) =>
+                Container(color: isDark ? Colors.grey[850] : Colors.grey[300]),
+            errorWidget: (context, url, error) => Container(
               color: isDark ? Colors.grey[850] : Colors.grey[300],
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
+              child: const Icon(Icons.error),
             ),
           ),
 
-          // favorite button
+          // OPTIMIZED: Simpler favorite button
           Positioned(
             top: 40,
             right: 40,
             child: BlocBuilder<ProfileBloc, ProfileState>(
+              buildWhen: (previous, current) {
+                if (previous is Loaded && current is Loaded) {
+                  return previous.profile.favoriteIds !=
+                      current.profile.favoriteIds;
+                }
+                return true;
+              },
               builder: (context, state) {
                 bool isFavorite = false;
                 if (state is Loaded) {
@@ -297,20 +289,9 @@ class HomeScreen extends StatelessWidget {
                 return Container(
                   decoration: BoxDecoration(
                     color: isFavorite
-                        ? ThemeConstants.primaryDark.withOpacity(0.15)
-                        : Colors.white.withOpacity(0.15), // glassy look
+                        ? ThemeConstants.primaryDark.withOpacity(0.2)
+                        : Colors.black.withOpacity(0.3),
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withOpacity(0.4), // subtle glow
-                        blurRadius: 15,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
-                      width: 1.2,
-                    ),
                   ),
                   child: IconButton(
                     onPressed: () {
@@ -333,7 +314,6 @@ class HomeScreen extends StatelessWidget {
                           : Colors.white,
                       size: 28,
                     ),
-                    splashRadius: 26,
                   ),
                 );
               },
@@ -349,12 +329,13 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     shadows: [Shadow(color: Colors.black, blurRadius: 10)],
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Padding(
@@ -370,76 +351,68 @@ class HomeScreen extends StatelessWidget {
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Padding(padding: const EdgeInsets.only(top: 8.0)),
+                const Padding(padding: EdgeInsets.only(top: 8.0)),
                 Wrap(
-                  spacing: 8, // horizontal space
-                  runSpacing: 8, // vertical space
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
                   children:
                       getGenreNamesByLanguage(
                         genres,
                         language: l10n.locale_language,
                       ).map((genre) {
                         return Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.transparent,
+                            color: Colors.black26,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: Colors.white),
                           ),
                           child: Text(
                             genre,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black,
-                                  offset: Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
                             ),
                           ),
                         );
                       }).toList(),
                 ),
-                SizedBox(height: 10),
-
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Play Button (Glassy + Glow)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.play_arrow),
-                          label: const Text('Play'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeConstants.primaryDark,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 32,
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            shadowColor: ThemeConstants.primaryDark,
-                            elevation: 10,
-                          ),
+                    // OPTIMIZED: Removed BackdropFilter
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.play_arrow),
+                      label: const Text('Play'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeConstants.primaryDark,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
                         ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 4,
                       ),
                     ),
                     const SizedBox(width: 12),
-
-                    // My List Button (Glassy + Glow)
                     BlocBuilder<ProfileBloc, ProfileState>(
+                      buildWhen: (previous, current) {
+                        if (previous is Loaded && current is Loaded) {
+                          return previous.profile.wishlistIds !=
+                              current.profile.wishlistIds;
+                        }
+                        return true;
+                      },
                       builder: (context, state) {
                         bool isExist = false;
                         if (state is Loaded) {
@@ -447,75 +420,41 @@ class HomeScreen extends StatelessWidget {
                               state.profile.wishlistIds?.contains(movieId) ??
                               false;
                         }
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: !isExist
-                                ? OutlinedButton.icon(
-                                    onPressed: () {
-                                      context.read<ProfileBloc>().add(
-                                        ProfileEvent.addWishlistMovie(
-                                          userId,
-                                          movieId,
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.add),
-                                    label: const Text('My List'),
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      side: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 24,
-                                        vertical: 12,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      shadowColor: Colors.white.withOpacity(
-                                        0.8,
-                                      ),
-                                      elevation: 8,
-                                      backgroundColor: Colors.white.withOpacity(
-                                        0.08,
-                                      ),
-                                    ),
-                                    // favorite button
-                                  )
-                                : OutlinedButton.icon(
-                                    onPressed: () {
-                                      context.read<ProfileBloc>().add(
-                                        ProfileEvent.removeWishlistMovie(
-                                          userId,
-                                          movieId,
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.check),
-                                    label: const Text('My List'),
-                                    style: OutlinedButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      side: BorderSide(
-                                        color: ThemeConstants.primaryDark,
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 24,
-                                        vertical: 12,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      shadowColor: ThemeConstants.primaryDark
-                                          .withOpacity(0.8),
-                                      elevation: 8,
-                                      backgroundColor: ThemeConstants
-                                          .primaryDark
-                                          .withOpacity(0.08),
-                                    ),
-                                  ),
+                        return OutlinedButton.icon(
+                          onPressed: () {
+                            if (isExist) {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.removeWishlistMovie(
+                                  userId,
+                                  movieId,
+                                ),
+                              );
+                            } else {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.addWishlistMovie(userId, movieId),
+                              );
+                            }
+                          },
+                          icon: Icon(isExist ? Icons.check : Icons.add),
+                          label: const Text('My List'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: BorderSide(
+                              color: isExist
+                                  ? ThemeConstants.primaryDark
+                                  : Colors.white,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            backgroundColor: isExist
+                                ? ThemeConstants.primaryDark.withOpacity(0.2)
+                                : Colors.black26,
+                            elevation: 2,
                           ),
                         );
                       },
@@ -576,6 +515,8 @@ class HomeScreen extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: movies.length,
+            // OPTIMIZED: Add cache extent
+            cacheExtent: 500,
             itemBuilder: (context, index) {
               final movie = movies[index];
               return Padding(
@@ -589,6 +530,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // OPTIMIZED: Use cached images
   Widget _buildMovieCard(BuildContext context, MovieItem movie) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
@@ -600,37 +542,31 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Movie Poster
           Stack(
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(12),
                 ),
-                child: Container(
+                child: CachedNetworkImage(
+                  imageUrl: movie.imageUrl,
                   height: 240,
                   width: 160,
-                  color: isDark ? Colors.grey[800] : Colors.grey[300],
-                  child: Image.network(
-                    movie.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.movie, size: 60, color: Colors.grey),
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                              : null,
-                        ),
-                      );
-                    },
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: isDark ? Colors.grey[800] : Colors.grey[300],
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: isDark ? Colors.grey[800] : Colors.grey[300],
+                    child: const Icon(
+                      Icons.movie,
+                      size: 60,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
-              // Rating Badge
               Positioned(
                 top: 8,
                 left: 8,

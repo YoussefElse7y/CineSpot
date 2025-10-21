@@ -5,8 +5,10 @@ class ApiConstants {
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZTc2OTkwNDYxZTA2NmUxY2VhODBjNzVlZTdlNWYxYiIsIm5iZiI6MTc1NDA3NjExOC4yOTYsInN1YiI6IjY4OGQxM2Q2MjgyYjhjYjUwZGIyMjQzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ovMqQkdC_-PiGjcvDcrY9LU1PE6PE3ceh63wKTJvAXo';
   static const String topTenMoviesThisWeek = "trending/movie/week";
   static const String playingNowMovies = "movie/now_playing";
-  static const String baseImageUrl = "https://image.tmdb.org/t/p/w500";
   static const String trendingTvShows = "trending/tv/week";
+
+
+
 }
 
 class ApiErrors {

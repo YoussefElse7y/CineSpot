@@ -16,6 +16,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  debugProfileBuildsEnabled = false;
+  debugPrintRebuildDirtyWidgets = false;
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await di.init();
   runApp(const CineSpotApp());
@@ -47,8 +49,7 @@ class CineSpotApp extends StatelessWidget {
             return di.sl<HomeBloc>()
               ..add(HomeEvent.getTopTenMovies(currentLanguage))
               ..add(HomeEvent.getNowPlayingMovies(currentLanguage, 1))
-              ..add(HomeEvent.getTrendingTvShows(currentLanguage)
-              );
+              ..add(HomeEvent.getTrendingTvShows(currentLanguage));
           },
         ),
       ],

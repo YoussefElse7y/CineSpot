@@ -1,6 +1,6 @@
+// Optimized main_screen.dart
 // ignore_for_file: deprecated_member_use
 
-import 'dart:ui';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>
-    with SingleTickerProviderStateMixin {
+class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  late AnimationController _controller;
 
   final List<Widget> _screens = const [
     HomeScreen(),
@@ -27,26 +25,8 @@ class _MainScreenState extends State<MainScreen>
     ProfileScreen(),
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-      lowerBound: 0.8,
-      upperBound: 1.2,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   void _onItemTapped(int index) {
     setState(() => _currentIndex = index);
-    _controller.forward(from: 0.8);
   }
 
   @override
@@ -55,113 +35,96 @@ class _MainScreenState extends State<MainScreen>
 
     return Scaffold(
       extendBody: true,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
-        switchInCurve: Curves.easeInOut,
-        switchOutCurve: Curves.easeInOut,
-        child: _screens[_currentIndex],
+      // OPTIMIZED: Removed AnimatedSwitcher - causes unnecessary rebuilds
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(32),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: isDark
-                    ? Colors.white.withOpacity(0.05)
-                    : Colors.white.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(32),
-                border: Border.all(
-                  color: isDark
-                      ? Colors.white.withOpacity(0.1)
-                      : Colors.black.withOpacity(0.05),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: isDark
-                        ? Colors.black.withOpacity(0.3)
-                        : Colors.grey.withOpacity(0.25),
-                    blurRadius: 25,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: BottomNavigationBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                type: BottomNavigationBarType.fixed,
-                currentIndex: _currentIndex,
-                selectedFontSize: 12,
-                unselectedFontSize: 12,
-                selectedItemColor: const Color(0xFFE21221),
-                unselectedItemColor: isDark ? Colors.white70 : Colors.black54,
-                showUnselectedLabels: true,
-                onTap: _onItemTapped,
-                items: List.generate(5, (index) {
-                  final icons = [
-                    Icons.home,
-                    Icons.explore,
-                    Icons.bookmark,
-                    Icons.download,
-                    Icons.person,
-                  ];
-                  final outlinedIcons = [
-                    Icons.home_outlined,
-                    Icons.explore_outlined,
-                    Icons.bookmark_outline,
-                    Icons.download_outlined,
-                    Icons.person_outline,
-                  ];
-                  final labels = [
-                    'Home',
-                    'Explore',
-                    'My List',
-                    'Download',
-                    'Profile',
-                  ];
-                  final isSelected = index == _currentIndex;
-
-                  return BottomNavigationBarItem(
-                    label: labels[index],
-                    icon: AnimatedScale(
-                      scale: isSelected ? 1.2 : 1.0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutBack,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          if (isSelected)
-                            Container(
-                              width: 42,
-                              height: 42,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: const Color(
-                                  0xFFE21221,
-                                ).withOpacity(0.05),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(
-                                      0xFFE21221,
-                                    ).withOpacity(0.4),
-                                    blurRadius: 12,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          Icon(
-                            isSelected ? icons[index] : outlinedIcons[index],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            // OPTIMIZED: Simplified styling, removed BackdropFilter
+            color: isDark
+                ? const Color(0xFF1F222B)
+                : Colors.white,
+            borderRadius: BorderRadius.circular(32),
+            border: Border.all(
+              color: isDark
+                  ? Colors.white.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.1),
             ),
+            // OPTIMIZED: Reduced shadow complexity
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            selectedItemColor: const Color(0xFFE21221),
+            unselectedItemColor: isDark ? Colors.white70 : Colors.black54,
+            showUnselectedLabels: true,
+            onTap: _onItemTapped,
+            items: List.generate(5, (index) {
+              final icons = [
+                Icons.home,
+                Icons.explore,
+                Icons.bookmark,
+                Icons.download,
+                Icons.person,
+              ];
+              final outlinedIcons = [
+                Icons.home_outlined,
+                Icons.explore_outlined,
+                Icons.bookmark_outline,
+                Icons.download_outlined,
+                Icons.person_outline,
+              ];
+              final labels = [
+                'Home',
+                'Explore',
+                'My List',
+                'Download',
+                'Profile',
+              ];
+              final isSelected = index == _currentIndex;
+
+              return BottomNavigationBarItem(
+                label: labels[index],
+                // OPTIMIZED: Simplified animation
+                icon: AnimatedScale(
+                  scale: isSelected ? 1.15 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOut,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (isSelected)
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: const Color(0xFFE21221).withOpacity(0.1),
+                          ),
+                        ),
+                      Icon(
+                        isSelected ? icons[index] : outlinedIcons[index],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ),

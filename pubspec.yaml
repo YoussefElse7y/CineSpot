@@ -30,6 +30,8 @@ dependencies:
   retrofit: ^4.7.3
   retrofit_generator: ^10.0.6
   pretty_dio_logger: ^1.4.0
+  flutter_cache_manager: ^3.4.1
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
