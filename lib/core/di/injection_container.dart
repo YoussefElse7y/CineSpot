@@ -9,15 +9,21 @@ import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/home/data/datasource/remote_home_services.dart';
 import 'package:cine_spot/features/home/data/repositories/home_repo_impl.dart';
 import 'package:cine_spot/features/home/domain/repositories/home_repo.dart';
+import 'package:cine_spot/features/home/domain/usecases/get_playing_now_movies.dart';
 import 'package:cine_spot/features/home/domain/usecases/get_top_ten_movies_tihs_week.dart';
+import 'package:cine_spot/features/home/domain/usecases/get_trending_tv_shows.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
 import 'package:cine_spot/features/profile/data/datasources/cloudinary_service.dart';
 import 'package:cine_spot/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:cine_spot/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:cine_spot/features/profile/domain/repositories/profile_repository.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_favorite_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_wishlist_movie_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/check_profile_exists_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/create_profile_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/get_profile_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_wishlist_movie_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/update_profile_usecase.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:dio/dio.dart';
@@ -61,16 +67,22 @@ sl.registerLazySingleton<Dio>(() => dio);
   // Auth BLoC
   sl.registerFactory(() => AuthBloc(sl(), sl(), sl(), sl()));
   // Profile BLoC
-  sl.registerFactory(
+   sl.registerFactory(
     () => ProfileBloc(
       createProfileUseCase: sl(),
       updateProfileUseCase: sl(),
       getProfileUseCase: sl(),
       checkProfileExistsUseCase: sl(),
+      addFavoriteMovieUseCase: sl(),
+      removeFavoriteMovieUseCase: sl(),
+      addWishlistMovieUseCase: sl(),
+      removeWishlistMovieUseCase: sl(),
     ),
   );
 // Home BLoC
-  sl.registerFactory(() => HomeBloc(sl()));
+  sl.registerFactory(() => HomeBloc(sl<GetTopTenMoviesTihsWeekUseCase>(),sl<GetPlayingNowMoviesUseCase>(),
+  sl<GetTrendingTvShowsUseCase>()
+  ));
 
   // ========== Use Cases ==========
   // Theme
@@ -91,10 +103,18 @@ sl.registerLazySingleton<Dio>(() => dio);
   sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
   sl.registerLazySingleton(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton(() => CheckProfileExistsUseCase(sl()));
+   sl.registerLazySingleton(() => AddFavoriteMovieUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveFavoriteMovieUseCase(sl()));
+  sl.registerLazySingleton(() => AddWishlistMovieUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveWishlistMovieUseCase(sl()));
 
   // Home use cases
   sl.registerLazySingleton(() =>
    GetTopTenMoviesTihsWeekUseCase(homeRepo: sl<HomeRepo>()));
+
+  sl.registerLazySingleton(() => GetPlayingNowMoviesUseCase(repository: sl<HomeRepo>()));
+
+  sl.registerLazySingleton(() => GetTrendingTvShowsUseCase(repository: sl<HomeRepo>()));
 
   // ========== Repositories ==========
   // Theme
@@ -114,7 +134,7 @@ sl.registerLazySingleton<Dio>(() => dio);
     () =>
         ProfileRepositoryImpl(remoteDataSource: sl(), cloudinaryService: sl()),
   );
-
+   // Home Repository
   sl.registerLazySingleton<HomeRepo>(
     () => HomeRepoImpl(sl<RemoteHomeServices>()),
   );

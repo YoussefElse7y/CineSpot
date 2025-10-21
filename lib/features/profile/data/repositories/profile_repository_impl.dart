@@ -102,4 +102,96 @@ class ProfileRepositoryImpl implements ProfileRepository {
       return Left(Failure.serverFailure(e.toString()));
     }
   }
+
+    @override
+  Future<Either<Failure, ProfileEntity>> addFavoriteMovie(
+    String userId,
+    int movieId,
+  ) async {
+    try {
+      final profile = await remoteDataSource.getProfile(userId);
+      if (profile == null) {
+        return Left(Failure.serverFailure('Profile not found'));
+      }
+
+      final favoriteIds = List<int>.from(profile.favoriteIds ?? []);
+      if (!favoriteIds.contains(movieId)) {
+        favoriteIds.add(movieId);
+      }
+
+      final updatedProfile = profile.copyWith(favoriteIds: favoriteIds);
+      final result = await remoteDataSource.updateProfile(updatedProfile);
+      return Right(result.toEntity());
+    } catch (e) {
+      return Left(Failure.serverFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileEntity>> removeFavoriteMovie(
+    String userId,
+    int movieId,
+  ) async {
+    try {
+      final profile = await remoteDataSource.getProfile(userId);
+      if (profile == null) {
+        return Left(Failure.serverFailure('Profile not found'));
+      }
+
+      final favoriteIds = List<int>.from(profile.favoriteIds ?? []);
+      favoriteIds.remove(movieId);
+
+      final updatedProfile = profile.copyWith(favoriteIds: favoriteIds);
+      final result = await remoteDataSource.updateProfile(updatedProfile);
+      return Right(result.toEntity());
+    } catch (e) {
+      return Left(Failure.serverFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileEntity>> addWishlistMovie(
+    String userId,
+    int movieId,
+  ) async {
+    try {
+      final profile = await remoteDataSource.getProfile(userId);
+      if (profile == null) {
+        return Left(Failure.serverFailure('Profile not found'));
+      }
+
+      final wishlistIds = List<int>.from(profile.wishlistIds ?? []);
+      if (!wishlistIds.contains(movieId)) {
+        wishlistIds.add(movieId);
+      }
+
+      final updatedProfile = profile.copyWith(wishlistIds: wishlistIds);
+      final result = await remoteDataSource.updateProfile(updatedProfile);
+      return Right(result.toEntity());
+    } catch (e) {
+      return Left(Failure.serverFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProfileEntity>> removeWishlistMovie(
+    String userId,
+    int movieId,
+  ) async {
+    try {
+      final profile = await remoteDataSource.getProfile(userId);
+      if (profile == null) {
+        return Left(Failure.serverFailure('Profile not found'));
+      }
+
+      final wishlistIds = List<int>.from(profile.wishlistIds ?? []);
+      wishlistIds.remove(movieId);
+
+      final updatedProfile = profile.copyWith(wishlistIds: wishlistIds);
+      final result = await remoteDataSource.updateProfile(updatedProfile);
+      return Right(result.toEntity());
+    } catch (e) {
+      return Left(Failure.serverFailure(e.toString()));
+    }
+  }
 }

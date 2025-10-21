@@ -4,7 +4,6 @@ import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
 import 'package:cine_spot/features/language/presentation/bloc/language_state.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection_container.dart' as di;
@@ -46,14 +45,14 @@ class CineSpotApp extends StatelessWidget {
                 ? (langBloc.state as LanguageLoaded).language.code
                 : 'en';
             return di.sl<HomeBloc>()
-              ..add(HomeEvent.getTopTenMovies(currentLanguage));
+              ..add(HomeEvent.getTopTenMovies(currentLanguage))
+              ..add(HomeEvent.getNowPlayingMovies(currentLanguage, 1))
+              ..add(HomeEvent.getTrendingTvShows(currentLanguage)
+              );
           },
         ),
       ],
-      child: CineSpot(appRouter: AppRouter())
-          );
-   
-     
-    
+      child: CineSpot(appRouter: AppRouter()),
+    );
   }
 }

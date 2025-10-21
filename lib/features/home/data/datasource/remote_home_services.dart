@@ -18,6 +18,19 @@ abstract class RemoteHomeServices {
     @Query("language") String language, 
   );
 
+  @GET(ApiConstants.playingNowMovies)
+  Future<HttpResponse<dynamic>> getPlayingNowMovies(
+    @Query("language") String language, 
+    @Query("page") int page,
+  );
+
+  @GET(ApiConstants.trendingTvShows)
+  Future<HttpResponse<dynamic>> getTrendingTvShows(
+    @Query("language") String language,
+  );
+
+
+
 
   
 }

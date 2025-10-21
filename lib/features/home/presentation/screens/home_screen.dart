@@ -1,7 +1,12 @@
-import 'package:cine_spot/core/helpers/geners.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'dart:ui';
+import 'package:cine_spot/core/helpers/functions.dart';
 import 'package:cine_spot/core/network/api_constants.dart';
-import 'package:cine_spot/features/home/domain/entities/movie_entity.dart';
+import 'package:cine_spot/core/routing/routes.dart';
+import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,147 +15,236 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    String language = Localizations.localeOf(context).languageCode;
-    return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        state.maybeWhen(
-          initial: () {
-            context.read<HomeBloc>().add(HomeEvent.getTopTenMovies(language));
-          },
-          orElse: () {},
-        );
-      },
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            // App Bar with Logo and Icons
-            SliverAppBar(
-              floating: true,
-              backgroundColor: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              elevation: 0,
-              title: Text(
-                'CineSpot',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFE21221),
+    // String language = Localizations.localeOf(context).languageCode;
+    final l10n = AppLocalizations.of(context)!;
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          _appBar(isDark),
+          // Main Content
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 🎬 Featured Movie/Show Banner
+                BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    if (state.isLoadingTopMovies) {
+                      return const SizedBox(
+                        height: 500,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    } else if (state.topMovies != null &&
+                        state.topMovies!.results.isNotEmpty) {
+                      final randomMovie = getRandomElement(
+                        state.topMovies!.results,
+                      );
+
+                      return _buildFeaturedBanner(
+                        context,
+                        l10n,
+                        isDark,
+                        '${ApiConstants.baseImageUrl}${randomMovie.posterPath}',
+                        randomMovie.title,
+                        randomMovie.overview,
+                        randomMovie.genreIds,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
                 ),
-              ),
-              actions: [
-                IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-                IconButton(
-                  icon: const Icon(Icons.notifications_outlined),
-                  onPressed: () {},
+
+                const SizedBox(height: 24),
+                // Top Movies This Week
+                _topMoviesThisWeek(),
+                const SizedBox(height: 24),
+                // Now Playing
+                _nowPlaying(),
+                const SizedBox(height: 24),
+                // Trending Now
+                _trendingTvShows(),
+                const SizedBox(height: 160),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SliverAppBar _appBar(bool isDark) {
+    return SliverAppBar(
+      pinned: true,
+      floating: false,
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      elevation: 50,
+
+      backgroundColor: Colors.transparent,
+      flexibleSpace: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              color:
+                  (isDark
+                          ? Colors.black.withOpacity(0.35)
+                          : Colors.white.withOpacity(0.35))
+                      .withOpacity(0.35),
+              boxShadow: [
+                BoxShadow(
+                  color: ThemeConstants.primaryDark.withOpacity(0.1),
+                  blurRadius: 25,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
-            // Main Content
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Featured Movie/Show Banner
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        orElse: () {
-                          return const SizedBox();
-                        },
-                        topMoviesLoading: () {
-                          return const SizedBox(
-                            height: 500,
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        },
-                        topMoviesLoaded: (movie) {
-                          MovieEntity randomMovie = getRandomElement(
-                            movie.results,
-                          );
-                          return _buildFeaturedBanner(
-                            context,
-                            isDark,
-                            '${ApiConstants.baseImageUrl}${randomMovie.posterPath}',
-                            randomMovie.title,
-                            randomMovie.overview,
-                            randomMovie.genreIds,
-                          );
-                        },
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // Top 10 Movies This Week
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        topMoviesLoading: () {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                        topMoviesLoaded: (movies) {
-                          return _buildMovieSection(
-                            context,
-                            'Top Movies This Week',
-                            movies.results
-                                .map(
-                                  (movie) => _MovieItem(
-                                    movie.title,
-                                    movie.voteAverage,
-                                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
-                                  ),
-                                  //i want to remove
-                                )
-                                .toList(),
-                          );
-                        },
-                        orElse: () {
-                          return Center(
-                            child: SizedBox(
-                              height: 200,
-                              child: Text('No movies found'),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // New Releases
-                  _buildMovieSection(context, 'Now Playing', [
-                    _MovieItem('Inside Out 2', 9.5, ''),
-                    _MovieItem('The Marvels', 9.8, ''),
-                    _MovieItem('Black Adam', 9.7, ''),
-                    _MovieItem('Thor', 9.4, ''),
-                  ]),
-
-                  const SizedBox(height: 24),
-
-                  // Trending Now
-                  _buildMovieSection(context, 'Trending Now', [
-                    _MovieItem('Dune', 9.3, ''),
-                    _MovieItem('Oppenheimer', 9.6, ''),
-                    _MovieItem('Barbie', 9.1, ''),
-                    _MovieItem('Mission Impossible', 9.2, ''),
-                  ]),
-
-                  const SizedBox(height: 100),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
+      title: Text(
+        'Home',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: isDark ? Colors.white : Colors.black,
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          color: isDark ? Colors.white : Colors.black,
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.notifications_outlined),
+          color: isDark ? Colors.white : Colors.black,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.isLoadingTopMovies) {
+          return SizedBox(
+            height: 240,
+            child: const Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        } else if (state.topMovies != null) {
+          return _buildMovieSection(
+            context,
+            'Top Movies This Week',
+            state.topMovies!.results
+                .map(
+                  (movie) => MovieItem(
+                    movie.id,
+                    movie.title,
+                    movie.voteAverage,
+                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                    movie.overview,
+                    movie.releaseDate,
+                  ),
+                )
+                .toList(),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+  BlocBuilder<HomeBloc, HomeState> _nowPlaying() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.isLoadingNowPlaying) {
+          return SizedBox(
+            height: 240,
+            child: const Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        } else if (state.nowPlayingMovies != null) {
+          return _buildMovieSection(
+            context,
+            'Now Playing',
+            state.nowPlayingMovies!
+                .map(
+                  (movie) => MovieItem(
+                    movie.id,
+                    movie.title,
+                    movie.voteAverage,
+                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                    movie.overview,
+                    movie.releaseDate,
+                  ),
+                )
+                .toList(),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
+  }
+
+    BlocBuilder<HomeBloc, HomeState> _trendingTvShows() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.isLoadingTrendingTvShows) {
+          return SizedBox(
+            height: 240,
+            child: const Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        } else if (state.trendingTvShows != null) {
+          return _buildMovieSection(
+            context,
+            'Trending TV Shows',
+            state.trendingTvShows!
+                .map(
+                  (movie) => MovieItem(
+                    movie.id,
+                    movie.name,
+                    movie.voteAverage,
+                    '${ApiConstants.baseImageUrl}${movie.posterPath}',
+                    movie.overview,
+                    movie.firstAirDate,
+                  ),
+                )
+                .toList(),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 
   Widget _buildFeaturedBanner(
     BuildContext context,
+    AppLocalizations l10n,
+
     bool isDark,
     String imageUrl,
     String title,
@@ -181,9 +275,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
-          // Gradient Overlay
-
           // Content
           Positioned(
             bottom: 10,
@@ -220,70 +311,91 @@ class HomeScreen extends StatelessWidget {
                 Wrap(
                   spacing: 8, // horizontal space
                   runSpacing: 8, // vertical space
-                  children: getGenreNames(genres).map((genre) {
-                    return Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: Text(
-                        genre,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black,
-                              offset: Offset(0, 1),
-                              blurRadius: 2,
+                  children:
+                      getGenreNamesByLanguage(
+                        genres,
+                        language: l10n.locale_language,
+                      ).map((genre) {
+                        return Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.white),
+                          ),
+                          child: Text(
+                            genre,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black,
+                                  offset: Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                          ),
+                        );
+                      }).toList(),
                 ),
                 SizedBox(height: 10),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Play Button
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.play_arrow),
-                      label: const Text('Play'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE21221),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                    // Play Button (Glassy + Glow)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.play_arrow),
+                          label: const Text('Play'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ThemeConstants.primaryDark,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            shadowColor: ThemeConstants.primaryDark,
+                            elevation: 10,
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
 
-                    // My List Button
-                    OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.add),
-                      label: const Text('My List'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.white),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                    // My List Button (Glassy + Glow)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: OutlinedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.add),
+                          label: const Text('My List'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Colors.white),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            shadowColor: Colors.white.withOpacity(0.8),
+                            elevation: 8,
+                            backgroundColor: Colors.white.withOpacity(0.08),
+                          ),
                         ),
                       ),
                     ),
@@ -300,7 +412,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildMovieSection(
     BuildContext context,
     String title,
-    List<_MovieItem> movies,
+    List<MovieItem> movies,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,10 +430,19 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.DetailsScreen,
+                    arguments: {'movies': movies, 'title': title},
+                  );
+                },
                 child: const Text(
                   'See all',
-                  style: TextStyle(color: Color(0xFFE21221), fontSize: 14),
+                  style: TextStyle(
+                    color: ThemeConstants.primaryDark,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ],
@@ -347,7 +468,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMovieCard(BuildContext context, _MovieItem movie) {
+  Widget _buildMovieCard(BuildContext context, MovieItem movie) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: 160,
@@ -366,7 +487,7 @@ class HomeScreen extends StatelessWidget {
                   top: Radius.circular(12),
                 ),
                 child: Container(
-                  height: 200,
+                  height: 240,
                   width: 160,
                   color: isDark ? Colors.grey[800] : Colors.grey[300],
                   child: Image.network(
@@ -413,26 +534,26 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Movie Title
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              movie.title,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
         ],
       ),
     );
   }
 }
 
-class _MovieItem {
+class MovieItem {
+  int id;
   final String title;
   final double rating;
   final String imageUrl;
+  final String description;
+  final String releaseDate;
 
-  _MovieItem(this.title, this.rating, this.imageUrl);
+  MovieItem(
+    this.id,
+    this.title,
+    this.rating,
+    this.imageUrl,
+    this.description,
+    this.releaseDate,
+  );
 }

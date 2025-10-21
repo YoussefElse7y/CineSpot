@@ -86,11 +86,13 @@ extension HomeEventPatterns on HomeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetTopTenMovies value)?  getTopTenMovies,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetTopTenMovies value)?  getTopTenMovies,TResult Function( _GetNowPlayingMovies value)?  getNowPlayingMovies,TResult Function( _GetTrendingTvShows value)?  getTrendingTvShows,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GetTopTenMovies() when getTopTenMovies != null:
-return getTopTenMovies(_that);case _:
+return getTopTenMovies(_that);case _GetNowPlayingMovies() when getNowPlayingMovies != null:
+return getNowPlayingMovies(_that);case _GetTrendingTvShows() when getTrendingTvShows != null:
+return getTrendingTvShows(_that);case _:
   return orElse();
 
 }
@@ -108,11 +110,13 @@ return getTopTenMovies(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetTopTenMovies value)  getTopTenMovies,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetTopTenMovies value)  getTopTenMovies,required TResult Function( _GetNowPlayingMovies value)  getNowPlayingMovies,required TResult Function( _GetTrendingTvShows value)  getTrendingTvShows,}){
 final _that = this;
 switch (_that) {
 case _GetTopTenMovies():
-return getTopTenMovies(_that);case _:
+return getTopTenMovies(_that);case _GetNowPlayingMovies():
+return getNowPlayingMovies(_that);case _GetTrendingTvShows():
+return getTrendingTvShows(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -129,11 +133,13 @@ return getTopTenMovies(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetTopTenMovies value)?  getTopTenMovies,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetTopTenMovies value)?  getTopTenMovies,TResult? Function( _GetNowPlayingMovies value)?  getNowPlayingMovies,TResult? Function( _GetTrendingTvShows value)?  getTrendingTvShows,}){
 final _that = this;
 switch (_that) {
 case _GetTopTenMovies() when getTopTenMovies != null:
-return getTopTenMovies(_that);case _:
+return getTopTenMovies(_that);case _GetNowPlayingMovies() when getNowPlayingMovies != null:
+return getNowPlayingMovies(_that);case _GetTrendingTvShows() when getTrendingTvShows != null:
+return getTrendingTvShows(_that);case _:
   return null;
 
 }
@@ -150,10 +156,12 @@ return getTopTenMovies(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String language)?  getTopTenMovies,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String language)?  getTopTenMovies,TResult Function( String language,  int page)?  getNowPlayingMovies,TResult Function( String language)?  getTrendingTvShows,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetTopTenMovies() when getTopTenMovies != null:
-return getTopTenMovies(_that.language);case _:
+return getTopTenMovies(_that.language);case _GetNowPlayingMovies() when getNowPlayingMovies != null:
+return getNowPlayingMovies(_that.language,_that.page);case _GetTrendingTvShows() when getTrendingTvShows != null:
+return getTrendingTvShows(_that.language);case _:
   return orElse();
 
 }
@@ -171,10 +179,12 @@ return getTopTenMovies(_that.language);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String language)  getTopTenMovies,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String language)  getTopTenMovies,required TResult Function( String language,  int page)  getNowPlayingMovies,required TResult Function( String language)  getTrendingTvShows,}) {final _that = this;
 switch (_that) {
 case _GetTopTenMovies():
-return getTopTenMovies(_that.language);case _:
+return getTopTenMovies(_that.language);case _GetNowPlayingMovies():
+return getNowPlayingMovies(_that.language,_that.page);case _GetTrendingTvShows():
+return getTrendingTvShows(_that.language);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +201,12 @@ return getTopTenMovies(_that.language);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String language)?  getTopTenMovies,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String language)?  getTopTenMovies,TResult? Function( String language,  int page)?  getNowPlayingMovies,TResult? Function( String language)?  getTrendingTvShows,}) {final _that = this;
 switch (_that) {
 case _GetTopTenMovies() when getTopTenMovies != null:
-return getTopTenMovies(_that.language);case _:
+return getTopTenMovies(_that.language);case _GetNowPlayingMovies() when getNowPlayingMovies != null:
+return getNowPlayingMovies(_that.language,_that.page);case _GetTrendingTvShows() when getTrendingTvShows != null:
+return getTrendingTvShows(_that.language);case _:
   return null;
 
 }
@@ -269,32 +281,203 @@ as String,
 }
 
 /// @nodoc
-mixin _$HomeState {
 
 
+class _GetNowPlayingMovies implements HomeEvent {
+  const _GetNowPlayingMovies(this.language, this.page);
+  
+
+@override final  String language;
+ final  int page;
+
+/// Create a copy of HomeEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GetNowPlayingMoviesCopyWith<_GetNowPlayingMovies> get copyWith => __$GetNowPlayingMoviesCopyWithImpl<_GetNowPlayingMovies>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetNowPlayingMovies&&(identical(other.language, language) || other.language == language)&&(identical(other.page, page) || other.page == page));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,language,page);
 
 @override
 String toString() {
-  return 'HomeState()';
+  return 'HomeEvent.getNowPlayingMovies(language: $language, page: $page)';
 }
 
 
 }
 
 /// @nodoc
-class $HomeStateCopyWith<$Res>  {
-$HomeStateCopyWith(HomeState _, $Res Function(HomeState) __);
+abstract mixin class _$GetNowPlayingMoviesCopyWith<$Res> implements $HomeEventCopyWith<$Res> {
+  factory _$GetNowPlayingMoviesCopyWith(_GetNowPlayingMovies value, $Res Function(_GetNowPlayingMovies) _then) = __$GetNowPlayingMoviesCopyWithImpl;
+@override @useResult
+$Res call({
+ String language, int page
+});
+
+
+
+
+}
+/// @nodoc
+class __$GetNowPlayingMoviesCopyWithImpl<$Res>
+    implements _$GetNowPlayingMoviesCopyWith<$Res> {
+  __$GetNowPlayingMoviesCopyWithImpl(this._self, this._then);
+
+  final _GetNowPlayingMovies _self;
+  final $Res Function(_GetNowPlayingMovies) _then;
+
+/// Create a copy of HomeEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? language = null,Object? page = null,}) {
+  return _then(_GetNowPlayingMovies(
+null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String,null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GetTrendingTvShows implements HomeEvent {
+  const _GetTrendingTvShows(this.language);
+  
+
+@override final  String language;
+
+/// Create a copy of HomeEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GetTrendingTvShowsCopyWith<_GetTrendingTvShows> get copyWith => __$GetTrendingTvShowsCopyWithImpl<_GetTrendingTvShows>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetTrendingTvShows&&(identical(other.language, language) || other.language == language));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,language);
+
+@override
+String toString() {
+  return 'HomeEvent.getTrendingTvShows(language: $language)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GetTrendingTvShowsCopyWith<$Res> implements $HomeEventCopyWith<$Res> {
+  factory _$GetTrendingTvShowsCopyWith(_GetTrendingTvShows value, $Res Function(_GetTrendingTvShows) _then) = __$GetTrendingTvShowsCopyWithImpl;
+@override @useResult
+$Res call({
+ String language
+});
+
+
+
+
+}
+/// @nodoc
+class __$GetTrendingTvShowsCopyWithImpl<$Res>
+    implements _$GetTrendingTvShowsCopyWith<$Res> {
+  __$GetTrendingTvShowsCopyWithImpl(this._self, this._then);
+
+  final _GetTrendingTvShows _self;
+  final $Res Function(_GetTrendingTvShows) _then;
+
+/// Create a copy of HomeEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? language = null,}) {
+  return _then(_GetTrendingTvShows(
+null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$HomeState {
+
+ bool get isLoadingTopMovies; bool get isLoadingNowPlaying; bool get isLoadingTrendingTvShows; MoviesResponseEntity? get topMovies; List<NowPlayingMovieEntity>? get nowPlayingMovies; List<TrendingTvShowEntity>? get trendingTvShows; String? get errorMessage;
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>(this as HomeState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.isLoadingTopMovies, isLoadingTopMovies) || other.isLoadingTopMovies == isLoadingTopMovies)&&(identical(other.isLoadingNowPlaying, isLoadingNowPlaying) || other.isLoadingNowPlaying == isLoadingNowPlaying)&&(identical(other.isLoadingTrendingTvShows, isLoadingTrendingTvShows) || other.isLoadingTrendingTvShows == isLoadingTrendingTvShows)&&(identical(other.topMovies, topMovies) || other.topMovies == topMovies)&&const DeepCollectionEquality().equals(other.nowPlayingMovies, nowPlayingMovies)&&const DeepCollectionEquality().equals(other.trendingTvShows, trendingTvShows)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,isLoadingTopMovies,isLoadingNowPlaying,isLoadingTrendingTvShows,topMovies,const DeepCollectionEquality().hash(nowPlayingMovies),const DeepCollectionEquality().hash(trendingTvShows),errorMessage);
+
+@override
+String toString() {
+  return 'HomeState(isLoadingTopMovies: $isLoadingTopMovies, isLoadingNowPlaying: $isLoadingNowPlaying, isLoadingTrendingTvShows: $isLoadingTrendingTvShows, topMovies: $topMovies, nowPlayingMovies: $nowPlayingMovies, trendingTvShows: $trendingTvShows, errorMessage: $errorMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HomeStateCopyWith<$Res>  {
+  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
+@useResult
+$Res call({
+ bool isLoadingTopMovies, bool isLoadingNowPlaying, bool isLoadingTrendingTvShows, MoviesResponseEntity? topMovies, List<NowPlayingMovieEntity>? nowPlayingMovies, List<TrendingTvShowEntity>? trendingTvShows, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$HomeStateCopyWithImpl<$Res>
+    implements $HomeStateCopyWith<$Res> {
+  _$HomeStateCopyWithImpl(this._self, this._then);
+
+  final HomeState _self;
+  final $Res Function(HomeState) _then;
+
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoadingTopMovies = null,Object? isLoadingNowPlaying = null,Object? isLoadingTrendingTvShows = null,Object? topMovies = freezed,Object? nowPlayingMovies = freezed,Object? trendingTvShows = freezed,Object? errorMessage = freezed,}) {
+  return _then(_self.copyWith(
+isLoadingTopMovies: null == isLoadingTopMovies ? _self.isLoadingTopMovies : isLoadingTopMovies // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingNowPlaying: null == isLoadingNowPlaying ? _self.isLoadingNowPlaying : isLoadingNowPlaying // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingTrendingTvShows: null == isLoadingTrendingTvShows ? _self.isLoadingTrendingTvShows : isLoadingTrendingTvShows // ignore: cast_nullable_to_non_nullable
+as bool,topMovies: freezed == topMovies ? _self.topMovies : topMovies // ignore: cast_nullable_to_non_nullable
+as MoviesResponseEntity?,nowPlayingMovies: freezed == nowPlayingMovies ? _self.nowPlayingMovies : nowPlayingMovies // ignore: cast_nullable_to_non_nullable
+as List<NowPlayingMovieEntity>?,trendingTvShows: freezed == trendingTvShows ? _self.trendingTvShows : trendingTvShows // ignore: cast_nullable_to_non_nullable
+as List<TrendingTvShowEntity>?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
 }
 
 
@@ -312,14 +495,11 @@ extension HomeStatePatterns on HomeState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _TopMoviesLoading value)?  topMoviesLoading,TResult Function( _TopMoviesLoaded value)?  topMoviesLoaded,TResult Function( _TopMoviesError value)?  topMoviesError,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HomeState value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial(_that);case _TopMoviesLoading() when topMoviesLoading != null:
-return topMoviesLoading(_that);case _TopMoviesLoaded() when topMoviesLoaded != null:
-return topMoviesLoaded(_that);case _TopMoviesError() when topMoviesError != null:
-return topMoviesError(_that);case _:
+case _HomeState() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -337,14 +517,11 @@ return topMoviesError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _TopMoviesLoading value)  topMoviesLoading,required TResult Function( _TopMoviesLoaded value)  topMoviesLoaded,required TResult Function( _TopMoviesError value)  topMoviesError,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HomeState value)  $default,){
 final _that = this;
 switch (_that) {
-case _Initial():
-return initial(_that);case _TopMoviesLoading():
-return topMoviesLoading(_that);case _TopMoviesLoaded():
-return topMoviesLoaded(_that);case _TopMoviesError():
-return topMoviesError(_that);case _:
+case _HomeState():
+return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -361,14 +538,11 @@ return topMoviesError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _TopMoviesLoading value)?  topMoviesLoading,TResult? Function( _TopMoviesLoaded value)?  topMoviesLoaded,TResult? Function( _TopMoviesError value)?  topMoviesError,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HomeState value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial(_that);case _TopMoviesLoading() when topMoviesLoading != null:
-return topMoviesLoading(_that);case _TopMoviesLoaded() when topMoviesLoaded != null:
-return topMoviesLoaded(_that);case _TopMoviesError() when topMoviesError != null:
-return topMoviesError(_that);case _:
+case _HomeState() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -385,13 +559,10 @@ return topMoviesError(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  topMoviesLoading,TResult Function( MoviesResponseEntity movies)?  topMoviesLoaded,TResult Function( String message)?  topMoviesError,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoadingTopMovies,  bool isLoadingNowPlaying,  bool isLoadingTrendingTvShows,  MoviesResponseEntity? topMovies,  List<NowPlayingMovieEntity>? nowPlayingMovies,  List<TrendingTvShowEntity>? trendingTvShows,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial();case _TopMoviesLoading() when topMoviesLoading != null:
-return topMoviesLoading();case _TopMoviesLoaded() when topMoviesLoaded != null:
-return topMoviesLoaded(_that.movies);case _TopMoviesError() when topMoviesError != null:
-return topMoviesError(_that.message);case _:
+case _HomeState() when $default != null:
+return $default(_that.isLoadingTopMovies,_that.isLoadingNowPlaying,_that.isLoadingTrendingTvShows,_that.topMovies,_that.nowPlayingMovies,_that.trendingTvShows,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -409,13 +580,10 @@ return topMoviesError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  topMoviesLoading,required TResult Function( MoviesResponseEntity movies)  topMoviesLoaded,required TResult Function( String message)  topMoviesError,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoadingTopMovies,  bool isLoadingNowPlaying,  bool isLoadingTrendingTvShows,  MoviesResponseEntity? topMovies,  List<NowPlayingMovieEntity>? nowPlayingMovies,  List<TrendingTvShowEntity>? trendingTvShows,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
-case _Initial():
-return initial();case _TopMoviesLoading():
-return topMoviesLoading();case _TopMoviesLoaded():
-return topMoviesLoaded(_that.movies);case _TopMoviesError():
-return topMoviesError(_that.message);case _:
+case _HomeState():
+return $default(_that.isLoadingTopMovies,_that.isLoadingNowPlaying,_that.isLoadingTrendingTvShows,_that.topMovies,_that.nowPlayingMovies,_that.trendingTvShows,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -432,13 +600,10 @@ return topMoviesError(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  topMoviesLoading,TResult? Function( MoviesResponseEntity movies)?  topMoviesLoaded,TResult? Function( String message)?  topMoviesError,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoadingTopMovies,  bool isLoadingNowPlaying,  bool isLoadingTrendingTvShows,  MoviesResponseEntity? topMovies,  List<NowPlayingMovieEntity>? nowPlayingMovies,  List<TrendingTvShowEntity>? trendingTvShows,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
-case _Initial() when initial != null:
-return initial();case _TopMoviesLoading() when topMoviesLoading != null:
-return topMoviesLoading();case _TopMoviesLoaded() when topMoviesLoaded != null:
-return topMoviesLoaded(_that.movies);case _TopMoviesError() when topMoviesError != null:
-return topMoviesError(_that.message);case _:
+case _HomeState() when $default != null:
+return $default(_that.isLoadingTopMovies,_that.isLoadingNowPlaying,_that.isLoadingTrendingTvShows,_that.topMovies,_that.nowPlayingMovies,_that.trendingTvShows,_that.errorMessage);case _:
   return null;
 
 }
@@ -449,107 +614,65 @@ return topMoviesError(_that.message);case _:
 /// @nodoc
 
 
-class _Initial implements HomeState {
-  const _Initial();
+class _HomeState implements HomeState {
+  const _HomeState({this.isLoadingTopMovies = false, this.isLoadingNowPlaying = false, this.isLoadingTrendingTvShows = false, this.topMovies, final  List<NowPlayingMovieEntity>? nowPlayingMovies, final  List<TrendingTvShowEntity>? trendingTvShows, this.errorMessage}): _nowPlayingMovies = nowPlayingMovies,_trendingTvShows = trendingTvShows;
   
 
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Initial);
+@override@JsonKey() final  bool isLoadingTopMovies;
+@override@JsonKey() final  bool isLoadingNowPlaying;
+@override@JsonKey() final  bool isLoadingTrendingTvShows;
+@override final  MoviesResponseEntity? topMovies;
+ final  List<NowPlayingMovieEntity>? _nowPlayingMovies;
+@override List<NowPlayingMovieEntity>? get nowPlayingMovies {
+  final value = _nowPlayingMovies;
+  if (value == null) return null;
+  if (_nowPlayingMovies is EqualUnmodifiableListView) return _nowPlayingMovies;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
 }
 
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'HomeState.initial()';
+ final  List<TrendingTvShowEntity>? _trendingTvShows;
+@override List<TrendingTvShowEntity>? get trendingTvShows {
+  final value = _trendingTvShows;
+  if (value == null) return null;
+  if (_trendingTvShows is EqualUnmodifiableListView) return _trendingTvShows;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
 }
 
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _TopMoviesLoading implements HomeState {
-  const _TopMoviesLoading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopMoviesLoading);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'HomeState.topMoviesLoading()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _TopMoviesLoaded implements HomeState {
-  const _TopMoviesLoaded(this.movies);
-  
-
- final  MoviesResponseEntity movies;
+@override final  String? errorMessage;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TopMoviesLoadedCopyWith<_TopMoviesLoaded> get copyWith => __$TopMoviesLoadedCopyWithImpl<_TopMoviesLoaded>(this, _$identity);
+_$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopMoviesLoaded&&(identical(other.movies, movies) || other.movies == movies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.isLoadingTopMovies, isLoadingTopMovies) || other.isLoadingTopMovies == isLoadingTopMovies)&&(identical(other.isLoadingNowPlaying, isLoadingNowPlaying) || other.isLoadingNowPlaying == isLoadingNowPlaying)&&(identical(other.isLoadingTrendingTvShows, isLoadingTrendingTvShows) || other.isLoadingTrendingTvShows == isLoadingTrendingTvShows)&&(identical(other.topMovies, topMovies) || other.topMovies == topMovies)&&const DeepCollectionEquality().equals(other._nowPlayingMovies, _nowPlayingMovies)&&const DeepCollectionEquality().equals(other._trendingTvShows, _trendingTvShows)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,movies);
+int get hashCode => Object.hash(runtimeType,isLoadingTopMovies,isLoadingNowPlaying,isLoadingTrendingTvShows,topMovies,const DeepCollectionEquality().hash(_nowPlayingMovies),const DeepCollectionEquality().hash(_trendingTvShows),errorMessage);
 
 @override
 String toString() {
-  return 'HomeState.topMoviesLoaded(movies: $movies)';
+  return 'HomeState(isLoadingTopMovies: $isLoadingTopMovies, isLoadingNowPlaying: $isLoadingNowPlaying, isLoadingTrendingTvShows: $isLoadingTrendingTvShows, topMovies: $topMovies, nowPlayingMovies: $nowPlayingMovies, trendingTvShows: $trendingTvShows, errorMessage: $errorMessage)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TopMoviesLoadedCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
-  factory _$TopMoviesLoadedCopyWith(_TopMoviesLoaded value, $Res Function(_TopMoviesLoaded) _then) = __$TopMoviesLoadedCopyWithImpl;
-@useResult
+abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
+  factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
+@override @useResult
 $Res call({
- MoviesResponseEntity movies
+ bool isLoadingTopMovies, bool isLoadingNowPlaying, bool isLoadingTrendingTvShows, MoviesResponseEntity? topMovies, List<NowPlayingMovieEntity>? nowPlayingMovies, List<TrendingTvShowEntity>? trendingTvShows, String? errorMessage
 });
 
 
@@ -557,85 +680,25 @@ $Res call({
 
 }
 /// @nodoc
-class __$TopMoviesLoadedCopyWithImpl<$Res>
-    implements _$TopMoviesLoadedCopyWith<$Res> {
-  __$TopMoviesLoadedCopyWithImpl(this._self, this._then);
+class __$HomeStateCopyWithImpl<$Res>
+    implements _$HomeStateCopyWith<$Res> {
+  __$HomeStateCopyWithImpl(this._self, this._then);
 
-  final _TopMoviesLoaded _self;
-  final $Res Function(_TopMoviesLoaded) _then;
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? movies = null,}) {
-  return _then(_TopMoviesLoaded(
-null == movies ? _self.movies : movies // ignore: cast_nullable_to_non_nullable
-as MoviesResponseEntity,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class _TopMoviesError implements HomeState {
-  const _TopMoviesError(this.message);
-  
-
- final  String message;
+  final _HomeState _self;
+  final $Res Function(_HomeState) _then;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$TopMoviesErrorCopyWith<_TopMoviesError> get copyWith => __$TopMoviesErrorCopyWithImpl<_TopMoviesError>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopMoviesError&&(identical(other.message, message) || other.message == message));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,message);
-
-@override
-String toString() {
-  return 'HomeState.topMoviesError(message: $message)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$TopMoviesErrorCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
-  factory _$TopMoviesErrorCopyWith(_TopMoviesError value, $Res Function(_TopMoviesError) _then) = __$TopMoviesErrorCopyWithImpl;
-@useResult
-$Res call({
- String message
-});
-
-
-
-
-}
-/// @nodoc
-class __$TopMoviesErrorCopyWithImpl<$Res>
-    implements _$TopMoviesErrorCopyWith<$Res> {
-  __$TopMoviesErrorCopyWithImpl(this._self, this._then);
-
-  final _TopMoviesError _self;
-  final $Res Function(_TopMoviesError) _then;
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
-  return _then(_TopMoviesError(
-null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoadingTopMovies = null,Object? isLoadingNowPlaying = null,Object? isLoadingTrendingTvShows = null,Object? topMovies = freezed,Object? nowPlayingMovies = freezed,Object? trendingTvShows = freezed,Object? errorMessage = freezed,}) {
+  return _then(_HomeState(
+isLoadingTopMovies: null == isLoadingTopMovies ? _self.isLoadingTopMovies : isLoadingTopMovies // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingNowPlaying: null == isLoadingNowPlaying ? _self.isLoadingNowPlaying : isLoadingNowPlaying // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingTrendingTvShows: null == isLoadingTrendingTvShows ? _self.isLoadingTrendingTvShows : isLoadingTrendingTvShows // ignore: cast_nullable_to_non_nullable
+as bool,topMovies: freezed == topMovies ? _self.topMovies : topMovies // ignore: cast_nullable_to_non_nullable
+as MoviesResponseEntity?,nowPlayingMovies: freezed == nowPlayingMovies ? _self._nowPlayingMovies : nowPlayingMovies // ignore: cast_nullable_to_non_nullable
+as List<NowPlayingMovieEntity>?,trendingTvShows: freezed == trendingTvShows ? _self._trendingTvShows : trendingTvShows // ignore: cast_nullable_to_non_nullable
+as List<TrendingTvShowEntity>?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

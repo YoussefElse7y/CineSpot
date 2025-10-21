@@ -55,14 +55,18 @@ extension ProfileEventPatterns on ProfileEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateProfile value)?  createProfile,TResult Function( UpdateProfile value)?  updateProfile,TResult Function( LoadProfile value)?  loadProfile,TResult Function( CheckProfileExists value)?  checkProfileExists,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateProfile value)?  createProfile,TResult Function( UpdateProfile value)?  updateProfile,TResult Function( LoadProfile value)?  loadProfile,TResult Function( CheckProfileExists value)?  checkProfileExists,TResult Function( AddFavoriteMovie value)?  addFavoriteMovie,TResult Function( RemoveFavoriteMovie value)?  removeFavoriteMovie,TResult Function( AddWishlistMovie value)?  addWishlistMovie,TResult Function( RemoveWishlistMovie value)?  removeWishlistMovie,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CreateProfile() when createProfile != null:
 return createProfile(_that);case UpdateProfile() when updateProfile != null:
 return updateProfile(_that);case LoadProfile() when loadProfile != null:
 return loadProfile(_that);case CheckProfileExists() when checkProfileExists != null:
-return checkProfileExists(_that);case _:
+return checkProfileExists(_that);case AddFavoriteMovie() when addFavoriteMovie != null:
+return addFavoriteMovie(_that);case RemoveFavoriteMovie() when removeFavoriteMovie != null:
+return removeFavoriteMovie(_that);case AddWishlistMovie() when addWishlistMovie != null:
+return addWishlistMovie(_that);case RemoveWishlistMovie() when removeWishlistMovie != null:
+return removeWishlistMovie(_that);case _:
   return orElse();
 
 }
@@ -80,14 +84,18 @@ return checkProfileExists(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateProfile value)  createProfile,required TResult Function( UpdateProfile value)  updateProfile,required TResult Function( LoadProfile value)  loadProfile,required TResult Function( CheckProfileExists value)  checkProfileExists,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateProfile value)  createProfile,required TResult Function( UpdateProfile value)  updateProfile,required TResult Function( LoadProfile value)  loadProfile,required TResult Function( CheckProfileExists value)  checkProfileExists,required TResult Function( AddFavoriteMovie value)  addFavoriteMovie,required TResult Function( RemoveFavoriteMovie value)  removeFavoriteMovie,required TResult Function( AddWishlistMovie value)  addWishlistMovie,required TResult Function( RemoveWishlistMovie value)  removeWishlistMovie,}){
 final _that = this;
 switch (_that) {
 case CreateProfile():
 return createProfile(_that);case UpdateProfile():
 return updateProfile(_that);case LoadProfile():
 return loadProfile(_that);case CheckProfileExists():
-return checkProfileExists(_that);case _:
+return checkProfileExists(_that);case AddFavoriteMovie():
+return addFavoriteMovie(_that);case RemoveFavoriteMovie():
+return removeFavoriteMovie(_that);case AddWishlistMovie():
+return addWishlistMovie(_that);case RemoveWishlistMovie():
+return removeWishlistMovie(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -104,14 +112,18 @@ return checkProfileExists(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateProfile value)?  createProfile,TResult? Function( UpdateProfile value)?  updateProfile,TResult? Function( LoadProfile value)?  loadProfile,TResult? Function( CheckProfileExists value)?  checkProfileExists,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateProfile value)?  createProfile,TResult? Function( UpdateProfile value)?  updateProfile,TResult? Function( LoadProfile value)?  loadProfile,TResult? Function( CheckProfileExists value)?  checkProfileExists,TResult? Function( AddFavoriteMovie value)?  addFavoriteMovie,TResult? Function( RemoveFavoriteMovie value)?  removeFavoriteMovie,TResult? Function( AddWishlistMovie value)?  addWishlistMovie,TResult? Function( RemoveWishlistMovie value)?  removeWishlistMovie,}){
 final _that = this;
 switch (_that) {
 case CreateProfile() when createProfile != null:
 return createProfile(_that);case UpdateProfile() when updateProfile != null:
 return updateProfile(_that);case LoadProfile() when loadProfile != null:
 return loadProfile(_that);case CheckProfileExists() when checkProfileExists != null:
-return checkProfileExists(_that);case _:
+return checkProfileExists(_that);case AddFavoriteMovie() when addFavoriteMovie != null:
+return addFavoriteMovie(_that);case RemoveFavoriteMovie() when removeFavoriteMovie != null:
+return removeFavoriteMovie(_that);case AddWishlistMovie() when addWishlistMovie != null:
+return addWishlistMovie(_that);case RemoveWishlistMovie() when removeWishlistMovie != null:
+return removeWishlistMovie(_that);case _:
   return null;
 
 }
@@ -128,13 +140,17 @@ return checkProfileExists(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ProfileEntity profile,  File? imageFile)?  createProfile,TResult Function( ProfileEntity profile,  File? imageFile)?  updateProfile,TResult Function( String userId)?  loadProfile,TResult Function( String userId)?  checkProfileExists,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ProfileEntity profile,  File? imageFile)?  createProfile,TResult Function( ProfileEntity profile,  File? imageFile)?  updateProfile,TResult Function( String userId)?  loadProfile,TResult Function( String userId)?  checkProfileExists,TResult Function( String userId,  int movieId)?  addFavoriteMovie,TResult Function( String userId,  int movieId)?  removeFavoriteMovie,TResult Function( String userId,  int movieId)?  addWishlistMovie,TResult Function( String userId,  int movieId)?  removeWishlistMovie,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CreateProfile() when createProfile != null:
 return createProfile(_that.profile,_that.imageFile);case UpdateProfile() when updateProfile != null:
 return updateProfile(_that.profile,_that.imageFile);case LoadProfile() when loadProfile != null:
 return loadProfile(_that.userId);case CheckProfileExists() when checkProfileExists != null:
-return checkProfileExists(_that.userId);case _:
+return checkProfileExists(_that.userId);case AddFavoriteMovie() when addFavoriteMovie != null:
+return addFavoriteMovie(_that.userId,_that.movieId);case RemoveFavoriteMovie() when removeFavoriteMovie != null:
+return removeFavoriteMovie(_that.userId,_that.movieId);case AddWishlistMovie() when addWishlistMovie != null:
+return addWishlistMovie(_that.userId,_that.movieId);case RemoveWishlistMovie() when removeWishlistMovie != null:
+return removeWishlistMovie(_that.userId,_that.movieId);case _:
   return orElse();
 
 }
@@ -152,13 +168,17 @@ return checkProfileExists(_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ProfileEntity profile,  File? imageFile)  createProfile,required TResult Function( ProfileEntity profile,  File? imageFile)  updateProfile,required TResult Function( String userId)  loadProfile,required TResult Function( String userId)  checkProfileExists,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ProfileEntity profile,  File? imageFile)  createProfile,required TResult Function( ProfileEntity profile,  File? imageFile)  updateProfile,required TResult Function( String userId)  loadProfile,required TResult Function( String userId)  checkProfileExists,required TResult Function( String userId,  int movieId)  addFavoriteMovie,required TResult Function( String userId,  int movieId)  removeFavoriteMovie,required TResult Function( String userId,  int movieId)  addWishlistMovie,required TResult Function( String userId,  int movieId)  removeWishlistMovie,}) {final _that = this;
 switch (_that) {
 case CreateProfile():
 return createProfile(_that.profile,_that.imageFile);case UpdateProfile():
 return updateProfile(_that.profile,_that.imageFile);case LoadProfile():
 return loadProfile(_that.userId);case CheckProfileExists():
-return checkProfileExists(_that.userId);case _:
+return checkProfileExists(_that.userId);case AddFavoriteMovie():
+return addFavoriteMovie(_that.userId,_that.movieId);case RemoveFavoriteMovie():
+return removeFavoriteMovie(_that.userId,_that.movieId);case AddWishlistMovie():
+return addWishlistMovie(_that.userId,_that.movieId);case RemoveWishlistMovie():
+return removeWishlistMovie(_that.userId,_that.movieId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +195,17 @@ return checkProfileExists(_that.userId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ProfileEntity profile,  File? imageFile)?  createProfile,TResult? Function( ProfileEntity profile,  File? imageFile)?  updateProfile,TResult? Function( String userId)?  loadProfile,TResult? Function( String userId)?  checkProfileExists,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ProfileEntity profile,  File? imageFile)?  createProfile,TResult? Function( ProfileEntity profile,  File? imageFile)?  updateProfile,TResult? Function( String userId)?  loadProfile,TResult? Function( String userId)?  checkProfileExists,TResult? Function( String userId,  int movieId)?  addFavoriteMovie,TResult? Function( String userId,  int movieId)?  removeFavoriteMovie,TResult? Function( String userId,  int movieId)?  addWishlistMovie,TResult? Function( String userId,  int movieId)?  removeWishlistMovie,}) {final _that = this;
 switch (_that) {
 case CreateProfile() when createProfile != null:
 return createProfile(_that.profile,_that.imageFile);case UpdateProfile() when updateProfile != null:
 return updateProfile(_that.profile,_that.imageFile);case LoadProfile() when loadProfile != null:
 return loadProfile(_that.userId);case CheckProfileExists() when checkProfileExists != null:
-return checkProfileExists(_that.userId);case _:
+return checkProfileExists(_that.userId);case AddFavoriteMovie() when addFavoriteMovie != null:
+return addFavoriteMovie(_that.userId,_that.movieId);case RemoveFavoriteMovie() when removeFavoriteMovie != null:
+return removeFavoriteMovie(_that.userId,_that.movieId);case AddWishlistMovie() when addWishlistMovie != null:
+return addWishlistMovie(_that.userId,_that.movieId);case RemoveWishlistMovie() when removeWishlistMovie != null:
+return removeWishlistMovie(_that.userId,_that.movieId);case _:
   return null;
 
 }
@@ -469,6 +493,278 @@ class _$CheckProfileExistsCopyWithImpl<$Res>
   return _then(CheckProfileExists(
 null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class AddFavoriteMovie implements ProfileEvent {
+  const AddFavoriteMovie(this.userId, this.movieId);
+  
+
+ final  String userId;
+ final  int movieId;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddFavoriteMovieCopyWith<AddFavoriteMovie> get copyWith => _$AddFavoriteMovieCopyWithImpl<AddFavoriteMovie>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddFavoriteMovie&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.movieId, movieId) || other.movieId == movieId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,userId,movieId);
+
+@override
+String toString() {
+  return 'ProfileEvent.addFavoriteMovie(userId: $userId, movieId: $movieId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AddFavoriteMovieCopyWith<$Res> implements $ProfileEventCopyWith<$Res> {
+  factory $AddFavoriteMovieCopyWith(AddFavoriteMovie value, $Res Function(AddFavoriteMovie) _then) = _$AddFavoriteMovieCopyWithImpl;
+@useResult
+$Res call({
+ String userId, int movieId
+});
+
+
+
+
+}
+/// @nodoc
+class _$AddFavoriteMovieCopyWithImpl<$Res>
+    implements $AddFavoriteMovieCopyWith<$Res> {
+  _$AddFavoriteMovieCopyWithImpl(this._self, this._then);
+
+  final AddFavoriteMovie _self;
+  final $Res Function(AddFavoriteMovie) _then;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? movieId = null,}) {
+  return _then(AddFavoriteMovie(
+null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,null == movieId ? _self.movieId : movieId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class RemoveFavoriteMovie implements ProfileEvent {
+  const RemoveFavoriteMovie(this.userId, this.movieId);
+  
+
+ final  String userId;
+ final  int movieId;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RemoveFavoriteMovieCopyWith<RemoveFavoriteMovie> get copyWith => _$RemoveFavoriteMovieCopyWithImpl<RemoveFavoriteMovie>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoveFavoriteMovie&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.movieId, movieId) || other.movieId == movieId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,userId,movieId);
+
+@override
+String toString() {
+  return 'ProfileEvent.removeFavoriteMovie(userId: $userId, movieId: $movieId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RemoveFavoriteMovieCopyWith<$Res> implements $ProfileEventCopyWith<$Res> {
+  factory $RemoveFavoriteMovieCopyWith(RemoveFavoriteMovie value, $Res Function(RemoveFavoriteMovie) _then) = _$RemoveFavoriteMovieCopyWithImpl;
+@useResult
+$Res call({
+ String userId, int movieId
+});
+
+
+
+
+}
+/// @nodoc
+class _$RemoveFavoriteMovieCopyWithImpl<$Res>
+    implements $RemoveFavoriteMovieCopyWith<$Res> {
+  _$RemoveFavoriteMovieCopyWithImpl(this._self, this._then);
+
+  final RemoveFavoriteMovie _self;
+  final $Res Function(RemoveFavoriteMovie) _then;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? movieId = null,}) {
+  return _then(RemoveFavoriteMovie(
+null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,null == movieId ? _self.movieId : movieId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class AddWishlistMovie implements ProfileEvent {
+  const AddWishlistMovie(this.userId, this.movieId);
+  
+
+ final  String userId;
+ final  int movieId;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddWishlistMovieCopyWith<AddWishlistMovie> get copyWith => _$AddWishlistMovieCopyWithImpl<AddWishlistMovie>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddWishlistMovie&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.movieId, movieId) || other.movieId == movieId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,userId,movieId);
+
+@override
+String toString() {
+  return 'ProfileEvent.addWishlistMovie(userId: $userId, movieId: $movieId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AddWishlistMovieCopyWith<$Res> implements $ProfileEventCopyWith<$Res> {
+  factory $AddWishlistMovieCopyWith(AddWishlistMovie value, $Res Function(AddWishlistMovie) _then) = _$AddWishlistMovieCopyWithImpl;
+@useResult
+$Res call({
+ String userId, int movieId
+});
+
+
+
+
+}
+/// @nodoc
+class _$AddWishlistMovieCopyWithImpl<$Res>
+    implements $AddWishlistMovieCopyWith<$Res> {
+  _$AddWishlistMovieCopyWithImpl(this._self, this._then);
+
+  final AddWishlistMovie _self;
+  final $Res Function(AddWishlistMovie) _then;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? movieId = null,}) {
+  return _then(AddWishlistMovie(
+null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,null == movieId ? _self.movieId : movieId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class RemoveWishlistMovie implements ProfileEvent {
+  const RemoveWishlistMovie(this.userId, this.movieId);
+  
+
+ final  String userId;
+ final  int movieId;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RemoveWishlistMovieCopyWith<RemoveWishlistMovie> get copyWith => _$RemoveWishlistMovieCopyWithImpl<RemoveWishlistMovie>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoveWishlistMovie&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.movieId, movieId) || other.movieId == movieId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,userId,movieId);
+
+@override
+String toString() {
+  return 'ProfileEvent.removeWishlistMovie(userId: $userId, movieId: $movieId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RemoveWishlistMovieCopyWith<$Res> implements $ProfileEventCopyWith<$Res> {
+  factory $RemoveWishlistMovieCopyWith(RemoveWishlistMovie value, $Res Function(RemoveWishlistMovie) _then) = _$RemoveWishlistMovieCopyWithImpl;
+@useResult
+$Res call({
+ String userId, int movieId
+});
+
+
+
+
+}
+/// @nodoc
+class _$RemoveWishlistMovieCopyWithImpl<$Res>
+    implements $RemoveWishlistMovieCopyWith<$Res> {
+  _$RemoveWishlistMovieCopyWithImpl(this._self, this._then);
+
+  final RemoveWishlistMovie _self;
+  final $Res Function(RemoveWishlistMovie) _then;
+
+/// Create a copy of ProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? movieId = null,}) {
+  return _then(RemoveWishlistMovie(
+null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,null == movieId ? _self.movieId : movieId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
