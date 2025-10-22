@@ -6,6 +6,15 @@ import 'package:cine_spot/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:cine_spot/features/explore/data/datasource/explore_services.dart';
+import 'package:cine_spot/features/explore/data/repository/explore_repo_impl.dart';
+import 'package:cine_spot/features/explore/domain/repository/explore_repo.dart';
+import 'package:cine_spot/features/explore/domain/usecases/company_search_result.dart';
+import 'package:cine_spot/features/explore/domain/usecases/movie_search_result.dart';
+import 'package:cine_spot/features/explore/domain/usecases/multi_search_result.dart';
+import 'package:cine_spot/features/explore/domain/usecases/person_search_result.dart';
+import 'package:cine_spot/features/explore/domain/usecases/tv_search_result.dart';
+import 'package:cine_spot/features/explore/presentation/bloc/explore_bloc.dart';
 import 'package:cine_spot/features/home/data/datasource/remote_home_services.dart';
 import 'package:cine_spot/features/home/data/repositories/home_repo_impl.dart';
 import 'package:cine_spot/features/home/domain/repositories/home_repo.dart';
@@ -50,12 +59,9 @@ import '../../features/language/presentation/bloc/language_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
- 
   // Dio instance
-final dio = DioFactory.getDio();
-sl.registerLazySingleton<Dio>(() => dio);
-
-
+  final dio = DioFactory.getDio();
+  sl.registerLazySingleton<Dio>(() => dio);
 
   // ========== BLoC ==========
   // Theme BLoC
@@ -67,7 +73,7 @@ sl.registerLazySingleton<Dio>(() => dio);
   // Auth BLoC
   sl.registerFactory(() => AuthBloc(sl(), sl(), sl(), sl()));
   // Profile BLoC
-   sl.registerFactory(
+  sl.registerFactory(
     () => ProfileBloc(
       createProfileUseCase: sl(),
       updateProfileUseCase: sl(),
@@ -79,10 +85,25 @@ sl.registerLazySingleton<Dio>(() => dio);
       removeWishlistMovieUseCase: sl(),
     ),
   );
-// Home BLoC
-  sl.registerFactory(() => HomeBloc(sl<GetTopTenMoviesTihsWeekUseCase>(),sl<GetPlayingNowMoviesUseCase>(),
-  sl<GetTrendingTvShowsUseCase>()
-  ));
+  // Home BLoC
+  sl.registerFactory(
+    () => HomeBloc(
+      sl<GetTopTenMoviesTihsWeekUseCase>(),
+      sl<GetPlayingNowMoviesUseCase>(),
+      sl<GetTrendingTvShowsUseCase>(),
+    ),
+  );
+
+  // Explore BLoC
+  sl.registerFactory(
+    () => ExploreBloc(
+      multiSearchResultUseCase: sl(),
+      movieSearchResult: sl(),
+      tvSearchResultUseCase: sl(),
+      personSearchResultUseCase: sl(),
+      companySearchResultUseCase: sl(),
+    ),
+  );
 
   // ========== Use Cases ==========
   // Theme
@@ -103,18 +124,30 @@ sl.registerLazySingleton<Dio>(() => dio);
   sl.registerLazySingleton(() => UpdateProfileUseCase(sl()));
   sl.registerLazySingleton(() => GetProfileUseCase(sl()));
   sl.registerLazySingleton(() => CheckProfileExistsUseCase(sl()));
-   sl.registerLazySingleton(() => AddFavoriteMovieUseCase(sl()));
+  sl.registerLazySingleton(() => AddFavoriteMovieUseCase(sl()));
   sl.registerLazySingleton(() => RemoveFavoriteMovieUseCase(sl()));
   sl.registerLazySingleton(() => AddWishlistMovieUseCase(sl()));
   sl.registerLazySingleton(() => RemoveWishlistMovieUseCase(sl()));
 
   // Home use cases
-  sl.registerLazySingleton(() =>
-   GetTopTenMoviesTihsWeekUseCase(homeRepo: sl<HomeRepo>()));
+  sl.registerLazySingleton(
+    () => GetTopTenMoviesTihsWeekUseCase(homeRepo: sl<HomeRepo>()),
+  );
 
-  sl.registerLazySingleton(() => GetPlayingNowMoviesUseCase(repository: sl<HomeRepo>()));
+  sl.registerLazySingleton(
+    () => GetPlayingNowMoviesUseCase(repository: sl<HomeRepo>()),
+  );
 
-  sl.registerLazySingleton(() => GetTrendingTvShowsUseCase(repository: sl<HomeRepo>()));
+  sl.registerLazySingleton(
+    () => GetTrendingTvShowsUseCase(repository: sl<HomeRepo>()),
+  );
+
+  // Explore Use Cases
+  sl.registerLazySingleton(() => MultiSearchResultUseCase(sl()));
+  sl.registerLazySingleton(() => MovieSearchResult(sl()));
+  sl.registerLazySingleton(() => TvSearchResultUseCase(sl()));
+  sl.registerLazySingleton(() => PersonSearchResultUseCase(sl()));
+  sl.registerLazySingleton(() => CompanySearchResultUseCase(sl()));
 
   // ========== Repositories ==========
   // Theme
@@ -134,10 +167,13 @@ sl.registerLazySingleton<Dio>(() => dio);
     () =>
         ProfileRepositoryImpl(remoteDataSource: sl(), cloudinaryService: sl()),
   );
-   // Home Repository
+  // Home Repository
   sl.registerLazySingleton<HomeRepo>(
     () => HomeRepoImpl(sl<RemoteHomeServices>()),
   );
+
+  // Explore Repository
+  sl.registerLazySingleton<ExploreRepo>(() => ExploreRepoImpl(sl()));
 
   // ========== Data Sources ==========
   // Theme
@@ -165,8 +201,10 @@ sl.registerLazySingleton<Dio>(() => dio);
   );
 
   // Home Services
- sl.registerLazySingleton<RemoteHomeServices>(() => RemoteHomeServices(dio));
+  sl.registerLazySingleton<RemoteHomeServices>(() => RemoteHomeServices(dio));
 
+  // Explore Services
+  sl.registerLazySingleton<ExploreServices>(() => ExploreServices(sl()));
 
   // ========== External ==========
   final sharedPreferences = await SharedPreferences.getInstance();

@@ -1,8 +1,11 @@
-// Optimized main_screen.dart
+// Updated main_screen.dart
 // ignore_for_file: deprecated_member_use
 
+import 'package:cine_spot/core/di/injection_container.dart';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:cine_spot/features/explore/presentation/bloc/explore_bloc.dart';
+import 'package:cine_spot/features/explore/presentation/screens/explore_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/profile_sceen.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +21,23 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    ExploreScreen(),
-    MyListScreen(),
-    DownloadScreen(),
-    ProfileScreen(),
-  ];
+  
+  late final List<Widget> _screens;
+  
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      const HomeScreen(),
+      BlocProvider(
+        create: (context) => sl<ExploreBloc>(),
+        child: const ExploreScreen(),
+      ),
+      const MyListScreen(),
+      const DownloadScreen(),
+      const ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() => _currentIndex = index);
@@ -37,13 +50,11 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       extendBody: true,
-      // OPTIMIZED: Removed AnimatedSwitcher - causes unnecessary rebuilds
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: Container(
           decoration: BoxDecoration(
-            // OPTIMIZED: Simplified styling, removed BackdropFilter
             color: isDark ? const Color(0xFF1F222B) : Colors.white,
             borderRadius: BorderRadius.circular(32),
             border: Border.all(
@@ -51,7 +62,6 @@ class _MainScreenState extends State<MainScreen> {
                   ? Colors.white.withOpacity(0.1)
                   : Colors.black.withOpacity(0.1),
             ),
-            // OPTIMIZED: Reduced shadow complexity
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.15),
@@ -97,7 +107,6 @@ class _MainScreenState extends State<MainScreen> {
 
               return BottomNavigationBarItem(
                 label: labels[index],
-                // OPTIMIZED: Simplified animation
                 icon: AnimatedScale(
                   scale: isSelected ? 1.15 : 1.0,
                   duration: const Duration(milliseconds: 200),
@@ -128,14 +137,6 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 // ---------- Placeholder Screens ----------
-class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) =>
-      _buildPlaceholder(AppLocalizations.of(context)!.explore);
-}
-
 class MyListScreen extends StatelessWidget {
   const MyListScreen({super.key});
 
@@ -151,13 +152,6 @@ class DownloadScreen extends StatelessWidget {
   Widget build(BuildContext context) =>
       _buildPlaceholder(AppLocalizations.of(context)!.downloads);
 }
-
-// class ProfileScreen extends StatelessWidget {
-//   const ProfileScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) => _buildPlaceholder("Profile");
-// }
 
 // ---------- Helper ----------
 Widget _buildPlaceholder(String title) {
