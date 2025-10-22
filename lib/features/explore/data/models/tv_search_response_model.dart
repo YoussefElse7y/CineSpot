@@ -23,36 +23,21 @@ class TvSearchResponseModel extends TvSearchResponseEntity {
 
 class TvModel extends TvEntity {
   const TvModel({
-    required bool adult,
-    String? backdropPath,
-    required List<int> genreIds,
-    required int id,
-    required List<String> originCountry,
-    required String originalLanguage,
-    required String originalName,
-    required String overview,
-    required double popularity,
-    String? posterPath,
-    required String firstAirDate,
-    required String name,
-    required double voteAverage,
-    required int voteCount,
-  }) : super(
-          adult: adult,
-          backdropPath: backdropPath,
-          genreIds: genreIds,
-          id: id,
-          originCountry: originCountry,
-          originalLanguage: originalLanguage,
-          originalName: originalName,
-          overview: overview,
-          popularity: popularity,
-          posterPath: posterPath,
-          firstAirDate: firstAirDate,
-          name: name,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-        );
+    required super.adult,
+    super.backdropPath,
+    required super.genreIds,
+    required super.id,
+    required super.originCountry,
+    required super.originalLanguage,
+    required super.originalName,
+    required super.overview,
+    required super.popularity,
+    super.posterPath,
+    required super.firstAirDate,
+    required super.name,
+    required super.voteAverage,
+    required super.voteCount,
+  });
 
   factory TvModel.fromJson(Map<String, dynamic> json) {
     return TvModel(
