@@ -1,5 +1,8 @@
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
+import 'package:cine_spot/features/explore/domain/entities/movie/movie_search_result_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/multi/search_result_entity.dart';
+import 'package:cine_spot/features/explore/domain/entities/person/person_search_entity.dart';
+import 'package:cine_spot/features/explore/domain/entities/tv_search_response_entity.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_bloc.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_event.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_state.dart';
@@ -19,11 +22,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final FocusNode _searchFocusNode = FocusNode();
 
   // Filter states
-  String _selectedCategory = 'TV Shows';
-  String _selectedRegion = 'All Regions';
-  String _selectedGenre = 'Romance';
-  String _selectedPeriod = '2022';
+  SearchCategory _selectedCategory = SearchCategory.multi;
+  String? _selectedYear;
+  String? _selectedGenre;
   String _selectedSort = 'Popularity';
+
+  // Available years
+  final List<String> _years = List.generate(
+    30,
+    (index) => (DateTime.now().year - index).toString(),
+  );
 
   @override
   void initState() {
@@ -34,9 +42,49 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void _onSearchChanged() {
     final query = _searchController.text.trim();
     if (query.isNotEmpty) {
-      context.read<ExploreBloc>().add(ExploreEvent.searchMulti(query: query));
+      _performSearch(query);
     } else {
       context.read<ExploreBloc>().add(const ExploreEvent.clearSearch());
+    }
+  }
+
+  void _performSearch(String query) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+
+    switch (_selectedCategory) {
+      case SearchCategory.multi:
+        context.read<ExploreBloc>().add(
+          ExploreEvent.searchMulti(query: query, language: languageCode),
+        );
+        break;
+      case SearchCategory.movies:
+        context.read<ExploreBloc>().add(
+          ExploreEvent.searchMovies(
+            query: query,
+            language: languageCode,
+            year: _selectedYear,
+          ),
+        );
+        break;
+      case SearchCategory.tvShows:
+        context.read<ExploreBloc>().add(
+          ExploreEvent.searchTvShows(
+            query: query,
+            language: languageCode,
+            year: _selectedYear != null ? int.tryParse(_selectedYear!) : null,
+          ),
+        );
+        break;
+      case SearchCategory.people:
+        context.read<ExploreBloc>().add(
+          ExploreEvent.searchPerson(query: query, language: languageCode),
+        );
+        break;
+      case SearchCategory.companies:
+        context.read<ExploreBloc>().add(
+          ExploreEvent.searchCompany(query: query),
+        );
+        break;
     }
   }
 
@@ -48,11 +96,59 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 
   void _showFilterBottomSheet() {
+    // Store temporary filter values
+    SearchCategory tempCategory = _selectedCategory;
+    String? tempYear = _selectedYear;
+    String? tempGenre = _selectedGenre;
+    String tempSort = _selectedSort;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => _buildFilterSheet(),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) {
+          return _buildFilterSheet(
+            tempCategory: tempCategory,
+            tempYear: tempYear,
+            tempGenre: tempGenre,
+            tempSort: tempSort,
+            onCategoryChanged: (category) {
+              setModalState(() => tempCategory = category);
+            },
+            onYearChanged: (year) {
+              setModalState(() => tempYear = year);
+            },
+            onGenreChanged: (genre) {
+              setModalState(() => tempGenre = genre);
+            },
+            onSortChanged: (sort) {
+              setModalState(() => tempSort = sort);
+            },
+            onReset: () {
+              setModalState(() {
+                tempCategory = SearchCategory.multi;
+                tempYear = null;
+                tempGenre = null;
+                tempSort = 'Popularity';
+              });
+            },
+            onApply: () {
+              setState(() {
+                _selectedCategory = tempCategory;
+                _selectedYear = tempYear;
+                _selectedGenre = tempGenre;
+                _selectedSort = tempSort;
+              });
+              Navigator.pop(context);
+              // Re-trigger search with new filters
+              if (_searchController.text.isNotEmpty) {
+                _performSearch(_searchController.text.trim());
+              }
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -65,63 +161,147 @@ class _ExploreScreenState extends State<ExploreScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Search Bar
+            // Search Bar with Category Tabs
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? const Color(0xFF1F222B)
-                            : const Color(0xFFFAFAFA),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        focusNode: _searchFocusNode,
-                        decoration: InputDecoration(
-                          hintText: l10n.search,
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: isDark ? Colors.white70 : Colors.black54,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? const Color(0xFF1F222B)
+                                : const Color(0xFFFAFAFA),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          suffixIcon: _searchController.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    context.read<ExploreBloc>().add(
-                                      const ExploreEvent.clearSearch(),
-                                    );
-                                  },
-                                )
-                              : null,
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                          child: TextField(
+                            controller: _searchController,
+                            focusNode: _searchFocusNode,
+                            decoration: InputDecoration(
+                              hintText: l10n.search,
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: isDark ? Colors.white70 : Colors.black54,
+                              ),
+                              suffixIcon: _searchController.text.isNotEmpty
+                                  ? IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        _searchController.clear();
+                                        context.read<ExploreBloc>().add(
+                                          const ExploreEvent.clearSearch(),
+                                        );
+                                      },
+                                    )
+                                  : null,
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  GestureDetector(
-                    onTap: _showFilterBottomSheet,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE21221).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
+                      const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: _showFilterBottomSheet,
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE21221).withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Badge(
+                            isLabelVisible:
+                                _selectedYear != null || _selectedGenre != null,
+                            label: const Text(''),
+                            child: const Icon(
+                              Icons.tune,
+                              color: Color(0xFFE21221),
+                            ),
+                          ),
+                        ),
                       ),
-                      child: const Icon(Icons.tune, color: Color(0xFFE21221)),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  // Category Pills
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: SearchCategory.values.map((category) {
+                        final isSelected = _selectedCategory == category;
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: FilterChip(
+                            selected: isSelected,
+                            label: Text(_getCategoryName(category, l10n)),
+                            onSelected: (selected) {
+                              setState(() => _selectedCategory = category);
+                              if (_searchController.text.isNotEmpty) {
+                                _performSearch(_searchController.text.trim());
+                              }
+                            },
+                            selectedColor: const Color(0xFFE21221),
+                            backgroundColor: isDark
+                                ? const Color(0xFF1F222B)
+                                : const Color(0xFFFAFAFA),
+                            labelStyle: TextStyle(
+                              color: isSelected
+                                  ? Colors.white
+                                  : (isDark ? Colors.white70 : Colors.black87),
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
               ),
             ),
+
+            // Active Filters Display
+            if (_selectedYear != null || _selectedGenre != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    if (_selectedYear != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text('Year: $_selectedYear'),
+                          deleteIcon: const Icon(Icons.close, size: 16),
+                          onDeleted: () {
+                            setState(() => _selectedYear = null);
+                            if (_searchController.text.isNotEmpty) {
+                              _performSearch(_searchController.text.trim());
+                            }
+                          },
+                        ),
+                      ),
+                    if (_selectedGenre != null)
+                      Chip(
+                        label: Text('Genre: $_selectedGenre'),
+                        deleteIcon: const Icon(Icons.close, size: 16),
+                        onDeleted: () {
+                          setState(() => _selectedGenre = null);
+                          if (_searchController.text.isNotEmpty) {
+                            _performSearch(_searchController.text.trim());
+                          }
+                        },
+                      ),
+                  ],
+                ),
+              ),
 
             // Content
             Expanded(
@@ -155,6 +335,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
+  String _getCategoryName(SearchCategory category, AppLocalizations l10n) {
+    switch (category) {
+      case SearchCategory.multi:
+        return 'All';
+      case SearchCategory.movies:
+        return l10n.movies;
+      case SearchCategory.tvShows:
+        return l10n.tvShows;
+      case SearchCategory.people:
+        return 'People';
+      case SearchCategory.companies:
+        return 'Companies';
+    }
+  }
+
   Widget _buildInitialState(AppLocalizations l10n) {
     return SingleChildScrollView(
       child: Padding(
@@ -162,9 +357,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Top Searches',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             _buildTopSearchItem(
@@ -304,9 +499,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget _buildResultCard(SearchResultEntity result) {
     final posterPath = result.posterPath;
     final title = result.title ?? result.name ?? 'Unknown';
+    final name = result.name ?? 'Unaknown';
     final rating = result.voteAverage;
     final personImage = result.profilePath;
+    final type = result.mediaType;
+    if (type == 'movie') {
+      return _movieType(posterPath, rating, title);
+    } else if (type == 'tv') {
+      return _tvType(posterPath, rating, title);
+    }
+    return _personType(personImage, name);
+  }
 
+  Widget _buildMovieCard(MovieSearchResultEntity result) {
+    final posterPath = result.posterPath;
+    final title = result.title;
+    final rating = result.voteAverage;
+    return _movieType(posterPath, rating, title);
+  }
+
+  ClipRRect _movieType(String? posterPath, double rating, String title) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Stack(
@@ -322,17 +534,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 child: const Icon(Icons.movie, size: 50, color: Colors.white54),
               ),
             )
-          else if (personImage != null)
-            Image.network(
-              TMDBImageHelper.getPoster(personImage, PosterSize.w500),
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey[800],
-                child: const Icon(Icons.movie, size: 50, color: Colors.white54),
-              ),
-            )
           else
             Container(
               width: double.infinity,
@@ -340,25 +541,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
               color: Colors.grey[800],
               child: const Icon(Icons.movie, size: 50, color: Colors.white54),
             ),
-          Positioned(
-            top: 8,
-            left: 8,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE21221),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Text(
-                rating.toStringAsFixed(1),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+          if (rating > 0)
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE21221),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  rating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -389,16 +591,212 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget _buildMovieResults(results) {
-    return const Center(child: Text('Movie Results'));
+  Widget _buildTvCard(TvEntity result) {
+    final posterPath = result.posterPath;
+    final title = result.name;
+    final rating = result.voteAverage;
+    return _tvType(posterPath, rating, title);
   }
 
-  Widget _buildTvResults(results) {
-    return const Center(child: Text('TV Results'));
+  ClipRRect _tvType(String? posterPath, double rating, String title) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Stack(
+        children: [
+          if (posterPath != null)
+            Image.network(
+              TMDBImageHelper.getPoster(posterPath, PosterSize.w500),
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[800],
+                child: const Icon(Icons.movie, size: 50, color: Colors.white54),
+              ),
+            )
+          else
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.grey[800],
+              child: const Icon(Icons.movie, size: 50, color: Colors.white54),
+            ),
+          if (rating > 0)
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE21221),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  rating.toStringAsFixed(1),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                ),
+              ),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget _buildPersonResults(results) {
-    return const Center(child: Text('Person Results'));
+  Widget _buildPersonCard(PersonSearchEntity result) {
+    final profile = result.profilePath;
+    final name = result.name;
+    return _personType(profile, name);
+  }
+
+  ClipRRect _personType(String? profile, String name) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(350),
+      child: Stack(
+        children: [
+          if (profile != null)
+            Image.network(
+              TMDBImageHelper.getProfile(profile, ProfileSize.h632),
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[800],
+                child: const Icon(Icons.movie, size: 50, color: Colors.white54),
+              ),
+            )
+          else
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.grey[800],
+              child: const Icon(Icons.person, size: 50, color: Colors.white54),
+            ),
+
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMovieResults(List<MovieSearchResultEntity> results) {
+    if (results.isEmpty) {
+      return _buildNotFoundState();
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        final result = results[index];
+        return _buildMovieCard(result);
+      },
+    );
+  }
+
+  Widget _buildTvResults(List<TvEntity> results) {
+    if (results.isEmpty) {
+      return _buildNotFoundState();
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        final result = results[index];
+        return _buildTvCard(result);
+      },
+    );
+  }
+
+  Widget _buildPersonResults(List<PersonSearchEntity> results) {
+    if (results.isEmpty) {
+      return _buildNotFoundState();
+    }
+
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.7,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        final result = results[index];
+        return _buildPersonCard(result);
+      },
+    );
   }
 
   Widget _buildCompanyResults(results) {
@@ -410,13 +808,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/images/404.png',
-            width: 200,
-            height: 200,
-            errorBuilder: (context, error, stackTrace) =>
-                const Icon(Icons.search_off, size: 100, color: Colors.grey),
-          ),
+          Icon(Icons.search_off, size: 100, color: Colors.grey[600]),
           const SizedBox(height: 24),
           const Text(
             'Not Found',
@@ -454,16 +846,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget _buildFilterSheet() {
+  Widget _buildFilterSheet({
+    required SearchCategory tempCategory,
+    required String? tempYear,
+    required String? tempGenre,
+    required String tempSort,
+    required Function(SearchCategory) onCategoryChanged,
+    required Function(String?) onYearChanged,
+    required Function(String?) onGenreChanged,
+    required Function(String) onSortChanged,
+    required VoidCallback onReset,
+    required VoidCallback onApply,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
+      height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF181A20) : Colors.white,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             margin: const EdgeInsets.symmetric(vertical: 12),
@@ -494,37 +897,47 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 children: [
                   _buildFilterSection(
                     'Categories',
-                    ['Movie', 'TV Shows', 'K-Drama', 'Anime'],
-                    _selectedCategory,
-                    (value) => setState(() => _selectedCategory = value),
+                    SearchCategory.values
+                        .map(
+                          (c) => _getCategoryName(
+                            c,
+                            AppLocalizations.of(context)!,
+                          ),
+                        )
+                        .toList(),
+                    _getCategoryName(
+                      tempCategory,
+                      AppLocalizations.of(context)!,
+                    ),
+                    (value) {
+                      final category = SearchCategory.values.firstWhere(
+                        (c) =>
+                            _getCategoryName(
+                              c,
+                              AppLocalizations.of(context)!,
+                            ) ==
+                            value,
+                      );
+                      onCategoryChanged(category);
+                    },
                   ),
                   const SizedBox(height: 24),
-                  _buildFilterSection(
-                    'Regions',
-                    ['All Regions', 'US', 'South Korea', 'China'],
-                    _selectedRegion,
-                    (value) => setState(() => _selectedRegion = value),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildFilterSection(
-                    'Genre',
-                    ['Action', 'Comedy', 'Romance', 'Thriller'],
-                    _selectedGenre,
-                    (value) => setState(() => _selectedGenre = value),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildFilterSection(
-                    'Time/Periods',
-                    ['All Periods', '2022', '2021', '2020'],
-                    _selectedPeriod,
-                    (value) => setState(() => _selectedPeriod = value),
-                  ),
-                  const SizedBox(height: 24),
+                  if (tempCategory == SearchCategory.movies ||
+                      tempCategory == SearchCategory.tvShows) ...[
+                    _buildFilterSection(
+                      'Year',
+                      ['All Years', ..._years.take(10)],
+                      tempYear ?? 'All Years',
+                      (value) =>
+                          onYearChanged(value == 'All Years' ? null : value),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                   _buildFilterSection(
                     'Sort',
-                    ['Popularity', 'Latest Release'],
-                    _selectedSort,
-                    (value) => setState(() => _selectedSort = value),
+                    ['Popularity', 'Latest Release', 'Rating'],
+                    tempSort,
+                    onSortChanged,
                   ),
                 ],
               ),
@@ -537,14 +950,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      setState(() {
-                        _selectedCategory = 'TV Shows';
-                        _selectedRegion = 'All Regions';
-                        _selectedGenre = 'Romance';
-                        _selectedPeriod = '2022';
-                        _selectedSort = 'Popularity';
-                      });
-                      Navigator.pop(context);
+                      onReset();
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -562,10 +968,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      // Apply filters logic here
-                    },
+                    onPressed: onApply,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE21221),
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -641,3 +1044,5 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 }
+
+enum SearchCategory { multi, movies, tvShows, people, companies }

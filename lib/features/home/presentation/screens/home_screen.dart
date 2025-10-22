@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
         // Add cacheExtent to preload content
         cacheExtent: 500,
         slivers: [
-          _appBar(isDark, l10n),
+          // _appBar(isDark, l10n),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,40 +68,40 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // OPTIMIZED: Simplified AppBar with less blur
-  SliverAppBar _appBar(bool isDark, AppLocalizations l10n) {
-    return SliverAppBar(
-      pinned: true,
-      floating: false,
-      automaticallyImplyLeading: false,
-      centerTitle: true,
-      elevation: 0,
-      // Remove expensive BackdropFilter
-      backgroundColor: isDark
-          ? const Color(0xFF181A20).withOpacity(0.95)
-          : Colors.white.withOpacity(0.95),
-      title: Text(
-        l10n.home,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: isDark ? Colors.white : Colors.black,
-        ),
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          color: isDark ? Colors.white : Colors.black,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.notifications_outlined),
-          color: isDark ? Colors.white : Colors.black,
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
+  // // OPTIMIZED: Simplified AppBar with less blur
+  // SliverAppBar _appBar(bool isDark, AppLocalizations l10n) {
+  //   return SliverAppBar(
+  //     pinned: true,
+  //     floating: false,
+  //     automaticallyImplyLeading: false,
+  //     centerTitle: true,
+  //     elevation: 0,
+  //     // Remove expensive BackdropFilter
+  //     backgroundColor: isDark
+  //         ? const Color(0xFF181A20).withOpacity(0.95)
+  //         : Colors.white.withOpacity(0.95),
+  //     title: Text(
+  //       l10n.home,
+  //       style: TextStyle(
+  //         fontSize: 24,
+  //         fontWeight: FontWeight.bold,
+  //         color: isDark ? Colors.white : Colors.black,
+  //       ),
+  //     ),
+  //     actions: [
+  //       IconButton(
+  //         icon: const Icon(Icons.search),
+  //         color: isDark ? Colors.white : Colors.black,
+  //         onPressed: () {},
+  //       ),
+  //       IconButton(
+  //         icon: const Icon(Icons.notifications_outlined),
+  //         color: isDark ? Colors.white : Colors.black,
+  //         onPressed: () {},
+  //       ),
+  //     ],
+  //   );
+  // }
 
   BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek(
     AppLocalizations localization,
