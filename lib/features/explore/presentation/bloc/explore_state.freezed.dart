@@ -140,10 +140,10 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( SearchResponseEntity searchResponse)?  multiSearchLoaded,TResult Function( MovieSearchResponseEntity movieSearchResponse)?  movieSearchLoaded,TResult Function( TvSearchResponseEntity tvSearchResponse)?  tvShowSearchLoaded,TResult Function( PersonSearchResponseEntity personSearchResponse)?  personSearchLoaded,TResult Function( CompanySearchResponseEntity companySearchResponse)?  companySearchLoaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( TrendingTvResponseEntity trendingTv)?  initial,TResult Function()?  loading,TResult Function( SearchResponseEntity searchResponse)?  multiSearchLoaded,TResult Function( MovieSearchResponseEntity movieSearchResponse)?  movieSearchLoaded,TResult Function( TvSearchResponseEntity tvSearchResponse)?  tvShowSearchLoaded,TResult Function( PersonSearchResponseEntity personSearchResponse)?  personSearchLoaded,TResult Function( CompanySearchResponseEntity companySearchResponse)?  companySearchLoaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ExploreInitial() when initial != null:
-return initial();case ExploreLoading() when loading != null:
+return initial(_that.trendingTv);case ExploreLoading() when loading != null:
 return loading();case MultiSearchLoaded() when multiSearchLoaded != null:
 return multiSearchLoaded(_that.searchResponse);case MovieSearchLoaded() when movieSearchLoaded != null:
 return movieSearchLoaded(_that.movieSearchResponse);case TvShowSearchLoaded() when tvShowSearchLoaded != null:
@@ -168,10 +168,10 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( SearchResponseEntity searchResponse)  multiSearchLoaded,required TResult Function( MovieSearchResponseEntity movieSearchResponse)  movieSearchLoaded,required TResult Function( TvSearchResponseEntity tvSearchResponse)  tvShowSearchLoaded,required TResult Function( PersonSearchResponseEntity personSearchResponse)  personSearchLoaded,required TResult Function( CompanySearchResponseEntity companySearchResponse)  companySearchLoaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( TrendingTvResponseEntity trendingTv)  initial,required TResult Function()  loading,required TResult Function( SearchResponseEntity searchResponse)  multiSearchLoaded,required TResult Function( MovieSearchResponseEntity movieSearchResponse)  movieSearchLoaded,required TResult Function( TvSearchResponseEntity tvSearchResponse)  tvShowSearchLoaded,required TResult Function( PersonSearchResponseEntity personSearchResponse)  personSearchLoaded,required TResult Function( CompanySearchResponseEntity companySearchResponse)  companySearchLoaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case ExploreInitial():
-return initial();case ExploreLoading():
+return initial(_that.trendingTv);case ExploreLoading():
 return loading();case MultiSearchLoaded():
 return multiSearchLoaded(_that.searchResponse);case MovieSearchLoaded():
 return movieSearchLoaded(_that.movieSearchResponse);case TvShowSearchLoaded():
@@ -195,10 +195,10 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( SearchResponseEntity searchResponse)?  multiSearchLoaded,TResult? Function( MovieSearchResponseEntity movieSearchResponse)?  movieSearchLoaded,TResult? Function( TvSearchResponseEntity tvSearchResponse)?  tvShowSearchLoaded,TResult? Function( PersonSearchResponseEntity personSearchResponse)?  personSearchLoaded,TResult? Function( CompanySearchResponseEntity companySearchResponse)?  companySearchLoaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( TrendingTvResponseEntity trendingTv)?  initial,TResult? Function()?  loading,TResult? Function( SearchResponseEntity searchResponse)?  multiSearchLoaded,TResult? Function( MovieSearchResponseEntity movieSearchResponse)?  movieSearchLoaded,TResult? Function( TvSearchResponseEntity tvSearchResponse)?  tvShowSearchLoaded,TResult? Function( PersonSearchResponseEntity personSearchResponse)?  personSearchLoaded,TResult? Function( CompanySearchResponseEntity companySearchResponse)?  companySearchLoaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case ExploreInitial() when initial != null:
-return initial();case ExploreLoading() when loading != null:
+return initial(_that.trendingTv);case ExploreLoading() when loading != null:
 return loading();case MultiSearchLoaded() when multiSearchLoaded != null:
 return multiSearchLoaded(_that.searchResponse);case MovieSearchLoaded() when movieSearchLoaded != null:
 return movieSearchLoaded(_that.movieSearchResponse);case TvShowSearchLoaded() when tvShowSearchLoaded != null:
@@ -217,33 +217,67 @@ return error(_that.message);case _:
 
 
 class ExploreInitial implements ExploreState {
-  const ExploreInitial();
+  const ExploreInitial({required this.trendingTv});
   
 
+ final  TrendingTvResponseEntity trendingTv;
 
-
+/// Create a copy of ExploreState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExploreInitialCopyWith<ExploreInitial> get copyWith => _$ExploreInitialCopyWithImpl<ExploreInitial>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExploreInitial);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExploreInitial&&(identical(other.trendingTv, trendingTv) || other.trendingTv == trendingTv));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,trendingTv);
 
 @override
 String toString() {
-  return 'ExploreState.initial()';
+  return 'ExploreState.initial(trendingTv: $trendingTv)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $ExploreInitialCopyWith<$Res> implements $ExploreStateCopyWith<$Res> {
+  factory $ExploreInitialCopyWith(ExploreInitial value, $Res Function(ExploreInitial) _then) = _$ExploreInitialCopyWithImpl;
+@useResult
+$Res call({
+ TrendingTvResponseEntity trendingTv
+});
 
 
+
+
+}
+/// @nodoc
+class _$ExploreInitialCopyWithImpl<$Res>
+    implements $ExploreInitialCopyWith<$Res> {
+  _$ExploreInitialCopyWithImpl(this._self, this._then);
+
+  final ExploreInitial _self;
+  final $Res Function(ExploreInitial) _then;
+
+/// Create a copy of ExploreState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? trendingTv = null,}) {
+  return _then(ExploreInitial(
+trendingTv: null == trendingTv ? _self.trendingTv : trendingTv // ignore: cast_nullable_to_non_nullable
+as TrendingTvResponseEntity,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

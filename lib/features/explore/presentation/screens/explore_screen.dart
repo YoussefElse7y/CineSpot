@@ -389,7 +389,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 },
                 builder: (context, state) {
                   return state.when(
-                    initial: () => InitialSearchState(l10n: l10n),
+                    initial: (trending) => InitialSearchState(l10n: l10n, trendingTvShows: trending.results, ),
                     loading: () => _currentPage == 1
                         ? const Center(
                             child: CircularProgressIndicator(

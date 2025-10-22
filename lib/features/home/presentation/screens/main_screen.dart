@@ -5,6 +5,7 @@ import 'package:cine_spot/core/di/injection_container.dart';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_bloc.dart';
+import 'package:cine_spot/features/explore/presentation/bloc/explore_event.dart';
 import 'package:cine_spot/features/explore/presentation/screens/explore_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/profile_sceen.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
@@ -30,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     _screens = [
       const HomeScreen(),
       BlocProvider(
-        create: (context) => sl<ExploreBloc>(),
+        create: (context) => sl<ExploreBloc>()..add(ExploreEvent.trending()),
         child: const ExploreScreen(),
       ),
       const MyListScreen(),

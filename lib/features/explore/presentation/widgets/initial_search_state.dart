@@ -1,17 +1,25 @@
-
+import 'package:cine_spot/core/network/tmdb_image_helper.dart';
+import 'package:cine_spot/core/theme/theme_constants.dart';
+import 'package:cine_spot/features/home/domain/entities/trending_tv_show_entity.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class InitialSearchState extends StatelessWidget {
   final AppLocalizations l10n;
+  final List<TrendingTvShowEntity> trendingTvShows;
 
-  const InitialSearchState({super.key, required this.l10n});
+  const InitialSearchState({
+    super.key,
+    required this.l10n,
+    required this.trendingTvShows,
+  });
 
   Widget _buildTopSearchItem(
     String title,
     String imageUrl, {
     String? badge,
     Color? badgeColor,
+    String? description,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -76,8 +84,8 @@ class InitialSearchState extends StatelessWidget {
                           color: Colors.grey[700],
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: const Text(
-                          'WEEKLY',
+                        child: Text(
+                          description!,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 10,
@@ -105,28 +113,24 @@ class InitialSearchState extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Top Searches',
+              'Top Searches Today',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            _buildTopSearchItem(
-              'Stranger Things',
-              'https://image.tmdb.org/t/p/w200/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',
-            ),
-            _buildTopSearchItem(
-              'Vincenzo',
-              'https://image.tmdb.org/t/p/w200/dvXJgEDQXhL9Ouot2WkBHpQiHGd.jpg',
-              badge: 'EPISODES',
-              badgeColor: Colors.red,
-            ),
-            _buildTopSearchItem(
-              'Money Heist',
-              'https://image.tmdb.org/t/p/w200/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg',
-            ),
-            _buildTopSearchItem(
-              'Squid Game',
-              'https://image.tmdb.org/t/p/w200/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg',
-            ),
+            ...trendingTvShows
+                .map(
+                  (tvShow) => _buildTopSearchItem(
+                    tvShow.name,
+                    TMDBImageHelper.getBackdrop(
+                      tvShow.backdropPath ?? tvShow.posterPath!,
+                      BackdropSize.w780,
+                    ),
+                    badge: tvShow.voteAverage.toStringAsFixed(1),
+                    badgeColor: ThemeConstants.primaryDark,
+                    description: tvShow.originCountry.join(', '),
+                  ),
+                )
+                .toList(),
           ],
         ),
       ),

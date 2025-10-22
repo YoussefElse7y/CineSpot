@@ -1,3 +1,4 @@
+import 'package:cine_spot/features/home/domain/entities/trending_tv_response_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:cine_spot/features/explore/domain/entities/multi/search_response_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/movie/movie_search_response_entity.dart';
@@ -9,7 +10,9 @@ part 'explore_state.freezed.dart';
 
 @freezed
 class ExploreState with _$ExploreState {
-  const factory ExploreState.initial() = ExploreInitial;
+  const factory ExploreState.initial({
+    required TrendingTvResponseEntity trendingTv,
+  }) = ExploreInitial;
   
   const factory ExploreState.loading() = ExploreLoading;
   

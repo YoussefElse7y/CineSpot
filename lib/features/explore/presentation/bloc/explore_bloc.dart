@@ -3,6 +3,7 @@ import 'package:cine_spot/features/explore/domain/usecases/movie_search_result.d
 import 'package:cine_spot/features/explore/domain/usecases/tv_search_result.dart';
 import 'package:cine_spot/features/explore/domain/usecases/person_search_result.dart';
 import 'package:cine_spot/features/explore/domain/usecases/company_search_result.dart';
+import 'package:cine_spot/features/home/domain/usecases/get_trending_tv_shows.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'explore_event.dart';
 import 'explore_state.dart';
@@ -13,6 +14,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   final TvSearchResultUseCase tvSearchResultUseCase;
   final PersonSearchResultUseCase personSearchResultUseCase;
   final CompanySearchResultUseCase companySearchResultUseCase;
+  final GetTrendingTvShowsUseCase getTrendingTvShowsUseCase;
 
   ExploreBloc({
     required this.multiSearchResultUseCase,
@@ -20,13 +22,35 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     required this.tvSearchResultUseCase,
     required this.personSearchResultUseCase,
     required this.companySearchResultUseCase,
-  }) : super(const ExploreState.initial()) {
+    required this.getTrendingTvShowsUseCase,
+  }) : super(const ExploreState.loading()) {
+    // Register event handlers
+    on<TrendingEvent>(_onTrending);
     on<SearchMultiEvent>(_onSearchMulti);
     on<SearchMoviesEvent>(_onSearchMovies);
     on<SearchTvShowsEvent>(_onSearchTvShows);
     on<SearchPersonEvent>(_onSearchPerson);
     on<SearchCompanyEvent>(_onSearchCompany);
     on<ClearSearchEvent>(_onClearSearch);
+
+    // 🔥 Automatically fetch trending shows when bloc starts
+    add(const TrendingEvent());
+  }
+
+  // ----------------- HANDLERS -----------------
+
+  Future<void> _onTrending(
+    TrendingEvent event,
+    Emitter<ExploreState> emit,
+  ) async {
+    emit(const ExploreState.loading());
+
+    final result = await getTrendingTvShowsUseCase.call(event.language??'en-US');
+
+    result.fold(
+      (failure) => emit(ExploreState.error(message: failure.message)),
+      (trendingTv) => emit(ExploreState.initial(trendingTv: trendingTv)),
+    );
   }
 
   Future<void> _onSearchMulti(
@@ -34,7 +58,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const ExploreState.initial());
+      add(const TrendingEvent()); // Return to trending if query is empty
       return;
     }
 
@@ -48,9 +72,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
     result.fold(
       (failure) => emit(ExploreState.error(message: failure.message)),
-      (searchResponse) => emit(
-        ExploreState.multiSearchLoaded(searchResponse: searchResponse),
-      ),
+      (searchResponse) =>
+          emit(ExploreState.multiSearchLoaded(searchResponse: searchResponse)),
     );
   }
 
@@ -59,7 +82,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const ExploreState.initial());
+      add(const TrendingEvent());
       return;
     }
 
@@ -87,7 +110,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const ExploreState.initial());
+      add(const TrendingEvent());
       return;
     }
 
@@ -103,9 +126,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
     result.fold(
       (failure) => emit(ExploreState.error(message: failure.message)),
-      (tvSearchResponse) => emit(
-        ExploreState.tvShowSearchLoaded(tvSearchResponse: tvSearchResponse),
-      ),
+      (tvSearchResponse) =>
+          emit(ExploreState.tvShowSearchLoaded(tvSearchResponse: tvSearchResponse)),
     );
   }
 
@@ -114,7 +136,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const ExploreState.initial());
+      add(const TrendingEvent());
       return;
     }
 
@@ -139,7 +161,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const ExploreState.initial());
+      add(const TrendingEvent());
       return;
     }
 
@@ -162,6 +184,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     ClearSearchEvent event,
     Emitter<ExploreState> emit,
   ) {
-    emit(const ExploreState.initial());
+    // Instead of just initial, load trending again
+    add(const TrendingEvent());
   }
 }

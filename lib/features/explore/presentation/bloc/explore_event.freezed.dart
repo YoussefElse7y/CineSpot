@@ -55,11 +55,12 @@ extension ExploreEventPatterns on ExploreEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SearchMultiEvent value)?  searchMulti,TResult Function( SearchMoviesEvent value)?  searchMovies,TResult Function( SearchTvShowsEvent value)?  searchTvShows,TResult Function( SearchPersonEvent value)?  searchPerson,TResult Function( SearchCompanyEvent value)?  searchCompany,TResult Function( ClearSearchEvent value)?  clearSearch,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SearchMultiEvent value)?  searchMulti,TResult Function( TrendingEvent value)?  trending,TResult Function( SearchMoviesEvent value)?  searchMovies,TResult Function( SearchTvShowsEvent value)?  searchTvShows,TResult Function( SearchPersonEvent value)?  searchPerson,TResult Function( SearchCompanyEvent value)?  searchCompany,TResult Function( ClearSearchEvent value)?  clearSearch,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SearchMultiEvent() when searchMulti != null:
-return searchMulti(_that);case SearchMoviesEvent() when searchMovies != null:
+return searchMulti(_that);case TrendingEvent() when trending != null:
+return trending(_that);case SearchMoviesEvent() when searchMovies != null:
 return searchMovies(_that);case SearchTvShowsEvent() when searchTvShows != null:
 return searchTvShows(_that);case SearchPersonEvent() when searchPerson != null:
 return searchPerson(_that);case SearchCompanyEvent() when searchCompany != null:
@@ -82,11 +83,12 @@ return clearSearch(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SearchMultiEvent value)  searchMulti,required TResult Function( SearchMoviesEvent value)  searchMovies,required TResult Function( SearchTvShowsEvent value)  searchTvShows,required TResult Function( SearchPersonEvent value)  searchPerson,required TResult Function( SearchCompanyEvent value)  searchCompany,required TResult Function( ClearSearchEvent value)  clearSearch,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SearchMultiEvent value)  searchMulti,required TResult Function( TrendingEvent value)  trending,required TResult Function( SearchMoviesEvent value)  searchMovies,required TResult Function( SearchTvShowsEvent value)  searchTvShows,required TResult Function( SearchPersonEvent value)  searchPerson,required TResult Function( SearchCompanyEvent value)  searchCompany,required TResult Function( ClearSearchEvent value)  clearSearch,}){
 final _that = this;
 switch (_that) {
 case SearchMultiEvent():
-return searchMulti(_that);case SearchMoviesEvent():
+return searchMulti(_that);case TrendingEvent():
+return trending(_that);case SearchMoviesEvent():
 return searchMovies(_that);case SearchTvShowsEvent():
 return searchTvShows(_that);case SearchPersonEvent():
 return searchPerson(_that);case SearchCompanyEvent():
@@ -108,11 +110,12 @@ return clearSearch(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SearchMultiEvent value)?  searchMulti,TResult? Function( SearchMoviesEvent value)?  searchMovies,TResult? Function( SearchTvShowsEvent value)?  searchTvShows,TResult? Function( SearchPersonEvent value)?  searchPerson,TResult? Function( SearchCompanyEvent value)?  searchCompany,TResult? Function( ClearSearchEvent value)?  clearSearch,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SearchMultiEvent value)?  searchMulti,TResult? Function( TrendingEvent value)?  trending,TResult? Function( SearchMoviesEvent value)?  searchMovies,TResult? Function( SearchTvShowsEvent value)?  searchTvShows,TResult? Function( SearchPersonEvent value)?  searchPerson,TResult? Function( SearchCompanyEvent value)?  searchCompany,TResult? Function( ClearSearchEvent value)?  clearSearch,}){
 final _that = this;
 switch (_that) {
 case SearchMultiEvent() when searchMulti != null:
-return searchMulti(_that);case SearchMoviesEvent() when searchMovies != null:
+return searchMulti(_that);case TrendingEvent() when trending != null:
+return trending(_that);case SearchMoviesEvent() when searchMovies != null:
 return searchMovies(_that);case SearchTvShowsEvent() when searchTvShows != null:
 return searchTvShows(_that);case SearchPersonEvent() when searchPerson != null:
 return searchPerson(_that);case SearchCompanyEvent() when searchCompany != null:
@@ -134,10 +137,11 @@ return clearSearch(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String query,  String? language,  int? page)?  searchMulti,TResult Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)?  searchMovies,TResult Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)?  searchTvShows,TResult Function( String query,  String? language,  int? page)?  searchPerson,TResult Function( String query,  int? page)?  searchCompany,TResult Function()?  clearSearch,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String query,  String? language,  int? page)?  searchMulti,TResult Function( String? language)?  trending,TResult Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)?  searchMovies,TResult Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)?  searchTvShows,TResult Function( String query,  String? language,  int? page)?  searchPerson,TResult Function( String query,  int? page)?  searchCompany,TResult Function()?  clearSearch,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SearchMultiEvent() when searchMulti != null:
-return searchMulti(_that.query,_that.language,_that.page);case SearchMoviesEvent() when searchMovies != null:
+return searchMulti(_that.query,_that.language,_that.page);case TrendingEvent() when trending != null:
+return trending(_that.language);case SearchMoviesEvent() when searchMovies != null:
 return searchMovies(_that.query,_that.language,_that.page,_that.primaryReleaseYear,_that.region,_that.year);case SearchTvShowsEvent() when searchTvShows != null:
 return searchTvShows(_that.query,_that.language,_that.page,_that.firstAirDateYear,_that.year);case SearchPersonEvent() when searchPerson != null:
 return searchPerson(_that.query,_that.language,_that.page);case SearchCompanyEvent() when searchCompany != null:
@@ -160,10 +164,11 @@ return clearSearch();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String query,  String? language,  int? page)  searchMulti,required TResult Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)  searchMovies,required TResult Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)  searchTvShows,required TResult Function( String query,  String? language,  int? page)  searchPerson,required TResult Function( String query,  int? page)  searchCompany,required TResult Function()  clearSearch,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String query,  String? language,  int? page)  searchMulti,required TResult Function( String? language)  trending,required TResult Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)  searchMovies,required TResult Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)  searchTvShows,required TResult Function( String query,  String? language,  int? page)  searchPerson,required TResult Function( String query,  int? page)  searchCompany,required TResult Function()  clearSearch,}) {final _that = this;
 switch (_that) {
 case SearchMultiEvent():
-return searchMulti(_that.query,_that.language,_that.page);case SearchMoviesEvent():
+return searchMulti(_that.query,_that.language,_that.page);case TrendingEvent():
+return trending(_that.language);case SearchMoviesEvent():
 return searchMovies(_that.query,_that.language,_that.page,_that.primaryReleaseYear,_that.region,_that.year);case SearchTvShowsEvent():
 return searchTvShows(_that.query,_that.language,_that.page,_that.firstAirDateYear,_that.year);case SearchPersonEvent():
 return searchPerson(_that.query,_that.language,_that.page);case SearchCompanyEvent():
@@ -185,10 +190,11 @@ return clearSearch();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String query,  String? language,  int? page)?  searchMulti,TResult? Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)?  searchMovies,TResult? Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)?  searchTvShows,TResult? Function( String query,  String? language,  int? page)?  searchPerson,TResult? Function( String query,  int? page)?  searchCompany,TResult? Function()?  clearSearch,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String query,  String? language,  int? page)?  searchMulti,TResult? Function( String? language)?  trending,TResult? Function( String query,  String? language,  int? page,  String? primaryReleaseYear,  String? region,  String? year)?  searchMovies,TResult? Function( String query,  String? language,  int? page,  String? firstAirDateYear,  int? year)?  searchTvShows,TResult? Function( String query,  String? language,  int? page)?  searchPerson,TResult? Function( String query,  int? page)?  searchCompany,TResult? Function()?  clearSearch,}) {final _that = this;
 switch (_that) {
 case SearchMultiEvent() when searchMulti != null:
-return searchMulti(_that.query,_that.language,_that.page);case SearchMoviesEvent() when searchMovies != null:
+return searchMulti(_that.query,_that.language,_that.page);case TrendingEvent() when trending != null:
+return trending(_that.language);case SearchMoviesEvent() when searchMovies != null:
 return searchMovies(_that.query,_that.language,_that.page,_that.primaryReleaseYear,_that.region,_that.year);case SearchTvShowsEvent() when searchTvShows != null:
 return searchTvShows(_that.query,_that.language,_that.page,_that.firstAirDateYear,_that.year);case SearchPersonEvent() when searchPerson != null:
 return searchPerson(_that.query,_that.language,_that.page);case SearchCompanyEvent() when searchCompany != null:
@@ -265,6 +271,72 @@ query: null == query ? _self.query : query // ignore: cast_nullable_to_non_nulla
 as String,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
 as String?,page: freezed == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class TrendingEvent implements ExploreEvent {
+  const TrendingEvent({this.language});
+  
+
+ final  String? language;
+
+/// Create a copy of ExploreEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TrendingEventCopyWith<TrendingEvent> get copyWith => _$TrendingEventCopyWithImpl<TrendingEvent>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TrendingEvent&&(identical(other.language, language) || other.language == language));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,language);
+
+@override
+String toString() {
+  return 'ExploreEvent.trending(language: $language)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TrendingEventCopyWith<$Res> implements $ExploreEventCopyWith<$Res> {
+  factory $TrendingEventCopyWith(TrendingEvent value, $Res Function(TrendingEvent) _then) = _$TrendingEventCopyWithImpl;
+@useResult
+$Res call({
+ String? language
+});
+
+
+
+
+}
+/// @nodoc
+class _$TrendingEventCopyWithImpl<$Res>
+    implements $TrendingEventCopyWith<$Res> {
+  _$TrendingEventCopyWithImpl(this._self, this._then);
+
+  final TrendingEvent _self;
+  final $Res Function(TrendingEvent) _then;
+
+/// Create a copy of ExploreEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? language = freezed,}) {
+  return _then(TrendingEvent(
+language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

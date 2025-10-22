@@ -102,6 +102,7 @@ Future<void> init() async {
       tvSearchResultUseCase: sl(),
       personSearchResultUseCase: sl(),
       companySearchResultUseCase: sl(),
+      getTrendingTvShowsUseCase: sl<GetTrendingTvShowsUseCase>(),
     ),
   );
 

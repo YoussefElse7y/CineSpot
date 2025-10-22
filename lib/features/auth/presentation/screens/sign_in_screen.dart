@@ -66,14 +66,17 @@ class _SignInScreenState extends State<SignInScreen> {
             profileState.maybeWhen(
               notFound: () {
                 // No profile, go to fill profile
-                Navigator.pushReplacementNamed(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   Routes.fillProfileScreen,
+                  (route) => false,
                 );
               },
               loaded: (profile) {
                 // Profile exists, go to home
-                Navigator.pushReplacementNamed(context, Routes.mainScreen);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen,
+                  (route) => false,
+                );
               },
               orElse: () {},
             );
@@ -108,13 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   // Forgot password
                   _forgetPassword(),
                   const SizedBox(height: 30),
-                  // Divider
-                  // MyDivider(),
-                  // const SizedBox(height: 30),
-                  // // Social login buttons
-                  // _socialLoginButtons(),
-                  // const SizedBox(height: 30),
-                  // Sign up link
+               
                   _signUpLink(context),
                   const SizedBox(height: 30),
                 ],

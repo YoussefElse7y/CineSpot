@@ -63,14 +63,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             profileState.maybeWhen(
               notFound: () {
                 // No profile, go to fill profile
-                Navigator.pushReplacementNamed(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   Routes.fillProfileScreen,
+                  (route) => false,
                 );
               },
               loaded: (profile) {
                 // Profile exists, go to home
-                Navigator.pushReplacementNamed(context, Routes.mainScreen);
+                Navigator.pushNamedAndRemoveUntil(context, Routes.mainScreen,
+                  (route) => false,
+                );
               },
               orElse: () {},
             );

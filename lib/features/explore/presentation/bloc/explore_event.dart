@@ -10,6 +10,10 @@ class ExploreEvent with _$ExploreEvent {
     int? page,
   }) = SearchMultiEvent;
 
+  const factory ExploreEvent.trending({
+    String? language,
+  }) = TrendingEvent;
+
   const factory ExploreEvent.searchMovies({
     required String query,
     String? language,
