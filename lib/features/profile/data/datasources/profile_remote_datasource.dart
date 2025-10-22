@@ -1,4 +1,6 @@
 // lib/features/profile/data/datasources/profile_remote_datasource.dart
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/profile_model.dart';
 

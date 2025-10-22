@@ -32,9 +32,9 @@ class NowPlayingMoviesResponseModel extends NowPlayingMoviesResponseEntity {
 
 class DatesModel extends DatesEntity {
   const DatesModel({
-    required String maximum,
-    required String minimum,
-  }) : super(maximum: maximum, minimum: minimum);
+    required super.maximum,
+    required super.minimum,
+  });
 
   factory DatesModel.fromJson(Map<String, dynamic> json) {
     return DatesModel(

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
@@ -348,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           trailing: Switch(
             value: isDarkMode,
-            activeColor: ThemeConstants.primaryLight,
+            activeThumbColor: ThemeConstants.primaryLight,
             onChanged: (value) {
               context.read<ThemeBloc>().add(
                 ChangeThemeEvent(

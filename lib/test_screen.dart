@@ -1,4 +1,6 @@
 // Example: Settings Screen with Language Selector
+// ignore_for_file: deprecated_member_use
+
 import 'package:cine_spot/core/di/injection_container.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';

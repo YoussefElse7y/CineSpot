@@ -2,12 +2,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cine_spot/core/helpers/functions.dart';
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
-import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cine_spot/features/home/presentation/widgets/featured_banner_carousel.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,22 +43,11 @@ class HomeScreen extends StatelessWidget {
                       );
                     } else if (state.topMovies != null &&
                         state.topMovies!.results.isNotEmpty) {
-                      final randomMovie = getRandomElement(
-                        state.topMovies!.results,
-                      );
-                      return _buildFeaturedBanner(
-                        context,
-                        l10n,
-                        userId,
-                        isDark,
-                        randomMovie.id,
-                        TMDBImageHelper.getPoster(
-                          randomMovie.posterPath!,
-                          PosterSize.w500,
-                        ),
-                        randomMovie.title,
-                        randomMovie.overview,
-                        randomMovie.genreIds,
+                      return FeaturedBannerCarousel(
+                        movies: state.topMovies!.results,
+                        userId: userId,
+                        isDark: isDark,
+                        l10n: l10n,
                       );
                     }
                     return const SizedBox();
@@ -246,245 +234,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   // OPTIMIZED: Simplified featured banner
-  Widget _buildFeaturedBanner(
-    BuildContext context,
-    AppLocalizations l10n,
-    String userId,
-    bool isDark,
-    int movieId,
-    String imageUrl,
-    String title,
-    String description,
-    List<int> genres,
-  ) {
-    return Container(
-      height: 500,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.transparent,
-            isDark ? const Color(0xFF181A20) : Colors.white,
-          ],
-        ),
-      ),
-      child: Stack(
-        children: [
-          // OPTIMIZED: Use cached network image
-          CachedNetworkImage(
-            imageUrl: imageUrl,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 500,
-            placeholder: (context, url) =>
-                Container(color: isDark ? Colors.grey[850] : Colors.grey[300]),
-            errorWidget: (context, url, error) => Container(
-              color: isDark ? Colors.grey[850] : Colors.grey[300],
-              child: const Icon(Icons.error),
-            ),
-          ),
-
-          // OPTIMIZED: Simpler favorite button
-          Positioned(
-            top: 40,
-            right: 40,
-            child: BlocBuilder<ProfileBloc, ProfileState>(
-              buildWhen: (previous, current) {
-                if (previous is Loaded && current is Loaded) {
-                  return previous.profile.favoriteIds !=
-                      current.profile.favoriteIds;
-                }
-                return true;
-              },
-              builder: (context, state) {
-                bool isFavorite = false;
-                if (state is Loaded) {
-                  isFavorite =
-                      state.profile.favoriteIds?.contains(movieId) ?? false;
-                }
-                return Container(
-                  decoration: BoxDecoration(
-                    color: isFavorite
-                        ? ThemeConstants.primaryDark.withOpacity(0.2)
-                        : Colors.black.withOpacity(0.3),
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      if (isFavorite) {
-                        context.read<ProfileBloc>().add(
-                          ProfileEvent.removeFavoriteMovie(userId, movieId),
-                        );
-                      } else {
-                        context.read<ProfileBloc>().add(
-                          ProfileEvent.addFavoriteMovie(userId, movieId),
-                        );
-                      }
-                    },
-                    icon: Icon(
-                      isFavorite
-                          ? Icons.favorite
-                          : Icons.favorite_border_outlined,
-                      color: isFavorite
-                          ? ThemeConstants.primaryDark
-                          : Colors.white,
-                      size: 28,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Content
-          Positioned(
-            bottom: 10,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    shadows: [Shadow(color: Colors.black, blurRadius: 10)],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[300],
-                      shadows: const [
-                        Shadow(color: Colors.black, blurRadius: 10),
-                      ],
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.only(top: 8.0)),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  alignment: WrapAlignment.center,
-                  children:
-                      getGenreNamesByLanguage(
-                        genres,
-                        language: l10n.locale_language,
-                      ).map((genre) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.white),
-                          ),
-                          child: Text(
-                            genre,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // OPTIMIZED: Removed BackdropFilter
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.play_arrow),
-                      label: Text(l10n.play),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeConstants.primaryDark,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 4,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    BlocBuilder<ProfileBloc, ProfileState>(
-                      buildWhen: (previous, current) {
-                        if (previous is Loaded && current is Loaded) {
-                          return previous.profile.wishlistIds !=
-                              current.profile.wishlistIds;
-                        }
-                        return true;
-                      },
-                      builder: (context, state) {
-                        bool isExist = false;
-                        if (state is Loaded) {
-                          isExist =
-                              state.profile.wishlistIds?.contains(movieId) ??
-                              false;
-                        }
-                        return OutlinedButton.icon(
-                          onPressed: () {
-                            if (isExist) {
-                              context.read<ProfileBloc>().add(
-                                ProfileEvent.removeWishlistMovie(
-                                  userId,
-                                  movieId,
-                                ),
-                              );
-                            } else {
-                              context.read<ProfileBloc>().add(
-                                ProfileEvent.addWishlistMovie(userId, movieId),
-                              );
-                            }
-                          },
-                          icon: Icon(isExist ? Icons.check : Icons.add),
-                          label: Text(l10n.myList),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            side: BorderSide(
-                              color: isExist
-                                  ? ThemeConstants.primaryDark
-                                  : Colors.white,
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            backgroundColor: isExist
-                                ? ThemeConstants.primaryDark.withOpacity(0.2)
-                                : Colors.black26,
-                            elevation: 2,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildMovieSection(
     BuildContext context,

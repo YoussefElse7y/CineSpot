@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/profile/domain/entities/profile_entity.dart';
@@ -151,7 +153,7 @@ class _FillProfileScreenState extends State<FillProfileScreen> {
 
   DropdownButtonFormField<String> _selectGender(bool isDark) {
     return DropdownButtonFormField<String>(
-                  value: _selectedGender,
+                  initialValue: _selectedGender,
                   decoration: InputDecoration(
                     hintText: 'Gender',
                     suffixIcon: Icon(

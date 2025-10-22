@@ -338,7 +338,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildGenderField(bool isDark) {
     return DropdownButtonFormField<String>(
-      value: _selectedGender,
+      initialValue: _selectedGender,
       decoration: InputDecoration(
         hintText: 'Gender',
         suffixIcon: Icon(
