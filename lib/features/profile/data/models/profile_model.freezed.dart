@@ -251,10 +251,8 @@ class _ProfileModel extends ProfileModel {
   return EqualUnmodifiableListView(value);
 }
 
-// ignore: duplicate_ignore
 // ignore: invalid_annotation_target
 @override@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) final  DateTime? createdAt;
-// ignore: duplicate_ignore
 // ignore: invalid_annotation_target
 @override@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) final  DateTime? updatedAt;
 

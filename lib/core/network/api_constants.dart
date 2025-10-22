@@ -6,6 +6,13 @@ class ApiConstants {
   static const String topTenMoviesThisWeek = "trending/movie/week";
   static const String playingNowMovies = "movie/now_playing";
   static const String trendingTvShows = "trending/tv/week";
+  static const String multiSearch = "search/multi";
+  static const String moviesSearch = "search/movie";
+  static const String tvShowsSearch = "search/tv";
+  static const String personSearch = "search/person";
+  static const String companySearch = "search/company";
+  
+  
 
 
 

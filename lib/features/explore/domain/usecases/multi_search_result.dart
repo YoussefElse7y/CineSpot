@@ -13,7 +13,7 @@ class MultiSearchResultUseCase {
     String? language,
   }) async {
     return await repository.multiSearch(
-      query: query,
+      query,
       page: page,
       language: language,
     );

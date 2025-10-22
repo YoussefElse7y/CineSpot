@@ -7,8 +7,9 @@ import 'package:cine_spot/features/explore/domain/entities/tv_search_response_en
 import 'package:dartz/dartz.dart';
 
 abstract class ExploreRepo {
-  Future<Either<Failure, SearchResponseEntity>> multiSearch({
-    String query,
+  Future<Either<Failure, SearchResponseEntity>> multiSearch(
+     String query,
+    {
     String? language,
     int? page,
   });
