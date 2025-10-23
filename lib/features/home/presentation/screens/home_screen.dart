@@ -136,6 +136,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     movie.overview,
                     movie.releaseDate,
+                    movie.mediaType,
                   ),
                 )
                 .toList(),
@@ -179,6 +180,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     movie.overview,
                     movie.releaseDate,
+                    'movie',
                   ),
                 )
                 .toList(),
@@ -222,6 +224,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     movie.overview,
                     movie.firstAirDate,
+                    movie.mediaType,
                   ),
                 )
                 .toList(),
@@ -372,6 +375,7 @@ class MovieItem {
   final String imageUrl;
   final String description;
   final String releaseDate;
+  final String type;
 
   MovieItem(
     this.id,
@@ -380,5 +384,6 @@ class MovieItem {
     this.imageUrl,
     this.description,
     this.releaseDate,
+    this.type,
   );
 }

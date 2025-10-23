@@ -16,10 +16,19 @@ _ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) =>
       countryCode: json['countryCode'] as String,
       gender: json['gender'] as String,
       photoUrl: json['photoUrl'] as String?,
-      favoriteIds: (json['favoriteIds'] as List<dynamic>?)
+      favoriteMoviesIds: (json['favoriteMoviesIds'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
-      wishlistIds: (json['wishlistIds'] as List<dynamic>?)
+      favoriteTvIds: (json['favoriteTvIds'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      favoritePersonIds: (json['favoritePersonIds'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      wishlistMoviesIds: (json['wishlistMoviesIds'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
+      wishlistTvIds: (json['wishlistTvIds'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
       createdAt: _timestampFromJson(json['createdAt']),
@@ -36,8 +45,11 @@ Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
       'countryCode': instance.countryCode,
       'gender': instance.gender,
       'photoUrl': instance.photoUrl,
-      'favoriteIds': instance.favoriteIds,
-      'wishlistIds': instance.wishlistIds,
+      'favoriteMoviesIds': instance.favoriteMoviesIds,
+      'favoriteTvIds': instance.favoriteTvIds,
+      'favoritePersonIds': instance.favoritePersonIds,
+      'wishlistMoviesIds': instance.wishlistMoviesIds,
+      'wishlistTvIds': instance.wishlistTvIds,
       'createdAt': _timestampToJson(instance.createdAt),
       'updatedAt': _timestampToJson(instance.updatedAt),
     };

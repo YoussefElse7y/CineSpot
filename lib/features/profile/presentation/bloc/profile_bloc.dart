@@ -7,6 +7,15 @@ import 'package:cine_spot/features/profile/domain/usecase/get_profile_usecase.da
 import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_movie_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/remove_wishlist_movie_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/update_profile_usecase.dart';
+
+// Add new imports for TV Show & Person use cases
+import 'package:cine_spot/features/profile/domain/usecase/add_favorite_tv_show_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_tv_show_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_wishlist_tv_show_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_wishlist_tv_show_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_favorite_person_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_person_usecase.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/profile_entity.dart';
@@ -25,6 +34,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final AddWishlistMovieUseCase addWishlistMovieUseCase;
   final RemoveWishlistMovieUseCase removeWishlistMovieUseCase;
 
+  // New use cases
+  final AddFavoriteTvShowUseCase addFavoriteTvShowUseCase;
+  final RemoveFavoriteTvShowUseCase removeFavoriteTvShowUseCase;
+  final AddWishlistTvShowUseCase addWishlistTvShowUseCase;
+  final RemoveWishlistTvShowUseCase removeWishlistTvShowUseCase;
+  final AddFavoritePersonUseCase addFavoritePersonUseCase;
+  final RemoveFavoritePersonUseCase removeFavoritePersonUseCase;
+
   ProfileBloc({
     required this.createProfileUseCase,
     required this.updateProfileUseCase,
@@ -34,6 +51,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     required this.removeFavoriteMovieUseCase,
     required this.addWishlistMovieUseCase,
     required this.removeWishlistMovieUseCase,
+    required this.addFavoriteTvShowUseCase,
+    required this.removeFavoriteTvShowUseCase,
+    required this.addWishlistTvShowUseCase,
+    required this.removeWishlistTvShowUseCase,
+    required this.addFavoritePersonUseCase,
+    required this.removeFavoritePersonUseCase,
   }) : super(const ProfileState.initial()) {
     on<ProfileEvent>((event, emit) async {
       await event.when(
@@ -51,10 +74,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             _onAddWishlistMovie(userId, movieId, emit),
         removeWishlistMovie: (userId, movieId) =>
             _onRemoveWishlistMovie(userId, movieId, emit),
+
+        // ✅ NEW EVENTS BELOW
+        addFavoriteTvShow: (userId, tvShowId) =>
+            _onAddFavoriteTvShow(userId, tvShowId, emit),
+        removeFavoriteTvShow: (userId, tvShowId) =>
+            _onRemoveFavoriteTvShow(userId, tvShowId, emit),
+        addFavoritePreson: (userId, personId) =>
+            _onAddFavoritePerson(userId, personId, emit),
+        removeFavoritePreson: (userId, personId) =>
+            _onRemoveFavoritePerson(userId, personId, emit),
+        addWishlistTvShow: (userId, tvShowId) =>
+            _onAddWishlistTvShow(userId, tvShowId, emit),
+        removeWishlistTvShow: (userId, tvShowId) =>
+            _onRemoveWishlistTvShow(userId, tvShowId, emit),
       );
     });
   }
 
+  // ---------- Existing Methods ----------
   Future<void> _onCreateProfile(
     ProfileEntity profile,
     File? imageFile,
@@ -81,21 +119,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
-  Future<void> _onLoadProfile(
-    String userId,
-    Emitter<ProfileState> emit,
-  ) async {
+  Future<void> _onLoadProfile(String userId, Emitter<ProfileState> emit) async {
     emit(const ProfileState.loading());
     final result = await getProfileUseCase(userId);
     result.fold(
       (failure) => emit(ProfileState.error(failure.toString())),
-      (profile) {
-        if (profile != null) {
-          emit(ProfileState.loaded(profile));
-        } else {
-          emit(const ProfileState.notFound());
-        }
-      },
+      (profile) => profile != null
+          ? emit(ProfileState.loaded(profile))
+          : emit(const ProfileState.notFound()),
     );
   }
 
@@ -116,6 +147,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     );
   }
 
+  // ---------- Movie Methods ----------
   Future<void> _onAddFavoriteMovie(
     String userId,
     int movieId,
@@ -158,6 +190,79 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) async {
     final result = await removeWishlistMovieUseCase(userId, movieId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  // ---------- ✅ NEW METHODS ----------
+  Future<void> _onAddFavoriteTvShow(
+    String userId,
+    int tvShowId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await addFavoriteTvShowUseCase(userId, tvShowId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  Future<void> _onRemoveFavoriteTvShow(
+    String userId,
+    int tvShowId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await removeFavoriteTvShowUseCase(userId, tvShowId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  Future<void> _onAddFavoritePerson(
+    String userId,
+    int personId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await addFavoritePersonUseCase(userId, personId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  Future<void> _onRemoveFavoritePerson(
+    String userId,
+    int personId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await removeFavoritePersonUseCase(userId, personId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  Future<void> _onAddWishlistTvShow(
+    String userId,
+    int tvShowId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await addWishlistTvShowUseCase(userId, tvShowId);
+    result.fold(
+      (failure) => emit(ProfileState.error(failure.toString())),
+      (profile) => emit(ProfileState.loaded(profile)),
+    );
+  }
+
+  Future<void> _onRemoveWishlistTvShow(
+    String userId,
+    int tvShowId,
+    Emitter<ProfileState> emit,
+  ) async {
+    final result = await removeWishlistTvShowUseCase(userId, tvShowId);
     result.fold(
       (failure) => emit(ProfileState.error(failure.toString())),
       (profile) => emit(ProfileState.loaded(profile)),

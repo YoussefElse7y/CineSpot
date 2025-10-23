@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, duplicate_ignore
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'profile_model.dart';
@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProfileModel {
 
- String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; String? get photoUrl; List<int>? get favoriteIds; List<int>? get wishlistIds;// ignore: invalid_annotation_target
+ String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; String? get photoUrl; List<int>? get favoriteMoviesIds; List<int>? get favoriteTvIds; List<int>? get favoritePersonIds; List<int>? get wishlistMoviesIds; List<int>? get wishlistTvIds;// ignore: invalid_annotation_target
 @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get createdAt;// ignore: invalid_annotation_target
 @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? get updatedAt;
 /// Create a copy of ProfileModel
@@ -30,16 +30,16 @@ $ProfileModelCopyWith<ProfileModel> get copyWith => _$ProfileModelCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&const DeepCollectionEquality().equals(other.favoriteIds, favoriteIds)&&const DeepCollectionEquality().equals(other.wishlistIds, wishlistIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&const DeepCollectionEquality().equals(other.favoriteMoviesIds, favoriteMoviesIds)&&const DeepCollectionEquality().equals(other.favoriteTvIds, favoriteTvIds)&&const DeepCollectionEquality().equals(other.favoritePersonIds, favoritePersonIds)&&const DeepCollectionEquality().equals(other.wishlistMoviesIds, wishlistMoviesIds)&&const DeepCollectionEquality().equals(other.wishlistTvIds, wishlistTvIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,photoUrl,const DeepCollectionEquality().hash(favoriteIds),const DeepCollectionEquality().hash(wishlistIds),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,photoUrl,const DeepCollectionEquality().hash(favoriteMoviesIds),const DeepCollectionEquality().hash(favoriteTvIds),const DeepCollectionEquality().hash(favoritePersonIds),const DeepCollectionEquality().hash(wishlistMoviesIds),const DeepCollectionEquality().hash(wishlistTvIds),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProfileModel(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, photoUrl: $photoUrl, favoriteIds: $favoriteIds, wishlistIds: $wishlistIds, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProfileModel(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, photoUrl: $photoUrl, favoriteMoviesIds: $favoriteMoviesIds, favoriteTvIds: $favoriteTvIds, favoritePersonIds: $favoritePersonIds, wishlistMoviesIds: $wishlistMoviesIds, wishlistTvIds: $wishlistTvIds, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -50,7 +50,7 @@ abstract mixin class $ProfileModelCopyWith<$Res>  {
   factory $ProfileModelCopyWith(ProfileModel value, $Res Function(ProfileModel) _then) = _$ProfileModelCopyWithImpl;
 @useResult
 $Res call({
- String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, String? photoUrl, List<int>? favoriteIds, List<int>? wishlistIds,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? createdAt,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? updatedAt
+ String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, String? photoUrl, List<int>? favoriteMoviesIds, List<int>? favoriteTvIds, List<int>? favoritePersonIds, List<int>? wishlistMoviesIds, List<int>? wishlistTvIds,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? createdAt,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? updatedAt
 });
 
 
@@ -67,7 +67,7 @@ class _$ProfileModelCopyWithImpl<$Res>
 
 /// Create a copy of ProfileModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? photoUrl = freezed,Object? favoriteIds = freezed,Object? wishlistIds = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? photoUrl = freezed,Object? favoriteMoviesIds = freezed,Object? favoriteTvIds = freezed,Object? favoritePersonIds = freezed,Object? wishlistMoviesIds = freezed,Object? wishlistTvIds = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -77,8 +77,11 @@ as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // 
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
-as String?,favoriteIds: freezed == favoriteIds ? _self.favoriteIds : favoriteIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,wishlistIds: freezed == wishlistIds ? _self.wishlistIds : wishlistIds // ignore: cast_nullable_to_non_nullable
+as String?,favoriteMoviesIds: freezed == favoriteMoviesIds ? _self.favoriteMoviesIds : favoriteMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoriteTvIds: freezed == favoriteTvIds ? _self.favoriteTvIds : favoriteTvIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoritePersonIds: freezed == favoritePersonIds ? _self.favoritePersonIds : favoritePersonIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistMoviesIds: freezed == wishlistMoviesIds ? _self.wishlistMoviesIds : wishlistMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistTvIds: freezed == wishlistTvIds ? _self.wishlistTvIds : wishlistTvIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -166,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteIds,  List<int>? wishlistIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileModel() when $default != null:
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteIds,_that.wishlistIds,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -187,10 +190,10 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteIds,  List<int>? wishlistIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileModel():
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteIds,_that.wishlistIds,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +210,10 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteIds,  List<int>? wishlistIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  String? photoUrl,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileModel() when $default != null:
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteIds,_that.wishlistIds,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.photoUrl,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -222,7 +225,7 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 @JsonSerializable()
 
 class _ProfileModel extends ProfileModel {
-  const _ProfileModel({required this.userId, required this.fullName, required this.nickname, required this.email, required this.phoneNumber, required this.countryCode, required this.gender, this.photoUrl, final  List<int>? favoriteIds, final  List<int>? wishlistIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) this.createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) this.updatedAt}): _favoriteIds = favoriteIds,_wishlistIds = wishlistIds,super._();
+  const _ProfileModel({required this.userId, required this.fullName, required this.nickname, required this.email, required this.phoneNumber, required this.countryCode, required this.gender, this.photoUrl, final  List<int>? favoriteMoviesIds, final  List<int>? favoriteTvIds, final  List<int>? favoritePersonIds, final  List<int>? wishlistMoviesIds, final  List<int>? wishlistTvIds, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) this.createdAt, @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) this.updatedAt}): _favoriteMoviesIds = favoriteMoviesIds,_favoriteTvIds = favoriteTvIds,_favoritePersonIds = favoritePersonIds,_wishlistMoviesIds = wishlistMoviesIds,_wishlistTvIds = wishlistTvIds,super._();
   factory _ProfileModel.fromJson(Map<String, dynamic> json) => _$ProfileModelFromJson(json);
 
 @override final  String userId;
@@ -233,20 +236,47 @@ class _ProfileModel extends ProfileModel {
 @override final  String countryCode;
 @override final  String gender;
 @override final  String? photoUrl;
- final  List<int>? _favoriteIds;
-@override List<int>? get favoriteIds {
-  final value = _favoriteIds;
+ final  List<int>? _favoriteMoviesIds;
+@override List<int>? get favoriteMoviesIds {
+  final value = _favoriteMoviesIds;
   if (value == null) return null;
-  if (_favoriteIds is EqualUnmodifiableListView) return _favoriteIds;
+  if (_favoriteMoviesIds is EqualUnmodifiableListView) return _favoriteMoviesIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
 
- final  List<int>? _wishlistIds;
-@override List<int>? get wishlistIds {
-  final value = _wishlistIds;
+ final  List<int>? _favoriteTvIds;
+@override List<int>? get favoriteTvIds {
+  final value = _favoriteTvIds;
   if (value == null) return null;
-  if (_wishlistIds is EqualUnmodifiableListView) return _wishlistIds;
+  if (_favoriteTvIds is EqualUnmodifiableListView) return _favoriteTvIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _favoritePersonIds;
+@override List<int>? get favoritePersonIds {
+  final value = _favoritePersonIds;
+  if (value == null) return null;
+  if (_favoritePersonIds is EqualUnmodifiableListView) return _favoritePersonIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _wishlistMoviesIds;
+@override List<int>? get wishlistMoviesIds {
+  final value = _wishlistMoviesIds;
+  if (value == null) return null;
+  if (_wishlistMoviesIds is EqualUnmodifiableListView) return _wishlistMoviesIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _wishlistTvIds;
+@override List<int>? get wishlistTvIds {
+  final value = _wishlistTvIds;
+  if (value == null) return null;
+  if (_wishlistTvIds is EqualUnmodifiableListView) return _wishlistTvIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -269,16 +299,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&const DeepCollectionEquality().equals(other._favoriteIds, _favoriteIds)&&const DeepCollectionEquality().equals(other._wishlistIds, _wishlistIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileModel&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&const DeepCollectionEquality().equals(other._favoriteMoviesIds, _favoriteMoviesIds)&&const DeepCollectionEquality().equals(other._favoriteTvIds, _favoriteTvIds)&&const DeepCollectionEquality().equals(other._favoritePersonIds, _favoritePersonIds)&&const DeepCollectionEquality().equals(other._wishlistMoviesIds, _wishlistMoviesIds)&&const DeepCollectionEquality().equals(other._wishlistTvIds, _wishlistTvIds)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,photoUrl,const DeepCollectionEquality().hash(_favoriteIds),const DeepCollectionEquality().hash(_wishlistIds),createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,photoUrl,const DeepCollectionEquality().hash(_favoriteMoviesIds),const DeepCollectionEquality().hash(_favoriteTvIds),const DeepCollectionEquality().hash(_favoritePersonIds),const DeepCollectionEquality().hash(_wishlistMoviesIds),const DeepCollectionEquality().hash(_wishlistTvIds),createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProfileModel(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, photoUrl: $photoUrl, favoriteIds: $favoriteIds, wishlistIds: $wishlistIds, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProfileModel(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, photoUrl: $photoUrl, favoriteMoviesIds: $favoriteMoviesIds, favoriteTvIds: $favoriteTvIds, favoritePersonIds: $favoritePersonIds, wishlistMoviesIds: $wishlistMoviesIds, wishlistTvIds: $wishlistTvIds, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -289,7 +319,7 @@ abstract mixin class _$ProfileModelCopyWith<$Res> implements $ProfileModelCopyWi
   factory _$ProfileModelCopyWith(_ProfileModel value, $Res Function(_ProfileModel) _then) = __$ProfileModelCopyWithImpl;
 @override @useResult
 $Res call({
- String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, String? photoUrl, List<int>? favoriteIds, List<int>? wishlistIds,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? createdAt,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? updatedAt
+ String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, String? photoUrl, List<int>? favoriteMoviesIds, List<int>? favoriteTvIds, List<int>? favoritePersonIds, List<int>? wishlistMoviesIds, List<int>? wishlistTvIds,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? createdAt,@JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson) DateTime? updatedAt
 });
 
 
@@ -306,7 +336,7 @@ class __$ProfileModelCopyWithImpl<$Res>
 
 /// Create a copy of ProfileModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? photoUrl = freezed,Object? favoriteIds = freezed,Object? wishlistIds = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? photoUrl = freezed,Object? favoriteMoviesIds = freezed,Object? favoriteTvIds = freezed,Object? favoritePersonIds = freezed,Object? wishlistMoviesIds = freezed,Object? wishlistTvIds = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_ProfileModel(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -316,8 +346,11 @@ as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // 
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
 as String,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
-as String?,favoriteIds: freezed == favoriteIds ? _self._favoriteIds : favoriteIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,wishlistIds: freezed == wishlistIds ? _self._wishlistIds : wishlistIds // ignore: cast_nullable_to_non_nullable
+as String?,favoriteMoviesIds: freezed == favoriteMoviesIds ? _self._favoriteMoviesIds : favoriteMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoriteTvIds: freezed == favoriteTvIds ? _self._favoriteTvIds : favoriteTvIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoritePersonIds: freezed == favoritePersonIds ? _self._favoritePersonIds : favoritePersonIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistMoviesIds: freezed == wishlistMoviesIds ? _self._wishlistMoviesIds : wishlistMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistTvIds: freezed == wishlistTvIds ? _self._wishlistTvIds : wishlistTvIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,

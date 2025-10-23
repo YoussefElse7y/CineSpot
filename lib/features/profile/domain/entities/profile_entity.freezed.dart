@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProfileEntity {
 
- String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; List<int>? get favoriteIds; List<int>? get wishlistIds; String? get photoUrl; DateTime? get createdAt; DateTime? get updatedAt;
+ String get userId; String get fullName; String get nickname; String get email; String get phoneNumber; String get countryCode; String get gender; List<int>? get favoriteMoviesIds; List<int>? get favoriteTvIds; List<int>? get favoritePersonIds; List<int>? get wishlistMoviesIds; List<int>? get wishlistTvIds; String? get photoUrl; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of ProfileEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ProfileEntityCopyWith<ProfileEntity> get copyWith => _$ProfileEntityCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileEntity&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&const DeepCollectionEquality().equals(other.favoriteIds, favoriteIds)&&const DeepCollectionEquality().equals(other.wishlistIds, wishlistIds)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileEntity&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&const DeepCollectionEquality().equals(other.favoriteMoviesIds, favoriteMoviesIds)&&const DeepCollectionEquality().equals(other.favoriteTvIds, favoriteTvIds)&&const DeepCollectionEquality().equals(other.favoritePersonIds, favoritePersonIds)&&const DeepCollectionEquality().equals(other.wishlistMoviesIds, wishlistMoviesIds)&&const DeepCollectionEquality().equals(other.wishlistTvIds, wishlistTvIds)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,const DeepCollectionEquality().hash(favoriteIds),const DeepCollectionEquality().hash(wishlistIds),photoUrl,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,const DeepCollectionEquality().hash(favoriteMoviesIds),const DeepCollectionEquality().hash(favoriteTvIds),const DeepCollectionEquality().hash(favoritePersonIds),const DeepCollectionEquality().hash(wishlistMoviesIds),const DeepCollectionEquality().hash(wishlistTvIds),photoUrl,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProfileEntity(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, favoriteIds: $favoriteIds, wishlistIds: $wishlistIds, photoUrl: $photoUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProfileEntity(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, favoriteMoviesIds: $favoriteMoviesIds, favoriteTvIds: $favoriteTvIds, favoritePersonIds: $favoritePersonIds, wishlistMoviesIds: $wishlistMoviesIds, wishlistTvIds: $wishlistTvIds, photoUrl: $photoUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ProfileEntityCopyWith<$Res>  {
   factory $ProfileEntityCopyWith(ProfileEntity value, $Res Function(ProfileEntity) _then) = _$ProfileEntityCopyWithImpl;
 @useResult
 $Res call({
- String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, List<int>? favoriteIds, List<int>? wishlistIds, String? photoUrl, DateTime? createdAt, DateTime? updatedAt
+ String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, List<int>? favoriteMoviesIds, List<int>? favoriteTvIds, List<int>? favoritePersonIds, List<int>? wishlistMoviesIds, List<int>? wishlistTvIds, String? photoUrl, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -62,7 +62,7 @@ class _$ProfileEntityCopyWithImpl<$Res>
 
 /// Create a copy of ProfileEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? favoriteIds = freezed,Object? wishlistIds = freezed,Object? photoUrl = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? favoriteMoviesIds = freezed,Object? favoriteTvIds = freezed,Object? favoritePersonIds = freezed,Object? wishlistMoviesIds = freezed,Object? wishlistTvIds = freezed,Object? photoUrl = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -71,8 +71,11 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as String,favoriteIds: freezed == favoriteIds ? _self.favoriteIds : favoriteIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,wishlistIds: freezed == wishlistIds ? _self.wishlistIds : wishlistIds // ignore: cast_nullable_to_non_nullable
+as String,favoriteMoviesIds: freezed == favoriteMoviesIds ? _self.favoriteMoviesIds : favoriteMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoriteTvIds: freezed == favoriteTvIds ? _self.favoriteTvIds : favoriteTvIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoritePersonIds: freezed == favoritePersonIds ? _self.favoritePersonIds : favoritePersonIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistMoviesIds: freezed == wishlistMoviesIds ? _self.wishlistMoviesIds : wishlistMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistTvIds: freezed == wishlistTvIds ? _self.wishlistTvIds : wishlistTvIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -161,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteIds,  List<int>? wishlistIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileEntity() when $default != null:
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteIds,_that.wishlistIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -182,10 +185,10 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteIds,  List<int>? wishlistIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileEntity():
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteIds,_that.wishlistIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +205,10 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteIds,  List<int>? wishlistIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String userId,  String fullName,  String nickname,  String email,  String phoneNumber,  String countryCode,  String gender,  List<int>? favoriteMoviesIds,  List<int>? favoriteTvIds,  List<int>? favoritePersonIds,  List<int>? wishlistMoviesIds,  List<int>? wishlistTvIds,  String? photoUrl,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileEntity() when $default != null:
-return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteIds,_that.wishlistIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.phoneNumber,_that.countryCode,_that.gender,_that.favoriteMoviesIds,_that.favoriteTvIds,_that.favoritePersonIds,_that.wishlistMoviesIds,_that.wishlistTvIds,_that.photoUrl,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -217,7 +220,7 @@ return $default(_that.userId,_that.fullName,_that.nickname,_that.email,_that.pho
 
 
 class _ProfileEntity implements ProfileEntity {
-  const _ProfileEntity({required this.userId, required this.fullName, required this.nickname, required this.email, required this.phoneNumber, required this.countryCode, required this.gender, final  List<int>? favoriteIds, final  List<int>? wishlistIds, this.photoUrl, this.createdAt, this.updatedAt}): _favoriteIds = favoriteIds,_wishlistIds = wishlistIds;
+  const _ProfileEntity({required this.userId, required this.fullName, required this.nickname, required this.email, required this.phoneNumber, required this.countryCode, required this.gender, final  List<int>? favoriteMoviesIds, final  List<int>? favoriteTvIds, final  List<int>? favoritePersonIds, final  List<int>? wishlistMoviesIds, final  List<int>? wishlistTvIds, this.photoUrl, this.createdAt, this.updatedAt}): _favoriteMoviesIds = favoriteMoviesIds,_favoriteTvIds = favoriteTvIds,_favoritePersonIds = favoritePersonIds,_wishlistMoviesIds = wishlistMoviesIds,_wishlistTvIds = wishlistTvIds;
   
 
 @override final  String userId;
@@ -227,20 +230,47 @@ class _ProfileEntity implements ProfileEntity {
 @override final  String phoneNumber;
 @override final  String countryCode;
 @override final  String gender;
- final  List<int>? _favoriteIds;
-@override List<int>? get favoriteIds {
-  final value = _favoriteIds;
+ final  List<int>? _favoriteMoviesIds;
+@override List<int>? get favoriteMoviesIds {
+  final value = _favoriteMoviesIds;
   if (value == null) return null;
-  if (_favoriteIds is EqualUnmodifiableListView) return _favoriteIds;
+  if (_favoriteMoviesIds is EqualUnmodifiableListView) return _favoriteMoviesIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
 
- final  List<int>? _wishlistIds;
-@override List<int>? get wishlistIds {
-  final value = _wishlistIds;
+ final  List<int>? _favoriteTvIds;
+@override List<int>? get favoriteTvIds {
+  final value = _favoriteTvIds;
   if (value == null) return null;
-  if (_wishlistIds is EqualUnmodifiableListView) return _wishlistIds;
+  if (_favoriteTvIds is EqualUnmodifiableListView) return _favoriteTvIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _favoritePersonIds;
+@override List<int>? get favoritePersonIds {
+  final value = _favoritePersonIds;
+  if (value == null) return null;
+  if (_favoritePersonIds is EqualUnmodifiableListView) return _favoritePersonIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _wishlistMoviesIds;
+@override List<int>? get wishlistMoviesIds {
+  final value = _wishlistMoviesIds;
+  if (value == null) return null;
+  if (_wishlistMoviesIds is EqualUnmodifiableListView) return _wishlistMoviesIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _wishlistTvIds;
+@override List<int>? get wishlistTvIds {
+  final value = _wishlistTvIds;
+  if (value == null) return null;
+  if (_wishlistTvIds is EqualUnmodifiableListView) return _wishlistTvIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -259,16 +289,16 @@ _$ProfileEntityCopyWith<_ProfileEntity> get copyWith => __$ProfileEntityCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileEntity&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&const DeepCollectionEquality().equals(other._favoriteIds, _favoriteIds)&&const DeepCollectionEquality().equals(other._wishlistIds, _wishlistIds)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileEntity&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.email, email) || other.email == email)&&(identical(other.phoneNumber, phoneNumber) || other.phoneNumber == phoneNumber)&&(identical(other.countryCode, countryCode) || other.countryCode == countryCode)&&(identical(other.gender, gender) || other.gender == gender)&&const DeepCollectionEquality().equals(other._favoriteMoviesIds, _favoriteMoviesIds)&&const DeepCollectionEquality().equals(other._favoriteTvIds, _favoriteTvIds)&&const DeepCollectionEquality().equals(other._favoritePersonIds, _favoritePersonIds)&&const DeepCollectionEquality().equals(other._wishlistMoviesIds, _wishlistMoviesIds)&&const DeepCollectionEquality().equals(other._wishlistTvIds, _wishlistTvIds)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,const DeepCollectionEquality().hash(_favoriteIds),const DeepCollectionEquality().hash(_wishlistIds),photoUrl,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,userId,fullName,nickname,email,phoneNumber,countryCode,gender,const DeepCollectionEquality().hash(_favoriteMoviesIds),const DeepCollectionEquality().hash(_favoriteTvIds),const DeepCollectionEquality().hash(_favoritePersonIds),const DeepCollectionEquality().hash(_wishlistMoviesIds),const DeepCollectionEquality().hash(_wishlistTvIds),photoUrl,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProfileEntity(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, favoriteIds: $favoriteIds, wishlistIds: $wishlistIds, photoUrl: $photoUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'ProfileEntity(userId: $userId, fullName: $fullName, nickname: $nickname, email: $email, phoneNumber: $phoneNumber, countryCode: $countryCode, gender: $gender, favoriteMoviesIds: $favoriteMoviesIds, favoriteTvIds: $favoriteTvIds, favoritePersonIds: $favoritePersonIds, wishlistMoviesIds: $wishlistMoviesIds, wishlistTvIds: $wishlistTvIds, photoUrl: $photoUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -279,7 +309,7 @@ abstract mixin class _$ProfileEntityCopyWith<$Res> implements $ProfileEntityCopy
   factory _$ProfileEntityCopyWith(_ProfileEntity value, $Res Function(_ProfileEntity) _then) = __$ProfileEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, List<int>? favoriteIds, List<int>? wishlistIds, String? photoUrl, DateTime? createdAt, DateTime? updatedAt
+ String userId, String fullName, String nickname, String email, String phoneNumber, String countryCode, String gender, List<int>? favoriteMoviesIds, List<int>? favoriteTvIds, List<int>? favoritePersonIds, List<int>? wishlistMoviesIds, List<int>? wishlistTvIds, String? photoUrl, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -296,7 +326,7 @@ class __$ProfileEntityCopyWithImpl<$Res>
 
 /// Create a copy of ProfileEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? favoriteIds = freezed,Object? wishlistIds = freezed,Object? photoUrl = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? fullName = null,Object? nickname = null,Object? email = null,Object? phoneNumber = null,Object? countryCode = null,Object? gender = null,Object? favoriteMoviesIds = freezed,Object? favoriteTvIds = freezed,Object? favoritePersonIds = freezed,Object? wishlistMoviesIds = freezed,Object? wishlistTvIds = freezed,Object? photoUrl = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_ProfileEntity(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -305,8 +335,11 @@ as String,email: null == email ? _self.email : email // ignore: cast_nullable_to
 as String,phoneNumber: null == phoneNumber ? _self.phoneNumber : phoneNumber // ignore: cast_nullable_to_non_nullable
 as String,countryCode: null == countryCode ? _self.countryCode : countryCode // ignore: cast_nullable_to_non_nullable
 as String,gender: null == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as String,favoriteIds: freezed == favoriteIds ? _self._favoriteIds : favoriteIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,wishlistIds: freezed == wishlistIds ? _self._wishlistIds : wishlistIds // ignore: cast_nullable_to_non_nullable
+as String,favoriteMoviesIds: freezed == favoriteMoviesIds ? _self._favoriteMoviesIds : favoriteMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoriteTvIds: freezed == favoriteTvIds ? _self._favoriteTvIds : favoriteTvIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,favoritePersonIds: freezed == favoritePersonIds ? _self._favoritePersonIds : favoritePersonIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistMoviesIds: freezed == wishlistMoviesIds ? _self._wishlistMoviesIds : wishlistMoviesIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,wishlistTvIds: freezed == wishlistTvIds ? _self._wishlistTvIds : wishlistTvIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
 as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable

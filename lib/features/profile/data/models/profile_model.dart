@@ -31,9 +31,11 @@ abstract class ProfileModel with _$ProfileModel {
     required String countryCode,
     required String gender,
     String? photoUrl,
-    List<int>? favoriteIds,
-    List<int>? wishlistIds,
-
+    List<int>? favoriteMoviesIds,
+    List<int>? favoriteTvIds,
+    List<int>? favoritePersonIds,
+    List<int>? wishlistMoviesIds,
+    List<int>? wishlistTvIds,
     // ignore: invalid_annotation_target
     @JsonKey(fromJson: _timestampFromJson, toJson: _timestampToJson)
         DateTime? createdAt,
@@ -58,8 +60,11 @@ abstract class ProfileModel with _$ProfileModel {
       email: email,
       phoneNumber: phoneNumber,
       countryCode: countryCode,
-      favoriteIds: favoriteIds,
-      wishlistIds: wishlistIds,
+      favoriteMoviesIds: favoriteMoviesIds,
+      favoriteTvIds: favoriteTvIds,
+      favoritePersonIds: favoritePersonIds,
+      wishlistMoviesIds: wishlistMoviesIds,
+      wishlistTvIds: wishlistTvIds,
       gender: gender,
       photoUrl: photoUrl,
       createdAt: createdAt,

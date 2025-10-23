@@ -27,12 +27,18 @@ import 'package:cine_spot/features/profile/data/datasources/profile_remote_datas
 import 'package:cine_spot/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:cine_spot/features/profile/domain/repositories/profile_repository.dart';
 import 'package:cine_spot/features/profile/domain/usecase/add_favorite_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_favorite_person_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_favorite_tv_show_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/add_wishlist_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/add_wishlist_tv_show_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/check_profile_exists_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/create_profile_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/get_profile_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_person_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_favorite_tv_show_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/remove_wishlist_movie_usecase.dart';
+import 'package:cine_spot/features/profile/domain/usecase/remove_wishlist_tv_show_usecase.dart';
 import 'package:cine_spot/features/profile/domain/usecase/update_profile_usecase.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:dio/dio.dart';
@@ -83,6 +89,12 @@ Future<void> init() async {
       removeFavoriteMovieUseCase: sl(),
       addWishlistMovieUseCase: sl(),
       removeWishlistMovieUseCase: sl(),
+      addFavoritePersonUseCase: sl(),
+      addFavoriteTvShowUseCase: sl(),
+      removeFavoritePersonUseCase: sl(),
+      removeFavoriteTvShowUseCase: sl(),
+      addWishlistTvShowUseCase:  sl(),
+      removeWishlistTvShowUseCase: sl(),
     ),
   );
   // Home BLoC
@@ -129,6 +141,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RemoveFavoriteMovieUseCase(sl()));
   sl.registerLazySingleton(() => AddWishlistMovieUseCase(sl()));
   sl.registerLazySingleton(() => RemoveWishlistMovieUseCase(sl()));
+  sl.registerLazySingleton(() => AddFavoritePersonUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveFavoritePersonUseCase(sl()));
+  sl.registerLazySingleton(() => AddFavoriteTvShowUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveFavoriteTvShowUseCase(sl()));
+  sl.registerLazySingleton(() => AddWishlistTvShowUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveWishlistTvShowUseCase(sl()));
 
   // Home use cases
   sl.registerLazySingleton(

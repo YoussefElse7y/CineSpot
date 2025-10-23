@@ -20,6 +20,7 @@ class InitialSearchState extends StatelessWidget {
     String? badge,
     Color? badgeColor,
     String? description,
+    required BuildContext context,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -29,12 +30,12 @@ class InitialSearchState extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
               imageUrl,
-              width: 120,
-              height: 70,
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.13,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
-                width: 120,
-                height: 70,
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.height * 0.13,
                 color: Colors.grey[800],
                 child: const Icon(Icons.movie, color: Colors.white54),
               ),
@@ -128,6 +129,7 @@ class InitialSearchState extends StatelessWidget {
                     badge: tvShow.voteAverage.toStringAsFixed(1),
                     badgeColor: ThemeConstants.primaryDark,
                     description: tvShow.originCountry.join(', '),
+                    context: context,
                   ),
                 )
                 .toList(),

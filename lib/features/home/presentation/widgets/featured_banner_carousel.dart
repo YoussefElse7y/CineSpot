@@ -109,7 +109,9 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
               final movie = widget.movies[index];
               return _buildBannerContent(
                 context,
+                movie.mediaType ?? 'movie',
                 movie.id,
+                
                 TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w780),
                 movie.title,
                 movie.overview,
@@ -206,6 +208,7 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
 
   Widget _buildBannerContent(
     BuildContext context,
+    String type,
     int movieId,
     String imageUrl,
     String title,
@@ -251,16 +254,27 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
             child: BlocBuilder<ProfileBloc, ProfileState>(
               buildWhen: (previous, current) {
                 if (previous is Loaded && current is Loaded) {
-                  return previous.profile.favoriteIds !=
-                      current.profile.favoriteIds;
+                  if (type == 'movie') {
+                    return previous.profile.favoriteMoviesIds !=
+                        current.profile.favoriteMoviesIds;
+                  } else {
+                    return previous.profile.favoriteTvIds !=
+                        current.profile.favoriteTvIds;
+                  }
                 }
                 return true;
               },
               builder: (context, state) {
                 bool isFavorite = false;
                 if (state is Loaded) {
-                  isFavorite =
-                      state.profile.favoriteIds?.contains(movieId) ?? false;
+                  if (type == "movie") {
+                    isFavorite =
+                        state.profile.favoriteMoviesIds?.contains(movieId) ??
+                        false;
+                  } else {
+                    isFavorite =
+                        state.profile.favoriteTvIds?.contains(movieId) ?? false;
+                  }
                 }
                 return Container(
                   decoration: BoxDecoration(
@@ -401,17 +415,32 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
                       BlocBuilder<ProfileBloc, ProfileState>(
                         buildWhen: (previous, current) {
                           if (previous is Loaded && current is Loaded) {
-                            return previous.profile.wishlistIds !=
-                                current.profile.wishlistIds;
+                            if (type == "movie") {
+                              return previous.profile.wishlistMoviesIds !=
+                                  current.profile.wishlistMoviesIds;
+                            } else {
+                              return previous.profile.wishlistTvIds !=
+                                  current.profile.wishlistTvIds;
+                            }
                           }
                           return true;
                         },
                         builder: (context, state) {
                           bool isExist = false;
                           if (state is Loaded) {
-                            isExist =
-                                state.profile.wishlistIds?.contains(movieId) ??
+                            if (type == 'movie') {
+                              isExist =
+                                  state.profile.wishlistMoviesIds?.contains(
+                                    movieId,
+                                  ) ??
+                                  false;
+                            } else {
+                                isExist =
+                                state.profile.wishlistTvIds?.contains(
+                                    movieId,
+                                ) ??
                                 false;
+                            }
                           }
                           return OutlinedButton.icon(
                             onPressed: () {

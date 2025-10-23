@@ -343,24 +343,56 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   bool isFavorite = false;
                   bool isExist = false;
                   if (state is Loaded) {
-                    isFavorite =
-                        state.profile.favoriteIds?.contains(movie.id) ?? false;
-                    isExist =
-                        state.profile.wishlistIds?.contains(movie.id) ?? false;
+                    if (movie.type == "movie") {
+                      isFavorite =
+                          state.profile.favoriteMoviesIds?.contains(movie.id) ??
+                          false;
+                      isExist =
+                          state.profile.wishlistMoviesIds?.contains(movie.id) ??
+                          false;
+                    } else {
+                      isFavorite =
+                          state.profile.favoriteTvIds?.contains(movie.id) ??
+                          false;
+                      isExist =
+                          state.profile.wishlistTvIds?.contains(movie.id) ??
+                          false;
+                    }
                   }
                   return Column(
                     children: [
                       IconButton(
                         onPressed: () {
-                           if (isFavorite) {
-                          context.read<ProfileBloc>().add(
-                            ProfileEvent.removeFavoriteMovie(userId, movie.id),
-                          );
-                        } else {
-                          context.read<ProfileBloc>().add(
-                            ProfileEvent.addFavoriteMovie(userId, movie.id),
-                          );
-                        }
+                          if (isFavorite) {
+                            if (movie.type == "movie") {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.removeFavoriteMovie(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            } else {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.removeFavoriteTvShow(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            }
+                          } else {
+                            if (movie.type == "movie") {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.addFavoriteMovie(userId, movie.id),
+                              );
+                            } else {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.addFavoriteTvShow(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            }
+                          }
                         },
                         icon: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -375,21 +407,44 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                       IconButton(
                         onPressed: () {
-                           if (isExist) {
-                          context.read<ProfileBloc>().add(
-                            ProfileEvent.removeWishlistMovie(userId, movie.id),
-                          );
-                        } else {
-                          context.read<ProfileBloc>().add(
-                            ProfileEvent.addWishlistMovie(userId, movie.id),
-                          );
-                        }
+                          if (isExist) {
+                            if (movie.type == "movie") {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.removeWishlistMovie(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            } else {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.removeWishlistTvShow(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            }
+                          } else {
+                            if (movie.type == "movie") {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.addWishlistMovie(userId, movie.id),
+                              );
+                            } else {
+                              context.read<ProfileBloc>().add(
+                                ProfileEvent.addWishlistTvShow(
+                                  userId,
+                                  movie.id,
+                                ),
+                              );
+                            }
+                          }
                         },
                         icon: Icon(
-                         isExist?Icons.bookmark: Icons.bookmark_border,
-                          color: 
-                          isExist? ThemeConstants.primaryDark:
-                          isDark ? Colors.grey[400] : Colors.grey[600],
+                          isExist ? Icons.bookmark : Icons.bookmark_border,
+                          color: isExist
+                              ? ThemeConstants.primaryDark
+                              : isDark
+                              ? Colors.grey[400]
+                              : Colors.grey[600],
                         ),
                       ),
                     ],
