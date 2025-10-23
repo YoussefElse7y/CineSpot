@@ -304,65 +304,76 @@ class HomeScreen extends StatelessWidget {
   // OPTIMIZED: Use cached images
   Widget _buildMovieCard(BuildContext context, MovieItem movie) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Container(
-      width: 160,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: isDark ? Colors.grey[850] : Colors.grey[200],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: CachedNetworkImage(
-                  imageUrl: movie.imageUrl,
-                  height: 240,
-                  width: 160,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: isDark ? Colors.grey[800] : Colors.grey[300],
-                    child: const Center(child: CircularProgressIndicator()),
+    return GestureDetector(
+      onTap: () {
+        if (movie.type == 'movie') {
+           Navigator.pushNamed(
+  context,
+  Routes.movieDetailsScreen,
+  arguments: movie.id, 
+);
+        }
+      },
+      child: Container(
+        width: 160,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: isDark ? Colors.grey[850] : Colors.grey[200],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
                   ),
-                  errorWidget: (context, url, error) => Container(
-                    color: isDark ? Colors.grey[800] : Colors.grey[300],
-                    child: const Icon(
-                      Icons.movie,
-                      size: 60,
-                      color: Colors.grey,
+                  child: CachedNetworkImage(
+                    imageUrl: movie.imageUrl,
+                    height: 240,
+                    width: 160,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: isDark ? Colors.grey[800] : Colors.grey[300],
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: isDark ? Colors.grey[800] : Colors.grey[300],
+                      child: const Icon(
+                        Icons.movie,
+                        size: 60,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE21221),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    movie.rating.toStringAsFixed(1),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE21221),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      movie.rating.toStringAsFixed(1),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

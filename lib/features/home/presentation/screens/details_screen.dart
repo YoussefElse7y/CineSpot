@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/screens/home_screen.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
@@ -212,7 +213,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
       child: InkWell(
         onTap: () {
-          // Navigate to movie details
+          if (movie.type == "movie") {
+            Navigator.pushNamed(
+              context,
+              Routes.movieDetailsScreen,
+              arguments: movie.id,
+            );
+          }
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(

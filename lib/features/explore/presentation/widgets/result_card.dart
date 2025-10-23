@@ -1,5 +1,5 @@
-
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
+import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/features/explore/domain/entities/movie/movie_search_result_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/multi/search_result_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/person/person_search_entity.dart';
@@ -14,9 +14,26 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (result is SearchResultEntity) {
-      return _buildMultiSearchCard(result);
+      return GestureDetector(
+        onTap: () {
+          if (result.mediaType == 'movie') {
+            Navigator.pushNamed(
+              context,
+              Routes.movieDetailsScreen,
+              arguments: result.id,
+            );
+          }
+        },
+        child: _buildMultiSearchCard(result),
+      );
     } else if (result is MovieSearchResultEntity) {
-      return _buildMovieCard(result);
+      return GestureDetector(onTap: () {
+        Navigator.pushNamed(
+              context,
+              Routes.movieDetailsScreen,
+              arguments: result.id,
+            );
+      }, child: _buildMovieCard(result));
     } else if (result is TvEntity) {
       return _buildTvCard(result);
     } else if (result is PersonSearchEntity) {
@@ -179,4 +196,3 @@ class ResultCard extends StatelessWidget {
     );
   }
 }
-
