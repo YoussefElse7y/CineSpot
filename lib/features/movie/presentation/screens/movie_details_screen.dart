@@ -1,5 +1,4 @@
 import 'package:cine_spot/core/di/injection_container.dart';
-import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/language/presentation/bloc/language_bloc.dart';
 import 'package:cine_spot/features/language/presentation/bloc/language_state.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
