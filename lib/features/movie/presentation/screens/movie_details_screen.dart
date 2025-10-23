@@ -15,10 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MovieDetailsScreen extends StatelessWidget {
   final int movieId;
 
-  const MovieDetailsScreen({
-    super.key,
-    required this.movieId,
-  });
+  const MovieDetailsScreen({super.key, required this.movieId});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +30,12 @@ class MovieDetailsScreen extends StatelessWidget {
           ..add(MovieEvent.loadMovieDetails(movieId, language: currentLanguage))
           ..add(MovieEvent.loadCredits(movieId, language: currentLanguage))
           ..add(MovieEvent.loadVideos(movieId, language: currentLanguage))
-          ..add(MovieEvent.loadSimilarMovies(movieId, language: currentLanguage))
-          ..add(MovieEvent.loadRecommendations(movieId, language: currentLanguage))
+          ..add(
+            MovieEvent.loadSimilarMovies(movieId, language: currentLanguage),
+          )
+          ..add(
+            MovieEvent.loadRecommendations(movieId, language: currentLanguage),
+          )
           ..add(MovieEvent.loadReviews(movieId, language: currentLanguage));
       },
       child: const MovieDetailsView(),
@@ -70,10 +71,11 @@ class MovieDetailsView extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       final languageBloc = context.read<LanguageBloc>();
-                      final currentLanguage = (languageBloc.state is LanguageLoaded)
+                      final currentLanguage =
+                          (languageBloc.state is LanguageLoaded)
                           ? (languageBloc.state as LanguageLoaded).language.code
                           : 'en';
-                      
+
                       context.read<MovieBloc>().add(
                         MovieEvent.loadMovieDetails(
                           state.movieDetails?.id ?? 0,
@@ -101,42 +103,35 @@ class MovieDetailsView extends StatelessWidget {
                   flexibleSpace: FlexibleSpaceBar(
                     background: MovieHeader(movie: movie),
                   ),
+                  backgroundColor: Colors.transparent,
+                  surfaceTintColor: Colors.transparent,
+                  
                 ),
 
                 // Movie Info Section
-                SliverToBoxAdapter(
-                  child: MovieInfoSection(movie: movie),
-                ),
+                SliverToBoxAdapter(child: MovieInfoSection(movie: movie)),
 
                 // Cast Section
-                const SliverToBoxAdapter(
-                  child: CastSection(),
-                ),
-
+                const SliverToBoxAdapter(child: CastSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
                 // Trailers Section
-                const SliverToBoxAdapter(
-                  child: TrailersSection(),
-                ),
+                const SliverToBoxAdapter(child: TrailersSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
                 // Similar Movies Section
-                const SliverToBoxAdapter(
-                  child: SimilarMoviesSection(),
-                ),
+                const SliverToBoxAdapter(child: SimilarMoviesSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
                 // Recommendations Section
-                const SliverToBoxAdapter(
-                  child: RecommendationsSection(),
-                ),
+                const SliverToBoxAdapter(child: RecommendationsSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
                 // Reviews Section
-                const SliverToBoxAdapter(
-                  child: ReviewsSection(),
-                ),
+                const SliverToBoxAdapter(child: ReviewsSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
                 // Bottom padding
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: 32),
-                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 50)),
               ],
             );
           }

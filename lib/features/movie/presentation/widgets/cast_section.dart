@@ -166,7 +166,7 @@ class _CastCard extends StatelessWidget {
                 Text(
                   character,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 8,
                     color: isDark ? Colors.grey[400] : Colors.grey[600],
                   ),
                   maxLines: 2,

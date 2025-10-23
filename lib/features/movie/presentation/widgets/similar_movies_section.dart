@@ -22,9 +22,7 @@ class SimilarMoviesSection extends StatelessWidget {
         if (state.similarStatus == MovieSimilarStatus.loading) {
           return const SizedBox(
             height: 200,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -64,7 +62,7 @@ class SimilarMoviesSection extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                height: 240,
+                height: 235,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -120,7 +118,10 @@ class _SimilarMovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final genres = getGenreNamesByLanguage(genreIds.take(2).toList(), language: language);
+    final genres = getGenreNamesByLanguage(
+      genreIds.take(2).toList(),
+      language: language,
+    );
     final year = releaseDate.isNotEmpty ? releaseDate.split('-')[0] : 'N/A';
 
     return GestureDetector(
@@ -196,11 +197,7 @@ class _SimilarMovieCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                          size: 12,
-                        ),
+                        const Icon(Icons.star, color: Colors.amber, size: 12),
                         const SizedBox(width: 2),
                         Text(
                           rating.toStringAsFixed(1),
@@ -230,7 +227,7 @@ class _SimilarMovieCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: isDark ? Colors.white : Colors.black,
                     ),
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),

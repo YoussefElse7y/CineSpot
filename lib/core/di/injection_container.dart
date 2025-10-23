@@ -22,6 +22,7 @@ import 'package:cine_spot/features/home/domain/usecases/get_playing_now_movies.d
 import 'package:cine_spot/features/home/domain/usecases/get_top_ten_movies_tihs_week.dart';
 import 'package:cine_spot/features/home/domain/usecases/get_trending_tv_shows.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
+import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cine_spot/features/profile/data/datasources/cloudinary_service.dart';
 import 'package:cine_spot/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:cine_spot/features/profile/data/repositories/profile_repository_impl.dart';
@@ -61,6 +62,19 @@ import '../../features/language/domain/repositories/language_repository.dart';
 import '../../features/language/domain/usecases/get_language.dart';
 import '../../features/language/domain/usecases/save_language.dart';
 import '../../features/language/presentation/bloc/language_bloc.dart';
+
+
+// Add these imports at the top
+import 'package:cine_spot/features/movie/data/datasources/movie_services.dart';
+import 'package:cine_spot/features/movie/data/repository/movie_repository_impl.dart';
+import 'package:cine_spot/features/movie/domain/repository/movie_repository.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_movie_details.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_credits_usecase.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_movie_videos_usecase.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_similar_movies_usecase.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_recommendations_usecase.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_movie_reviews_usecase.dart';
+
 
 final sl = GetIt.instance;
 
@@ -118,6 +132,18 @@ Future<void> init() async {
     ),
   );
 
+    // Add Movie BLoC
+  sl.registerFactory(
+    () => MovieBloc(
+      getMovieDetailsUseCase: sl(),
+      getCreditsUseCase: sl(),
+      getMovieVideosUseCase: sl(),
+      getSimilarMoviesUseCase: sl(),
+      getRecommendationsUseCase: sl(),
+      getMovieReviewsUseCase: sl(),
+    ),
+  );
+
   // ========== Use Cases ==========
   // Theme
   sl.registerLazySingleton(() => GetThemeMode(sl()));
@@ -168,6 +194,15 @@ Future<void> init() async {
   sl.registerLazySingleton(() => PersonSearchResultUseCase(sl()));
   sl.registerLazySingleton(() => CompanySearchResultUseCase(sl()));
 
+    // Add Movie Use Cases
+  sl.registerLazySingleton(() => GetMovieDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => GetCreditsUseCase(sl()));
+  sl.registerLazySingleton(() => GetMovieVideosUseCase(sl()));
+  sl.registerLazySingleton(() => GetSimilarMoviesUseCase(sl()));
+  sl.registerLazySingleton(() => GetRecommendationsUseCase(sl()));
+  sl.registerLazySingleton(() => GetMovieReviewsUseCase(sl()));
+
+
   // ========== Repositories ==========
   // Theme
   sl.registerLazySingleton<ThemeRepository>(
@@ -193,6 +228,11 @@ Future<void> init() async {
 
   // Explore Repository
   sl.registerLazySingleton<ExploreRepo>(() => ExploreRepoImpl(sl()));
+
+  // Add Movie Repository
+  sl.registerLazySingleton<MovieRepository>(
+    () => MovieRepositoryImpl(sl()),
+  );
 
   // ========== Data Sources ==========
   // Theme
@@ -224,6 +264,13 @@ Future<void> init() async {
 
   // Explore Services
   sl.registerLazySingleton<ExploreServices>(() => ExploreServices(sl()));
+
+   // Add Movie Services
+  sl.registerLazySingleton<MovieServices>(() => MovieServices(sl()));
+
+
+
+
 
   // ========== External ==========
   final sharedPreferences = await SharedPreferences.getInstance();

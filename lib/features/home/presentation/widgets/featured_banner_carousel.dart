@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/core/helpers/functions.dart';
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
+import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
@@ -111,7 +112,7 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
                 context,
                 movie.mediaType ?? 'movie',
                 movie.id,
-                
+
                 TMDBImageHelper.getPoster(movie.posterPath!, PosterSize.w780),
                 movie.title,
                 movie.overview,
@@ -394,8 +395,17 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // play button
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (type == "movie") {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.movieDetailsScreen,
+                              arguments: movieId, // Pass the movie ID as int
+                            );
+                          }
+                        },
                         icon: const Icon(Icons.play_arrow),
                         label: Text(widget.l10n.play),
                         style: ElevatedButton.styleFrom(
@@ -435,11 +445,11 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
                                   ) ??
                                   false;
                             } else {
-                                isExist =
-                                state.profile.wishlistTvIds?.contains(
+                              isExist =
+                                  state.profile.wishlistTvIds?.contains(
                                     movieId,
-                                ) ??
-                                false;
+                                  ) ??
+                                  false;
                             }
                           }
                           return OutlinedButton.icon(

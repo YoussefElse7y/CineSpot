@@ -6,6 +6,7 @@ import 'package:cine_spot/features/home/presentation/screens/home_screen.dart';
 import 'package:cine_spot/features/home/presentation/screens/main_screen.dart';
 import 'package:cine_spot/features/home/presentation/screens/details_screen.dart';
 import 'package:cine_spot/features/landing_page.dart';
+import 'package:cine_spot/features/movie/presentation/screens/movie_details_screen.dart';
 import 'package:cine_spot/features/on_boarding_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/fill_profile_screen.dart';
@@ -38,6 +39,12 @@ class AppRouter {
   return MaterialPageRoute(builder: (_) => const EditProfileScreen());
   case Routes.languageScreen:
   return MaterialPageRoute(builder: (_) => const LanguageScreen());
+   // Add movie details route
+      case Routes.movieDetailsScreen:
+        final movieId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => MovieDetailsScreen(movieId: movieId),
+        );
       default:
         return MaterialPageRoute(builder: (_) => MainScreen());
     }

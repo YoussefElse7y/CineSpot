@@ -6,12 +6,12 @@ import '../../domain/entities/movie_videos_entity.dart';
 import '../../domain/entities/similar_movies_response_entity.dart';
 import '../../domain/entities/recommendations_entity.dart';
 import '../../domain/entities/movie_review_entity.dart';
-import '../../domain/entities/usecases/get_movie_details.dart';
-import '../../domain/entities/usecases/get_credits_usecase.dart';
-import '../../domain/entities/usecases/get_movie_videos_usecase.dart';
-import '../../domain/entities/usecases/get_similar_movies_usecase.dart';
-import '../../domain/entities/usecases/get_recommendations_usecase.dart';
-import '../../domain/entities/usecases/get_movie_reviews_usecase.dart';
+import '../../domain/usecases/get_movie_details.dart';
+import '../../domain/usecases/get_credits_usecase.dart';
+import '../../domain/usecases/get_movie_videos_usecase.dart';
+import '../../domain/usecases/get_similar_movies_usecase.dart';
+import '../../domain/usecases/get_recommendations_usecase.dart';
+import '../../domain/usecases/get_movie_reviews_usecase.dart';
 
 part 'movie_bloc.freezed.dart';
 part 'movie_event.dart';

@@ -1,4 +1,5 @@
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -17,9 +18,7 @@ class TrailersSection extends StatelessWidget {
         if (state.videosStatus == MovieVideosStatus.loading) {
           return const SizedBox(
             height: 200,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -39,12 +38,7 @@ class TrailersSection extends StatelessWidget {
             state.videos != null &&
             state.videos!.results.isNotEmpty) {
           // Filter for trailers and teasers
-          final trailers = state.videos!.results
-              .where((video) =>
-                  video.type == 'Trailer' ||
-                  video.type == 'Teaser' ||
-                  video.type == 'Clip')
-              .toList();
+          final trailers = state.videos!.results;
 
           if (trailers.isEmpty) return const SizedBox.shrink();
 
@@ -54,7 +48,7 @@ class TrailersSection extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Trailers',
+                  'Videos',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -64,7 +58,7 @@ class TrailersSection extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                height: 200,
+                height: 190,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -108,15 +102,14 @@ class _TrailerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final language = AppLocalizations.of(context)!.locale_language;
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => VideoPlayerScreen(
-              videoKey: videoKey,
-              title: title,
-            ),
+            builder: (context) =>
+                VideoPlayerScreen(videoKey: videoKey, title: title ,language: language,),
           ),
         );
       },
@@ -207,7 +200,7 @@ class _TrailerCard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: isDark ? Colors.white : Colors.black,
                 ),
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -221,11 +214,13 @@ class _TrailerCard extends StatelessWidget {
 class VideoPlayerScreen extends StatefulWidget {
   final String videoKey;
   final String title;
+  final String language;
 
   const VideoPlayerScreen({
     super.key,
     required this.videoKey,
     required this.title,
+    required this.language,
   });
 
   @override
@@ -240,10 +235,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.videoKey,
-      flags: const YoutubePlayerFlags(
+      flags: YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
         enableCaption: true,
+        captionLanguage: widget.language,
       ),
     );
   }
@@ -260,10 +256,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(
-          widget.title,
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: Text(widget.title, style: const TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Center(
