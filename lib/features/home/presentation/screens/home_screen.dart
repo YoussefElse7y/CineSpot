@@ -307,11 +307,18 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (movie.type == 'movie') {
-           Navigator.pushNamed(
-  context,
-  Routes.movieDetailsScreen,
-  arguments: movie.id, 
-);
+          Navigator.pushNamed(
+            context,
+            Routes.movieDetailsScreen,
+            arguments: movie.id,
+          );
+        }
+        else {
+          Navigator.pushNamed(
+            context,
+            Routes.tvShowDetailsScreen,
+            arguments: movie.id,
+          );
         }
       },
       child: Container(

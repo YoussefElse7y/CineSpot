@@ -11,6 +11,7 @@ import 'package:cine_spot/features/on_boarding_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/fill_profile_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/language_selection_screen.dart';
+import 'package:cine_spot/features/tv_show/presentation/screens/tv_show_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -45,6 +46,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MovieDetailsScreen(movieId: movieId),
         );
+
+        // Add movie details route
+      case Routes.tvShowDetailsScreen:
+        final tvShowId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => TvShowDetailsScreen(tvShowId:  tvShowId),
+        );
+
       default:
         return MaterialPageRoute(builder: (_) => MainScreen());
     }
