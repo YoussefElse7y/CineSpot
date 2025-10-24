@@ -1,4 +1,4 @@
-import 'package:cine_spot/features/auth/domain/entities/failure.dart';
+import 'package:cine_spot/core/failure/failure.dart';
 import 'package:cine_spot/features/home/data/datasource/remote_home_services.dart';
 import 'package:cine_spot/features/home/data/models/movies_response_entity.dart';
 import 'package:cine_spot/features/home/data/models/now_playing_movies_response_model.dart';

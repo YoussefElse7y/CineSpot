@@ -1,5 +1,5 @@
 
- import 'package:cine_spot/features/auth/domain/entities/failure.dart';
+ import 'package:cine_spot/core/failure/failure.dart';
 import 'package:cine_spot/features/home/domain/entities/movies_response_entity.dart';
 import 'package:cine_spot/features/home/domain/entities/now_playing_movie_response_entity.dart';
 import 'package:cine_spot/features/home/domain/entities/trending_tv_response_entity.dart';

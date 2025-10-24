@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
-import '../../../auth/domain/entities/failure.dart';
+import '../../../../core/failure/failure.dart';
 import '../entities/profile_entity.dart';
 
 abstract class ProfileRepository {

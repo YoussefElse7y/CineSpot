@@ -1,4 +1,4 @@
-import 'package:cine_spot/features/auth/domain/entities/failure.dart';
+import 'package:cine_spot/core/failure/failure.dart';
 import 'package:cine_spot/features/explore/domain/entities/company/company_search_response_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/movie/movie_search_response_entity.dart';
 import 'package:cine_spot/features/explore/domain/entities/person/person_search_response_entity.dart';

@@ -86,14 +86,15 @@ extension FailurePatterns on Failure {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ServerFailure value)?  serverFailure,TResult Function( AuthFailure value)?  authFailure,TResult Function( NetworkFailure value)?  networkFailure,TResult Function( CacheFailure value)?  cacheFailure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ServerFailure value)?  serverFailure,TResult Function( AuthFailure value)?  authFailure,TResult Function( NetworkFailure value)?  networkFailure,TResult Function( CacheFailure value)?  cacheFailure,TResult Function( NotFoundFailure value)?  notFoundFailure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ServerFailure() when serverFailure != null:
 return serverFailure(_that);case AuthFailure() when authFailure != null:
 return authFailure(_that);case NetworkFailure() when networkFailure != null:
 return networkFailure(_that);case CacheFailure() when cacheFailure != null:
-return cacheFailure(_that);case _:
+return cacheFailure(_that);case NotFoundFailure() when notFoundFailure != null:
+return notFoundFailure(_that);case _:
   return orElse();
 
 }
@@ -111,14 +112,15 @@ return cacheFailure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ServerFailure value)  serverFailure,required TResult Function( AuthFailure value)  authFailure,required TResult Function( NetworkFailure value)  networkFailure,required TResult Function( CacheFailure value)  cacheFailure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ServerFailure value)  serverFailure,required TResult Function( AuthFailure value)  authFailure,required TResult Function( NetworkFailure value)  networkFailure,required TResult Function( CacheFailure value)  cacheFailure,required TResult Function( NotFoundFailure value)  notFoundFailure,}){
 final _that = this;
 switch (_that) {
 case ServerFailure():
 return serverFailure(_that);case AuthFailure():
 return authFailure(_that);case NetworkFailure():
 return networkFailure(_that);case CacheFailure():
-return cacheFailure(_that);case _:
+return cacheFailure(_that);case NotFoundFailure():
+return notFoundFailure(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -135,14 +137,15 @@ return cacheFailure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ServerFailure value)?  serverFailure,TResult? Function( AuthFailure value)?  authFailure,TResult? Function( NetworkFailure value)?  networkFailure,TResult? Function( CacheFailure value)?  cacheFailure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ServerFailure value)?  serverFailure,TResult? Function( AuthFailure value)?  authFailure,TResult? Function( NetworkFailure value)?  networkFailure,TResult? Function( CacheFailure value)?  cacheFailure,TResult? Function( NotFoundFailure value)?  notFoundFailure,}){
 final _that = this;
 switch (_that) {
 case ServerFailure() when serverFailure != null:
 return serverFailure(_that);case AuthFailure() when authFailure != null:
 return authFailure(_that);case NetworkFailure() when networkFailure != null:
 return networkFailure(_that);case CacheFailure() when cacheFailure != null:
-return cacheFailure(_that);case _:
+return cacheFailure(_that);case NotFoundFailure() when notFoundFailure != null:
+return notFoundFailure(_that);case _:
   return null;
 
 }
@@ -159,13 +162,14 @@ return cacheFailure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  serverFailure,TResult Function( String message)?  authFailure,TResult Function( String message)?  networkFailure,TResult Function( String message)?  cacheFailure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  serverFailure,TResult Function( String message)?  authFailure,TResult Function( String message)?  networkFailure,TResult Function( String message)?  cacheFailure,TResult Function( String message)?  notFoundFailure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ServerFailure() when serverFailure != null:
 return serverFailure(_that.message);case AuthFailure() when authFailure != null:
 return authFailure(_that.message);case NetworkFailure() when networkFailure != null:
 return networkFailure(_that.message);case CacheFailure() when cacheFailure != null:
-return cacheFailure(_that.message);case _:
+return cacheFailure(_that.message);case NotFoundFailure() when notFoundFailure != null:
+return notFoundFailure(_that.message);case _:
   return orElse();
 
 }
@@ -183,13 +187,14 @@ return cacheFailure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  serverFailure,required TResult Function( String message)  authFailure,required TResult Function( String message)  networkFailure,required TResult Function( String message)  cacheFailure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  serverFailure,required TResult Function( String message)  authFailure,required TResult Function( String message)  networkFailure,required TResult Function( String message)  cacheFailure,required TResult Function( String message)  notFoundFailure,}) {final _that = this;
 switch (_that) {
 case ServerFailure():
 return serverFailure(_that.message);case AuthFailure():
 return authFailure(_that.message);case NetworkFailure():
 return networkFailure(_that.message);case CacheFailure():
-return cacheFailure(_that.message);case _:
+return cacheFailure(_that.message);case NotFoundFailure():
+return notFoundFailure(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,13 +211,14 @@ return cacheFailure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  serverFailure,TResult? Function( String message)?  authFailure,TResult? Function( String message)?  networkFailure,TResult? Function( String message)?  cacheFailure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  serverFailure,TResult? Function( String message)?  authFailure,TResult? Function( String message)?  networkFailure,TResult? Function( String message)?  cacheFailure,TResult? Function( String message)?  notFoundFailure,}) {final _that = this;
 switch (_that) {
 case ServerFailure() when serverFailure != null:
 return serverFailure(_that.message);case AuthFailure() when authFailure != null:
 return authFailure(_that.message);case NetworkFailure() when networkFailure != null:
 return networkFailure(_that.message);case CacheFailure() when cacheFailure != null:
-return cacheFailure(_that.message);case _:
+return cacheFailure(_that.message);case NotFoundFailure() when notFoundFailure != null:
+return notFoundFailure(_that.message);case _:
   return null;
 
 }
@@ -476,6 +482,72 @@ class _$CacheFailureCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(CacheFailure(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class NotFoundFailure implements Failure {
+  const NotFoundFailure(this.message);
+  
+
+@override final  String message;
+
+/// Create a copy of Failure
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NotFoundFailureCopyWith<NotFoundFailure> get copyWith => _$NotFoundFailureCopyWithImpl<NotFoundFailure>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotFoundFailure&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'Failure.notFoundFailure(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $NotFoundFailureCopyWith<$Res> implements $FailureCopyWith<$Res> {
+  factory $NotFoundFailureCopyWith(NotFoundFailure value, $Res Function(NotFoundFailure) _then) = _$NotFoundFailureCopyWithImpl;
+@override @useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$NotFoundFailureCopyWithImpl<$Res>
+    implements $NotFoundFailureCopyWith<$Res> {
+  _$NotFoundFailureCopyWithImpl(this._self, this._then);
+
+  final NotFoundFailure _self;
+  final $Res Function(NotFoundFailure) _then;
+
+/// Create a copy of Failure
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(NotFoundFailure(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

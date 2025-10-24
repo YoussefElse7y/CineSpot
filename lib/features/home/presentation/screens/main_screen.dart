@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
         child: const ExploreScreen(),
       ),
       const MyListScreen(),
-      const DownloadScreen(),
+      // const DownloadScreen(),
       const ProfileScreen(),
     ];
   }
@@ -83,26 +83,26 @@ class _MainScreenState extends State<MainScreen> {
             unselectedItemColor: isDark ? Colors.white70 : Colors.black54,
             showUnselectedLabels: true,
             onTap: _onItemTapped,
-            items: List.generate(5, (index) {
+            items: List.generate(4, (index) {
               final icons = [
                 Icons.home,
                 Icons.explore,
                 Icons.bookmark,
-                Icons.download,
+                // Icons.download,
                 Icons.person,
               ];
               final outlinedIcons = [
                 Icons.home_outlined,
                 Icons.explore_outlined,
                 Icons.bookmark_outline,
-                Icons.download_outlined,
+                // Icons.download_outlined,
                 Icons.person_outline,
               ];
               final labels = [
                 l10n.home,
                 l10n.explore,
                 l10n.myList,
-                l10n.downloads,
+                // l10n.downloads,
                 l10n.profile,
               ];
               final isSelected = index == _currentIndex;

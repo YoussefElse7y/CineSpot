@@ -8,4 +8,5 @@ part 'failure.freezed.dart';
   const factory Failure.authFailure(String message) = AuthFailure;
   const factory Failure.networkFailure(String message) = NetworkFailure;
   const factory Failure.cacheFailure(String message) = CacheFailure;
+  const factory Failure.notFoundFailure(String message) = NotFoundFailure;
 }

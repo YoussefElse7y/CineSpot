@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../entities/user_entity.dart';
-import '../entities/failure.dart';
+import '../../../../core/failure/failure.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> signInWithEmail(String email, String password);

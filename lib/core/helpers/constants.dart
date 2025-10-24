@@ -1,3 +1,5 @@
+const String defaultLanguage = 'en-US';
+
 class GenreConstants {
   static const movieGenres = {
     28: 'Action',

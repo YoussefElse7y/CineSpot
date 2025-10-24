@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import '../../../auth/domain/entities/failure.dart';
+import '../../../../core/failure/failure.dart';
 import '../repositories/profile_repository.dart';
 
 class CheckProfileExistsUseCase {

@@ -1,5 +1,5 @@
 
-import 'package:cine_spot/features/auth/domain/entities/failure.dart';
+import 'package:cine_spot/core/failure/failure.dart';
 import 'package:cine_spot/features/movie/domain/entities/credits_entity.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_review_entity.dart';
