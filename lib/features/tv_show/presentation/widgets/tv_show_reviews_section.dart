@@ -109,7 +109,7 @@ class TvShowReviewsSection extends StatelessWidget {
 class _ReviewCard extends StatefulWidget {
   final String author;
   final String? avatarPath;
-  final int? rating;
+  final double? rating;
   final String content;
   final String createdAt;
   final bool isDark;

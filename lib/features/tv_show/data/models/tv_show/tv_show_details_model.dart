@@ -1,131 +1,189 @@
-import 'package:json_annotation/json_annotation.dart';
-import '../../../domain/entities/tv_show_details_entity.dart';
+// tv_show_details_model.dart
 
-part 'tv_show_details_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class TvShowDetailsModel {
-  final int id;
-  final String name;
-  @JsonKey(name: 'original_name')
-  final String originalName;
-  final String overview;
-  final String? tagline;
-  @JsonKey(name: 'backdrop_path')
-  final String? backdropPath;
-  @JsonKey(name: 'poster_path')
-  final String? posterPath;
-  @JsonKey(name: 'first_air_date')
-  final String firstAirDate;
-  @JsonKey(name: 'last_air_date')
-  final String? lastAirDate;
-  @JsonKey(name: 'in_production')
-  final bool inProduction;
-  @JsonKey(name: 'number_of_seasons')
-  final int numberOfSeasons;
-  @JsonKey(name: 'number_of_episodes')
-  final int numberOfEpisodes;
-  @JsonKey(name: 'vote_average')
-  final double voteAverage;
-  @JsonKey(name: 'vote_count')
-  final int voteCount;
-  final List<GenreModel> genres;
-  final List<SeasonModel> seasons;
-  @JsonKey(name: 'created_by')
-  final List<CreatedByModel> createdBy;
-  final List<NetworkModel> networks;
+import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entity.dart';
 
+class TvShowDetailsModel extends TvShowDetailsEntity {
   TvShowDetailsModel({
-    required this.id,
-    required this.name,
-    required this.originalName,
-    required this.overview,
-    required this.firstAirDate,
-    required this.inProduction,
-    required this.numberOfSeasons,
-    required this.numberOfEpisodes,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.genres,
-    required this.seasons,
-    required this.createdBy,
-    required this.networks,
-    this.tagline,
-    this.backdropPath,
-    this.posterPath,
-    this.lastAirDate,
-  });
+    required int id,
+    required String name,
+    required String originalName,
+    required String overview,
+    String? tagline,
+    String? backdropPath,
+    String? posterPath,
+    required String firstAirDate,
+    String? lastAirDate,
+    required bool inProduction,
+    required int numberOfSeasons,
+    required int numberOfEpisodes,
+    required double voteAverage,
+    required int voteCount,
+    required List<GenreModel> genres,
+    required List<SeasonModel> seasons,
+    required List<CreatedByModel> createdBy,
+    required List<NetworkModel> networks,
+  }) : super(
+          id: id,
+          name: name,
+          originalName: originalName,
+          overview: overview,
+          tagline: tagline,
+          backdropPath: backdropPath,
+          posterPath: posterPath,
+          firstAirDate: firstAirDate,
+          lastAirDate: lastAirDate,
+          inProduction: inProduction,
+          numberOfSeasons: numberOfSeasons,
+          numberOfEpisodes: numberOfEpisodes,
+          voteAverage: voteAverage,
+          voteCount: voteCount,
+          genres: genres,
+          seasons: seasons,
+          createdBy: createdBy,
+          networks: networks,
+        );
 
-  factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$TvShowDetailsModelFromJson(json);
-  Map<String, dynamic> toJson() => _$TvShowDetailsModelToJson(this);
+  factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) {
+    return TvShowDetailsModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      originalName: json['original_name'] ?? '',
+      overview: json['overview'] ?? '',
+      tagline: json['tagline'],
+      backdropPath: json['backdrop_path'],
+      posterPath: json['poster_path'],
+      firstAirDate: json['first_air_date'] ?? '',
+      lastAirDate: json['last_air_date'],
+      inProduction: json['in_production'] ?? false,
+      numberOfSeasons: json['number_of_seasons'] ?? 0,
+      numberOfEpisodes: json['number_of_episodes'] ?? 0,
+      voteAverage: (json['vote_average'] ?? 0).toDouble(),
+      voteCount: json['vote_count'] ?? 0,
+      genres: (json['genres'] as List<dynamic>? ?? [])
+          .map((e) => GenreModel.fromJson(e))
+          .toList(),
+      seasons: (json['seasons'] as List<dynamic>? ?? [])
+          .map((e) => SeasonModel.fromJson(e))
+          .toList(),
+      createdBy: (json['created_by'] as List<dynamic>? ?? [])
+          .map((e) => CreatedByModel.fromJson(e))
+          .toList(),
+      networks: (json['networks'] as List<dynamic>? ?? [])
+          .map((e) => NetworkModel.fromJson(e))
+          .toList(),
+    );
+  }
 
-  TvShowDetailsEntity toEntity() => TvShowDetailsEntity(
-        id: id,
-        name: name,
-        originalName: originalName,
-        overview: overview,
-        tagline: tagline,
-        backdropPath: backdropPath,
-        posterPath: posterPath,
-        firstAirDate: firstAirDate,
-        lastAirDate: lastAirDate,
-        inProduction: inProduction,
-        numberOfSeasons: numberOfSeasons,
-        numberOfEpisodes: numberOfEpisodes,
-        voteAverage: voteAverage,
-        voteCount: voteCount,
-        genres: genres.map((e) => e.toEntity()).toList(),
-        seasons: seasons.map((e) => e.toEntity()).toList(),
-        createdBy: createdBy.map((e) => e.toEntity()).toList(),
-        networks: networks.map((e) => e.toEntity()).toList(),
-      );
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'original_name': originalName,
+      'overview': overview,
+      'tagline': tagline,
+      'backdrop_path': backdropPath,
+      'poster_path': posterPath,
+      'first_air_date': firstAirDate,
+      'last_air_date': lastAirDate,
+      'in_production': inProduction,
+      'number_of_seasons': numberOfSeasons,
+      'number_of_episodes': numberOfEpisodes,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+      'genres': genres.map((e) => (e as GenreModel).toJson()).toList(),
+      'seasons': seasons.map((e) => (e as SeasonModel).toJson()).toList(),
+      'created_by': createdBy.map((e) => (e as CreatedByModel).toJson()).toList(),
+      'networks': networks.map((e) => (e as NetworkModel).toJson()).toList(),
+    };
+  }
+
+  TvShowDetailsEntity toEntity() {
+    return TvShowDetailsEntity(
+      id: id,
+      name: name,
+      originalName: originalName,
+      overview: overview,
+      tagline: tagline,
+      backdropPath: backdropPath,
+      posterPath: posterPath,
+      firstAirDate: firstAirDate,
+      lastAirDate: lastAirDate,
+      inProduction: inProduction,
+      numberOfSeasons: numberOfSeasons,
+      numberOfEpisodes: numberOfEpisodes,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
+      genres: genres.map((e) => (e as GenreModel).toEntity()).toList(),
+      seasons: seasons.map((e) => (e as SeasonModel).toEntity()).toList(),
+      createdBy: createdBy.map((e) => (e as CreatedByModel).toEntity()).toList(),
+      networks: networks.map((e) => (e as NetworkModel).toEntity()).toList(),
+    );
+  }
 }
 
-@JsonSerializable()
-class GenreModel {
-  final int id;
-  final String name;
+class GenreModel extends GenreEntity {
+  GenreModel({required int id, required String name}) : super(id: id, name: name);
 
-  GenreModel({required this.id, required this.name});
+  factory GenreModel.fromJson(Map<String, dynamic> json) {
+    return GenreModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+    );
+  }
 
-  factory GenreModel.fromJson(Map<String, dynamic> json) =>
-      _$GenreModelFromJson(json);
-  Map<String, dynamic> toJson() => _$GenreModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+      };
 
   GenreEntity toEntity() => GenreEntity(id: id, name: name);
 }
 
-@JsonSerializable()
-class SeasonModel {
-  final int id;
-  final String name;
-  final String? overview;
-  @JsonKey(name: 'poster_path')
-  final String? posterPath;
-  @JsonKey(name: 'air_date')
-  final String? airDate;
-  @JsonKey(name: 'episode_count')
-  final int episodeCount;
-  @JsonKey(name: 'season_number')
-  final int seasonNumber;
-  @JsonKey(name: 'vote_average')
-  final double voteAverage;
-
+class SeasonModel extends SeasonEntity {
   SeasonModel({
-    required this.id,
-    required this.name,
-    this.overview,
-    this.posterPath,
-    this.airDate,
-    required this.episodeCount,
-    required this.seasonNumber,
-    required this.voteAverage,
-  });
+    required int id,
+    required String name,
+    String? overview,
+    String? posterPath,
+    String? airDate,
+    required int episodeCount,
+    required int seasonNumber,
+    required double voteAverage,
+  }) : super(
+          id: id,
+          name: name,
+          overview: overview,
+          posterPath: posterPath,
+          airDate: airDate,
+          episodeCount: episodeCount,
+          seasonNumber: seasonNumber,
+          voteAverage: voteAverage,
+        );
 
-  factory SeasonModel.fromJson(Map<String, dynamic> json) =>
-      _$SeasonModelFromJson(json);
-  Map<String, dynamic> toJson() => _$SeasonModelToJson(this);
+  factory SeasonModel.fromJson(Map<String, dynamic> json) {
+    return SeasonModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      overview: json['overview'],
+      posterPath: json['poster_path'],
+      airDate: json['air_date'],
+      episodeCount: json['episode_count'] ?? 0,
+      seasonNumber: json['season_number'] ?? 0,
+      voteAverage: (json['vote_average'] ?? 0).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'overview': overview,
+        'poster_path': posterPath,
+        'air_date': airDate,
+        'episode_count': episodeCount,
+        'season_number': seasonNumber,
+        'vote_average': voteAverage,
+      };
 
   SeasonEntity toEntity() => SeasonEntity(
         id: id,
@@ -139,49 +197,58 @@ class SeasonModel {
       );
 }
 
-@JsonSerializable()
-class CreatedByModel {
-  final int id;
-  final String name;
-  final int? gender;
-  @JsonKey(name: 'profile_path')
-  final String? profilePath;
+class CreatedByModel extends CreatedByEntity {
+  CreatedByModel({required int id, required String name, int? gender, String? profilePath})
+      : super(id: id, name: name, gender: gender, profilePath: profilePath);
 
-  CreatedByModel({
-    required this.id,
-    required this.name,
-    this.gender,
-    this.profilePath,
-  });
+  factory CreatedByModel.fromJson(Map<String, dynamic> json) {
+    return CreatedByModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      gender: json['gender'],
+      profilePath: json['profile_path'],
+    );
+  }
 
-  factory CreatedByModel.fromJson(Map<String, dynamic> json) =>
-      _$CreatedByModelFromJson(json);
-  Map<String, dynamic> toJson() => _$CreatedByModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'gender': gender,
+        'profile_path': profilePath,
+      };
 
-  CreatedByEntity toEntity() =>
-      CreatedByEntity(id: id, name: name, gender: gender, profilePath: profilePath);
+  CreatedByEntity toEntity() => CreatedByEntity(
+        id: id,
+        name: name,
+        gender: gender,
+        profilePath: profilePath,
+      );
 }
 
-@JsonSerializable()
-class NetworkModel {
-  final int id;
-  final String name;
-  @JsonKey(name: 'logo_path')
-  final String? logoPath;
-  @JsonKey(name: 'origin_country')
-  final String originCountry;
+class NetworkModel extends NetworkEntity {
+  NetworkModel({required int id, required String name, String? logoPath, required String originCountry})
+      : super(id: id, name: name, logoPath: logoPath, originCountry: originCountry);
 
-  NetworkModel({
-    required this.id,
-    required this.name,
-    this.logoPath,
-    required this.originCountry,
-  });
+  factory NetworkModel.fromJson(Map<String, dynamic> json) {
+    return NetworkModel(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      logoPath: json['logo_path'],
+      originCountry: json['origin_country'] ?? '',
+    );
+  }
 
-  factory NetworkModel.fromJson(Map<String, dynamic> json) =>
-      _$NetworkModelFromJson(json);
-  Map<String, dynamic> toJson() => _$NetworkModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'logo_path': logoPath,
+        'origin_country': originCountry,
+      };
 
-  NetworkEntity toEntity() =>
-      NetworkEntity(id: id, name: name, logoPath: logoPath, originCountry: originCountry);
+  NetworkEntity toEntity() => NetworkEntity(
+        id: id,
+        name: name,
+        logoPath: logoPath,
+        originCountry: originCountry,
+      );
 }

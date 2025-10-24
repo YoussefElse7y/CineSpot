@@ -1,6 +1,6 @@
 class TvSeasonDetailsEntity {
   final String? airDate;
-  final List<dynamic> episodes;
+  final List<TvEpisodeEntity> episodes;
   final String name;
   final String overview;
   final int id;
@@ -31,8 +31,8 @@ class TvEpisodeEntity {
   final String? stillPath;
   final double voteAverage;
   final int voteCount;
-  final List<dynamic> crew;
-  final List<dynamic> guestStars;
+  final List<TvCrewEntity> crew;
+  final List<TvGuestStarEntity> guestStars;
 
   TvEpisodeEntity({
     this.airDate,

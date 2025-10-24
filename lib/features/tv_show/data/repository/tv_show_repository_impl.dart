@@ -139,9 +139,7 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Left(ServerFailure('No data returned from API'));
       }
       final data = TvEpisodeVideosModel.fromJson(response.data);
-      final results = (data.results)
-          .map((item) => TvEpisodeVideoItemModel.fromJson(item).toEntity())
-          .toList();
+      final results = (data.results).map((item) => item.toEntity()).toList();
       return Right(results);
     } on DioError catch (e) {
       if (e.response?.statusCode == 404) {
@@ -254,9 +252,7 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Left(ServerFailure('No data returned from API'));
       }
       final model = TvSeasonVideosModel.fromJson(response.data);
-      final results = (model.results)
-          .map((r) => TvSeasonVideoItemModel.fromJson(r).toEntity())
-          .toList();
+      final results = model.results;
       return Right(results);
     } on DioError catch (e) {
       if (e.response?.statusCode == 404) {
@@ -396,10 +392,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
         return Left(ServerFailure('No data returned from API'));
       }
       final data = TvShowVideosModel.fromJson(response.data);
-      final results = (data.results as List<dynamic>)
-          .map((item) => TvShowVideoResultModel.fromJson(item).toEntity())
-          .toList();
-      return Right(results);
+
+      return Right(data.results);
     } on DioError catch (e) {
       if (e.response?.statusCode == 404) {
         return Left(NotFoundFailure('TV show videos not found'));

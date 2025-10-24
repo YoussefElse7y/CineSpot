@@ -46,13 +46,18 @@ class SeasonDetailsScreen extends StatelessWidget {
             language: currentLanguage,
           ));
       },
-      child: const SeasonDetailsView(),
+      child:  SeasonDetailsView(tvShowId: tvShowId,),
     );
   }
 }
 
 class SeasonDetailsView extends StatelessWidget {
-  const SeasonDetailsView({super.key});
+  const SeasonDetailsView({super.key
+,      required this.tvShowId, // ✅ Add this parameter
+
+  });
+    final int tvShowId; // ✅ Add this parameter
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +221,7 @@ class SeasonDetailsView extends StatelessWidget {
                     (context, index) {
                       final episode = season.episodes[index];
                       return _EpisodeCard(
-                        tvShowId: context.read<TvShowBloc>().state.tvShowDetails?.id ?? 0,
+                        tvShowId: tvShowId,
                         seasonNumber: season.seasonNumber,
                         episode: episode,
                         isDark: isDark,

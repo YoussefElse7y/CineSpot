@@ -1,77 +1,143 @@
-// ignore_for_file: invalid_annotation_target
+// tv_show_recommendations_model.dart
+
 
 import 'package:cine_spot/features/tv_show/domain/entities/tv_show_recommendations_entity.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'tv_show_recommendations_model.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class TvShowRecommendationsModel extends TvShowRecommendationsEntity {
-  const TvShowRecommendationsModel({
-    required super.page,
-    required super.results,
-    @JsonKey(name: 'total_pages') required super.totalPages,
-    @JsonKey(name: 'total_results') required super.totalResults,
-  });
+  TvShowRecommendationsModel({
+    required int page,
+    required List<TvShowRecommendationItemModel> results,
+    required int totalPages,
+    required int totalResults,
+  }) : super(
+          page: page,
+          results: results,
+          totalPages: totalPages,
+          totalResults: totalResults,
+        );
 
-  /// ✅ Convert Model to Entity
-  TvShowRecommendationsEntity toEntity() => TvShowRecommendationsEntity(
-        page: page,
-        results: results
-            .map((item) =>
-                (item as TvShowRecommendationItemModel).toEntity()) // map models to entities
-            .toList(),
-        totalPages: totalPages,
-        totalResults: totalResults,
-      );
+  factory TvShowRecommendationsModel.fromJson(Map<String, dynamic> json) {
+    return TvShowRecommendationsModel(
+      page: json['page'] ?? 1,
+      results: (json['results'] as List<dynamic>? ?? [])
+          .map((e) => TvShowRecommendationItemModel.fromJson(e))
+          .toList(),
+      totalPages: json['total_pages'] ?? 1,
+      totalResults: json['total_results'] ?? 0,
+    );
+  }
 
-  factory TvShowRecommendationsModel.fromJson(Map<String, dynamic> json) =>
-      _$TvShowRecommendationsModelFromJson(json);
+  Map<String, dynamic> toJson() {
+    return {
+      'page': page,
+      'results': results.map((e) => (e as TvShowRecommendationItemModel).toJson()).toList(),
+      'total_pages': totalPages,
+      'total_results': totalResults,
+    };
+  }
 
-  Map<String, dynamic> toJson() => _$TvShowRecommendationsModelToJson(this);
+  TvShowRecommendationsEntity toEntity() {
+    return TvShowRecommendationsEntity(
+      page: page,
+      results: results.map((e) => (e as TvShowRecommendationItemModel).toEntity()).toList(),
+      totalPages: totalPages,
+      totalResults: totalResults,
+    );
+  }
 }
 
-@JsonSerializable()
 class TvShowRecommendationItemModel extends TvShowRecommendationItemEntity {
-  const TvShowRecommendationItemModel({
-    required super.adult,
-    @JsonKey(name: 'backdrop_path') required super.backdropPath,
-    required super.id,
-    required super.name,
-    @JsonKey(name: 'original_language') required super.originalLanguage,
-    @JsonKey(name: 'original_name') required super.originalName,
-    required super.overview,
-    @JsonKey(name: 'poster_path') required super.posterPath,
-    @JsonKey(name: 'media_type') required super.mediaType,
-    @JsonKey(name: 'genre_ids') required super.genreIds,
-    required super.popularity,
-    @JsonKey(name: 'first_air_date') required super.firstAirDate,
-    @JsonKey(name: 'vote_average') required super.voteAverage,
-    @JsonKey(name: 'vote_count') required super.voteCount,
-    @JsonKey(name: 'origin_country') required super.originCountry,
-  });
+  TvShowRecommendationItemModel({
+    required bool adult,
+    String? backdropPath,
+    required int id,
+    required String name,
+    required String originalLanguage,
+    required String originalName,
+    required String overview,
+    String? posterPath,
+    required String mediaType,
+    required List<int> genreIds,
+    required double popularity,
+    String? firstAirDate,
+    required double voteAverage,
+    required int voteCount,
+    required List<String> originCountry,
+  }) : super(
+          adult: adult,
+          backdropPath: backdropPath,
+          id: id,
+          name: name,
+          originalLanguage: originalLanguage,
+          originalName: originalName,
+          overview: overview,
+          posterPath: posterPath,
+          mediaType: mediaType,
+          genreIds: genreIds,
+          popularity: popularity,
+          firstAirDate: firstAirDate,
+          voteAverage: voteAverage,
+          voteCount: voteCount,
+          originCountry: originCountry,
+        );
 
-  /// ✅ Convert Model to Entity
-  TvShowRecommendationItemEntity toEntity() => TvShowRecommendationItemEntity(
-        adult: adult,
-        backdropPath: backdropPath,
-        id: id,
-        name: name,
-        originalLanguage: originalLanguage,
-        originalName: originalName,
-        overview: overview,
-        posterPath: posterPath,
-        mediaType: mediaType,
-        genreIds: genreIds,
-        popularity: popularity,
-        firstAirDate: firstAirDate,
-        voteAverage: voteAverage,
-        voteCount: voteCount,
-        originCountry: originCountry,
-      );
+  factory TvShowRecommendationItemModel.fromJson(Map<String, dynamic> json) {
+    return TvShowRecommendationItemModel(
+      adult: json['adult'] ?? false,
+      backdropPath: json['backdrop_path'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      originalLanguage: json['original_language'] ?? '',
+      originalName: json['original_name'] ?? '',
+      overview: json['overview'] ?? '',
+      posterPath: json['poster_path'],
+      mediaType: json['media_type'] ?? '',
+      genreIds: (json['genre_ids'] as List<dynamic>? ?? []).map((e) => e as int).toList(),
+      popularity: (json['popularity'] ?? 0).toDouble(),
+      firstAirDate: json['first_air_date'],
+      voteAverage: (json['vote_average'] ?? 0).toDouble(),
+      voteCount: json['vote_count'] ?? 0,
+      originCountry: (json['origin_country'] as List<dynamic>? ?? []).map((e) => e as String).toList(),
+    );
+  }
 
-  factory TvShowRecommendationItemModel.fromJson(Map<String, dynamic> json) =>
-      _$TvShowRecommendationItemModelFromJson(json);
+  Map<String, dynamic> toJson() {
+    return {
+      'adult': adult,
+      'backdrop_path': backdropPath,
+      'id': id,
+      'name': name,
+      'original_language': originalLanguage,
+      'original_name': originalName,
+      'overview': overview,
+      'poster_path': posterPath,
+      'media_type': mediaType,
+      'genre_ids': genreIds,
+      'popularity': popularity,
+      'first_air_date': firstAirDate,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+      'origin_country': originCountry,
+    };
+  }
 
-  Map<String, dynamic> toJson() => _$TvShowRecommendationItemModelToJson(this);
+  TvShowRecommendationItemEntity toEntity() {
+    return TvShowRecommendationItemEntity(
+      adult: adult,
+      backdropPath: backdropPath,
+      id: id,
+      name: name,
+      originalLanguage: originalLanguage,
+      originalName: originalName,
+      overview: overview,
+      posterPath: posterPath,
+      mediaType: mediaType,
+      genreIds: genreIds,
+      popularity: popularity,
+      firstAirDate: firstAirDate,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
+      originCountry: originCountry,
+    );
+  }
 }

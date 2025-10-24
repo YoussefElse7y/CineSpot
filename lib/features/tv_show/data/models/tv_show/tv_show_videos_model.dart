@@ -1,77 +1,108 @@
-import 'package:json_annotation/json_annotation.dart';
-import '../../../domain/entities/tv_show_videos_entity.dart';
+// tv_show_videos_model.dart
 
-part 'tv_show_videos_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class TvShowVideosModel {
-  final int id;
-  final List<TvShowVideoResultModel> results;
+import 'package:cine_spot/features/tv_show/domain/entities/tv_show_videos_entity.dart';
 
+class TvShowVideosModel extends TvShowVideosEntity {
   TvShowVideosModel({
-    required this.id,
-    required this.results,
-  });
+    required int id,
+    required List<TvShowVideoResultModel> results,
+  }) : super(
+          id: id,
+          results: results,
+        );
 
-  factory TvShowVideosModel.fromJson(Map<String, dynamic> json) =>
-      _$TvShowVideosModelFromJson(json);
+  factory TvShowVideosModel.fromJson(Map<String, dynamic> json) {
+    return TvShowVideosModel(
+      id: json['id'] ?? 0,
+      results: (json['results'] as List<dynamic>? ?? [])
+          .map((e) => TvShowVideoResultModel.fromJson(e))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvShowVideosModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'results': results.map((e) => (e as TvShowVideoResultModel).toJson()).toList(),
+    };
+  }
 
-  TvShowVideosEntity toEntity() => TvShowVideosEntity(
-        id: id,
-        results: results.map((r) => r.toEntity()).toList(),
-      );
+  TvShowVideosEntity toEntity() {
+    return TvShowVideosEntity(
+      id: id,
+      results: results.map((e) => (e as TvShowVideoResultModel).toEntity()).toList(),
+    );
+  }
 }
 
-@JsonSerializable()
-class TvShowVideoResultModel {
-  @JsonKey(name: 'iso_639_1')
-  final String iso6391;
-
-  @JsonKey(name: 'iso_3166_1')
-  final String iso31661;
-
-  final String name;
-  final String key;
-  final String site;
-  final int size;
-  final String type;
-  final bool official;
-
-  @JsonKey(name: 'published_at')
-  final String publishedAt;
-
-  final String id;
-
+class TvShowVideoResultModel extends TvShowVideoResultEntity {
   TvShowVideoResultModel({
-    required this.iso6391,
-    required this.iso31661,
-    required this.name,
-    required this.key,
-    required this.site,
-    required this.size,
-    required this.type,
-    required this.official,
-    required this.publishedAt,
-    required this.id,
-  });
+    required String iso6391,
+    required String iso31661,
+    required String name,
+    required String key,
+    required String site,
+    required int size,
+    required String type,
+    required bool official,
+    required String publishedAt,
+    required String id,
+  }) : super(
+          iso6391: iso6391,
+          iso31661: iso31661,
+          name: name,
+          key: key,
+          site: site,
+          size: size,
+          type: type,
+          official: official,
+          publishedAt: publishedAt,
+          id: id,
+        );
 
-  factory TvShowVideoResultModel.fromJson(Map<String, dynamic> json) =>
-      _$TvShowVideoResultModelFromJson(json);
+  factory TvShowVideoResultModel.fromJson(Map<String, dynamic> json) {
+    return TvShowVideoResultModel(
+      iso6391: json['iso_639_1'] ?? '',
+      iso31661: json['iso_3166_1'] ?? '',
+      name: json['name'] ?? '',
+      key: json['key'] ?? '',
+      site: json['site'] ?? '',
+      size: json['size'] ?? 0,
+      type: json['type'] ?? '',
+      official: json['official'] ?? false,
+      publishedAt: json['published_at'] ?? '',
+      id: json['id'] ?? '',
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvShowVideoResultModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'iso_639_1': iso6391,
+      'iso_3166_1': iso31661,
+      'name': name,
+      'key': key,
+      'site': site,
+      'size': size,
+      'type': type,
+      'official': official,
+      'published_at': publishedAt,
+      'id': id,
+    };
+  }
 
-  TvShowVideoResultEntity toEntity() => TvShowVideoResultEntity(
-        iso6391: iso6391,
-        iso31661: iso31661,
-        name: name,
-        key: key,
-        site: site,
-        size: size,
-        type: type,
-        official: official,
-        publishedAt: publishedAt,
-        id: id,
-      );
+  TvShowVideoResultEntity toEntity() {
+    return TvShowVideoResultEntity(
+      iso6391: iso6391,
+      iso31661: iso31661,
+      name: name,
+      key: key,
+      site: site,
+      size: size,
+      type: type,
+      official: official,
+      publishedAt: publishedAt,
+      id: id,
+    );
+  }
 }

@@ -1,6 +1,6 @@
 class TvSeasonCreditsEntity {
-  final List<dynamic> cast;
-  final List<dynamic> crew;
+  final List<TvSeasonCastEntity> cast;
+  final List<TvSeasonCrewEntity> crew;
   final int id;
 
   const TvSeasonCreditsEntity({
@@ -36,6 +36,8 @@ class TvSeasonCastEntity {
     required this.creditId,
     required this.order,
   });
+
+
 }
 
 class TvSeasonCrewEntity {

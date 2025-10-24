@@ -73,11 +73,29 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
         loadSeasonVideos: (seriesId, seasonNumber, language) =>
             _onLoadSeasonVideos(seriesId, seasonNumber, language, emit),
         loadEpisodeDetails: (seriesId, seasonNumber, episodeNumber, language) =>
-            _onLoadEpisodeDetails(seriesId, seasonNumber, episodeNumber, language, emit),
+            _onLoadEpisodeDetails(
+              seriesId,
+              seasonNumber,
+              episodeNumber,
+              language,
+              emit,
+            ),
         loadEpisodeCredits: (seriesId, seasonNumber, episodeNumber, language) =>
-            _onLoadEpisodeCredits(seriesId, seasonNumber, episodeNumber, language, emit),
+            _onLoadEpisodeCredits(
+              seriesId,
+              seasonNumber,
+              episodeNumber,
+              language,
+              emit,
+            ),
         loadEpisodeVideos: (seriesId, seasonNumber, episodeNumber, language) =>
-            _onLoadEpisodeVideos(seriesId, seasonNumber, episodeNumber, language, emit),
+            _onLoadEpisodeVideos(
+              seriesId,
+              seasonNumber,
+              episodeNumber,
+              language,
+              emit,
+            ),
         resetTvShow: () => _onResetTvShow(emit),
       );
     });
@@ -89,18 +107,22 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(detailsStatus: TvShowDetailsStatus.loading));
-    
+
     final result = await getTvShowDetailsUseCase(seriesId, language: language);
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        detailsStatus: TvShowDetailsStatus.error,
-        detailsError: failure.toString(),
-      )),
-      (details) => emit(state.copyWith(
-        detailsStatus: TvShowDetailsStatus.loaded,
-        tvShowDetails: details,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          detailsStatus: TvShowDetailsStatus.error,
+          detailsError: failure.toString(),
+        ),
+      ),
+      (details) => emit(
+        state.copyWith(
+          detailsStatus: TvShowDetailsStatus.loaded,
+          tvShowDetails: details,
+        ),
+      ),
     );
   }
 
@@ -110,18 +132,22 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(creditsStatus: TvShowCreditsStatus.loading));
-    
+
     final result = await getTvShowCreditsUseCase(seriesId, language: language);
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        creditsStatus: TvShowCreditsStatus.error,
-        creditsError: failure.toString(),
-      )),
-      (credits) => emit(state.copyWith(
-        creditsStatus: TvShowCreditsStatus.loaded,
-        tvShowCredits: credits,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          creditsStatus: TvShowCreditsStatus.error,
+          creditsError: failure.toString(),
+        ),
+      ),
+      (credits) => emit(
+        state.copyWith(
+          creditsStatus: TvShowCreditsStatus.loaded,
+          tvShowCredits: credits,
+        ),
+      ),
     );
   }
 
@@ -131,18 +157,22 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(videosStatus: TvShowVideosStatus.loading));
-    
+
     final result = await getTvShowVideosUseCase(seriesId, language: language);
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        videosStatus: TvShowVideosStatus.error,
-        videosError: failure.toString(),
-      )),
-      (videos) => emit(state.copyWith(
-        videosStatus: TvShowVideosStatus.loaded,
-        tvShowVideos: videos,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          videosStatus: TvShowVideosStatus.error,
+          videosError: failure.toString(),
+        ),
+      ),
+      (videos) => emit(
+        state.copyWith(
+          videosStatus: TvShowVideosStatus.loaded,
+          tvShowVideos: videos,
+        ),
+      ),
     );
   }
 
@@ -152,23 +182,31 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     int? page,
     Emitter<TvShowState> emit,
   ) async {
-    emit(state.copyWith(recommendationsStatus: TvShowRecommendationsStatus.loading));
-    
+    emit(
+      state.copyWith(
+        recommendationsStatus: TvShowRecommendationsStatus.loading,
+      ),
+    );
+
     final result = await getTvShowRecommendationsUseCase(
       seriesId,
       language: language,
       page: page ?? 1,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        recommendationsStatus: TvShowRecommendationsStatus.error,
-        recommendationsError: failure.toString(),
-      )),
-      (recommendations) => emit(state.copyWith(
-        recommendationsStatus: TvShowRecommendationsStatus.loaded,
-        tvShowRecommendations: recommendations,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          recommendationsStatus: TvShowRecommendationsStatus.error,
+          recommendationsError: failure.toString(),
+        ),
+      ),
+      (recommendations) => emit(
+        state.copyWith(
+          recommendationsStatus: TvShowRecommendationsStatus.loaded,
+          tvShowRecommendations: recommendations,
+        ),
+      ),
     );
   }
 
@@ -179,22 +217,26 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(reviewsStatus: TvShowReviewsStatus.loading));
-    
+
     final result = await getTvShowReviewsUseCase(
       seriesId,
       language: language,
       page: page ?? 1,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        reviewsStatus: TvShowReviewsStatus.error,
-        reviewsError: failure.toString(),
-      )),
-      (reviews) => emit(state.copyWith(
-        reviewsStatus: TvShowReviewsStatus.loaded,
-        tvShowReviews: reviews,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          reviewsStatus: TvShowReviewsStatus.error,
+          reviewsError: failure.toString(),
+        ),
+      ),
+      (reviews) => emit(
+        state.copyWith(
+          reviewsStatus: TvShowReviewsStatus.loaded,
+          tvShowReviews: reviews,
+        ),
+      ),
     );
   }
 
@@ -205,22 +247,26 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(seasonDetailsStatus: SeasonDetailsStatus.loading));
-    
+
     final result = await getSeasonDetailsUseCase(
       seriesId,
       seasonNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        seasonDetailsStatus: SeasonDetailsStatus.error,
-        seasonDetailsError: failure.toString(),
-      )),
-      (details) => emit(state.copyWith(
-        seasonDetailsStatus: SeasonDetailsStatus.loaded,
-        seasonDetails: details,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          seasonDetailsStatus: SeasonDetailsStatus.error,
+          seasonDetailsError: failure.toString(),
+        ),
+      ),
+      (details) => emit(
+        state.copyWith(
+          seasonDetailsStatus: SeasonDetailsStatus.loaded,
+          seasonDetails: details,
+        ),
+      ),
     );
   }
 
@@ -231,22 +277,26 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(seasonCreditsStatus: SeasonCreditsStatus.loading));
-    
+
     final result = await getSeasonCreditsUseCase(
       seriesId,
       seasonNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        seasonCreditsStatus: SeasonCreditsStatus.error,
-        seasonCreditsError: failure.toString(),
-      )),
-      (credits) => emit(state.copyWith(
-        seasonCreditsStatus: SeasonCreditsStatus.loaded,
-        seasonCredits: credits,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          seasonCreditsStatus: SeasonCreditsStatus.error,
+          seasonCreditsError: failure.toString(),
+        ),
+      ),
+      (credits) => emit(
+        state.copyWith(
+          seasonCreditsStatus: SeasonCreditsStatus.loaded,
+          seasonCredits: credits,
+        ),
+      ),
     );
   }
 
@@ -257,22 +307,26 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(seasonVideosStatus: SeasonVideosStatus.loading));
-    
+
     final result = await getSeasonVideosUseCase(
       seriesId,
       seasonNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        seasonVideosStatus: SeasonVideosStatus.error,
-        seasonVideosError: failure.toString(),
-      )),
-      (videos) => emit(state.copyWith(
-        seasonVideosStatus: SeasonVideosStatus.loaded,
-        seasonVideos: videos,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          seasonVideosStatus: SeasonVideosStatus.error,
+          seasonVideosError: failure.toString(),
+        ),
+      ),
+      (videos) => emit(
+        state.copyWith(
+          seasonVideosStatus: SeasonVideosStatus.loaded,
+          seasonVideos: videos,
+        ),
+      ),
     );
   }
 
@@ -284,23 +338,27 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(episodeDetailsStatus: EpisodeDetailsStatus.loading));
-    
+
     final result = await getEpisodeDetailsUseCase(
       seriesId,
       seasonNumber,
       episodeNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        episodeDetailsStatus: EpisodeDetailsStatus.error,
-        episodeDetailsError: failure.toString(),
-      )),
-      (details) => emit(state.copyWith(
-        episodeDetailsStatus: EpisodeDetailsStatus.loaded,
-        episodeDetails: details,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          episodeDetailsStatus: EpisodeDetailsStatus.error,
+          episodeDetailsError: failure.message,
+        ),
+      ),
+      (details) => emit(
+        state.copyWith(
+          episodeDetailsStatus: EpisodeDetailsStatus.loaded,
+          episodeDetails: details,
+        ),
+      ),
     );
   }
 
@@ -312,23 +370,27 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(episodeCreditsStatus: EpisodeCreditsStatus.loading));
-    
+
     final result = await getEpisodeCreditsUseCase(
       seriesId,
       seasonNumber,
       episodeNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        episodeCreditsStatus: EpisodeCreditsStatus.error,
-        episodeCreditsError: failure.toString(),
-      )),
-      (credits) => emit(state.copyWith(
-        episodeCreditsStatus: EpisodeCreditsStatus.loaded,
-        episodeCredits: credits,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          episodeCreditsStatus: EpisodeCreditsStatus.error,
+          episodeCreditsError: failure.toString(),
+        ),
+      ),
+      (credits) => emit(
+        state.copyWith(
+          episodeCreditsStatus: EpisodeCreditsStatus.loaded,
+          episodeCredits: credits,
+        ),
+      ),
     );
   }
 
@@ -340,23 +402,27 @@ class TvShowBloc extends Bloc<TvShowEvent, TvShowState> {
     Emitter<TvShowState> emit,
   ) async {
     emit(state.copyWith(episodeVideosStatus: EpisodeVideosStatus.loading));
-    
+
     final result = await getEpisodeVideosUseCase(
       seriesId,
       seasonNumber,
       episodeNumber,
       language: language,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        episodeVideosStatus: EpisodeVideosStatus.error,
-        episodeVideosError: failure.toString(),
-      )),
-      (videos) => emit(state.copyWith(
-        episodeVideosStatus: EpisodeVideosStatus.loaded,
-        episodeVideos: videos,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          episodeVideosStatus: EpisodeVideosStatus.error,
+          episodeVideosError: failure.toString(),
+        ),
+      ),
+      (videos) => emit(
+        state.copyWith(
+          episodeVideosStatus: EpisodeVideosStatus.loaded,
+          episodeVideos: videos,
+        ),
+      ),
     );
   }
 

@@ -38,7 +38,7 @@ class SeasonsSection extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               SizedBox(
-                height: 280,
+                height: 290,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),

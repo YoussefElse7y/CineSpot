@@ -23,19 +23,35 @@ class ResultCard extends StatelessWidget {
               arguments: result.id,
             );
           }
+          if (result.mediaType == 'tv') {
+            Navigator.pushNamed(
+              context,
+              Routes.tvShowDetailsScreen,
+              arguments: result.id,
+            );
+          }
         },
         child: _buildMultiSearchCard(result),
       );
     } else if (result is MovieSearchResultEntity) {
-      return GestureDetector(onTap: () {
-        Navigator.pushNamed(
-              context,
-              Routes.movieDetailsScreen,
-              arguments: result.id,
-            );
-      }, child: _buildMovieCard(result));
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            Routes.movieDetailsScreen,
+            arguments: result.id,
+          );
+        },
+        child: _buildMovieCard(result),
+      );
     } else if (result is TvEntity) {
-      return _buildTvCard(result);
+      return GestureDetector(onTap: () {
+          Navigator.pushNamed(
+            context,
+            Routes.tvShowDetailsScreen,
+            arguments: result.id,
+          );
+      }, child: _buildTvCard(result));
     } else if (result is PersonSearchEntity) {
       return _buildPersonCard(result);
     }

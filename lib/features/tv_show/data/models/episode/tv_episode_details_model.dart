@@ -1,42 +1,19 @@
-// ignore_for_file: annotate_overrides, overridden_fields
+import 'package:cine_spot/features/tv_show/domain/entities/tv_episode_details_entity.dart';
 
-import 'package:json_annotation/json_annotation.dart';
-import '../../../domain/entities/tv_episode_details_entity.dart';
 
-part 'tv_episode_details_model.g.dart';
-
-@JsonSerializable(explicitToJson: true)
-class TvEpisodeDetailsModel extends TvEpisodeDetailsEntity {
-  @JsonKey(name: 'air_date')
+class TvEpisodeDetailsModel {
   final String? airDate;
-
   final List<CrewMemberModel>? crew;
-
-  @JsonKey(name: 'episode_number')
   final int? episodeNumber;
-
-  @JsonKey(name: 'guest_stars')
   final List<GuestStarModel>? guestStars;
-
   final String? name;
   final String? overview;
   final int? id;
-
-  @JsonKey(name: 'production_code')
   final String? productionCode;
-
   final int? runtime;
-
-  @JsonKey(name: 'season_number')
   final int? seasonNumber;
-
-  @JsonKey(name: 'still_path')
   final String? stillPath;
-
-  @JsonKey(name: 'vote_average')
   final double? voteAverage;
-
-  @JsonKey(name: 'vote_count')
   final int? voteCount;
 
   const TvEpisodeDetailsModel({
@@ -53,68 +30,80 @@ class TvEpisodeDetailsModel extends TvEpisodeDetailsEntity {
     this.stillPath,
     this.voteAverage,
     this.voteCount,
-  }) : super(
-          airDate: airDate,
-          crew: crew,
-          episodeNumber: episodeNumber,
-          guestStars: guestStars,
-          name: name,
-          overview: overview,
-          id: id,
-          productionCode: productionCode,
-          runtime: runtime,
-          seasonNumber: seasonNumber,
-          stillPath: stillPath,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-        );
+  });
 
-  factory TvEpisodeDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$TvEpisodeDetailsModelFromJson(json);
+  factory TvEpisodeDetailsModel.fromJson(Map<String, dynamic> json) {
+    return TvEpisodeDetailsModel(
+      airDate: json['air_date'],
+      crew: (json['crew'] as List<dynamic>?)
+          ?.map((e) => CrewMemberModel.fromJson(e))
+          .toList(),
+      episodeNumber: json['episode_number'],
+      guestStars: (json['guest_stars'] as List<dynamic>?)
+          ?.map((e) => GuestStarModel.fromJson(e))
+          .toList(),
+      name: json['name'],
+      overview: json['overview'],
+      id: json['id'],
+      productionCode: json['production_code'],
+      runtime: json['runtime'],
+      seasonNumber: json['season_number'],
+      stillPath: json['still_path'],
+      voteAverage: (json['vote_average'] != null)
+          ? (json['vote_average'] as num).toDouble()
+          : null,
+      voteCount: json['vote_count'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvEpisodeDetailsModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'air_date': airDate,
+      'crew': crew?.map((e) => e.toJson()).toList(),
+      'episode_number': episodeNumber,
+      'guest_stars': guestStars?.map((e) => e.toJson()).toList(),
+      'name': name,
+      'overview': overview,
+      'id': id,
+      'production_code': productionCode,
+      'runtime': runtime,
+      'season_number': seasonNumber,
+      'still_path': stillPath,
+      'vote_average': voteAverage,
+      'vote_count': voteCount,
+    };
+  }
 
-    /// ✅ Convert model → entity
-  TvEpisodeDetailsEntity toEntity() => TvEpisodeDetailsEntity(
-        airDate: airDate,
-        crew: crew?.map((c) => c.toEntity()).toList(),
-        episodeNumber: episodeNumber,
-        guestStars: guestStars?.map((g) => g.toEntity()).toList(),
-        name: name,
-        overview: overview,
-        id: id,
-        productionCode: productionCode,
-        runtime: runtime,
-        seasonNumber: seasonNumber,
-        stillPath: stillPath,
-        voteAverage: voteAverage,
-        voteCount: voteCount,
-      );
+  TvEpisodeDetailsEntity toEntity() {
+    return TvEpisodeDetailsEntity(
+      airDate: airDate,
+      crew: crew?.map((e) => e.toEntity()).toList(),
+      episodeNumber: episodeNumber,
+      guestStars: guestStars?.map((e) => e.toEntity()).toList(),
+      name: name,
+      overview: overview,
+      id: id,
+      productionCode: productionCode,
+      runtime: runtime,
+      seasonNumber: seasonNumber,
+      stillPath: stillPath,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
+    );
+  }
 }
 
-@JsonSerializable()
-class CrewMemberModel extends CrewMemberEntity {
+class CrewMemberModel {
   final String? department;
   final String? job;
-
-  @JsonKey(name: 'credit_id')
   final String? creditId;
-
   final bool? adult;
   final int? gender;
   final int? id;
-
-  @JsonKey(name: 'known_for_department')
   final String? knownForDepartment;
-
   final String? name;
-
-  @JsonKey(name: 'original_name')
   final String? originalName;
-
   final double? popularity;
-
-  @JsonKey(name: 'profile_path')
   final String? profilePath;
 
   const CrewMemberModel({
@@ -129,64 +118,70 @@ class CrewMemberModel extends CrewMemberEntity {
     this.originalName,
     this.popularity,
     this.profilePath,
-  }) : super(
-          department: department,
-          job: job,
-          creditId: creditId,
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-        );
+  });
 
-  factory CrewMemberModel.fromJson(Map<String, dynamic> json) =>
-      _$CrewMemberModelFromJson(json);
+  factory CrewMemberModel.fromJson(Map<String, dynamic> json) {
+    return CrewMemberModel(
+      department: json['department'],
+      job: json['job'],
+      creditId: json['credit_id'],
+      adult: json['adult'],
+      gender: json['gender'],
+      id: json['id'],
+      knownForDepartment: json['known_for_department'],
+      name: json['name'],
+      originalName: json['original_name'],
+      popularity: (json['popularity'] != null)
+          ? (json['popularity'] as num).toDouble()
+          : null,
+      profilePath: json['profile_path'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$CrewMemberModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'department': department,
+      'job': job,
+      'credit_id': creditId,
+      'adult': adult,
+      'gender': gender,
+      'id': id,
+      'known_for_department': knownForDepartment,
+      'name': name,
+      'original_name': originalName,
+      'popularity': popularity,
+      'profile_path': profilePath,
+    };
+  }
 
-    /// ✅ Convert model → entity
-  CrewMemberEntity toEntity() => CrewMemberEntity(
-        department: department,
-        job: job,
-        creditId: creditId,
-        adult: adult,
-        gender: gender,
-        id: id,
-        knownForDepartment: knownForDepartment,
-        name: name,
-        originalName: originalName,
-        popularity: popularity,
-        profilePath: profilePath,
-      );
+  CrewMemberEntity toEntity() {
+    return CrewMemberEntity(
+      department: department,
+      job: job,
+      creditId: creditId,
+      adult: adult,
+      gender: gender,
+      id: id,
+      knownForDepartment: knownForDepartment,
+      name: name,
+      originalName: originalName,
+      popularity: popularity,
+      profilePath: profilePath,
+    );
+  }
 }
 
-@JsonSerializable()
-class GuestStarModel extends GuestStarEntity {
+class GuestStarModel {
   final String? character;
-
-  @JsonKey(name: 'credit_id')
   final String? creditId;
-
   final int? order;
   final bool? adult;
   final int? gender;
   final int? id;
-
-  @JsonKey(name: 'known_for_department')
   final String? knownForDepartment;
-
   final String? name;
-
-  @JsonKey(name: 'original_name')
   final String? originalName;
-
   final double? popularity;
-
-  @JsonKey(name: 'profile_path')
   final String? profilePath;
 
   const GuestStarModel({
@@ -201,37 +196,55 @@ class GuestStarModel extends GuestStarEntity {
     this.originalName,
     this.popularity,
     this.profilePath,
-  }) : super(
-          character: character,
-          creditId: creditId,
-          order: order,
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-        );
+  });
 
-  factory GuestStarModel.fromJson(Map<String, dynamic> json) =>
-      _$GuestStarModelFromJson(json);
+  factory GuestStarModel.fromJson(Map<String, dynamic> json) {
+    return GuestStarModel(
+      character: json['character'],
+      creditId: json['credit_id'],
+      order: json['order'],
+      adult: json['adult'],
+      gender: json['gender'],
+      id: json['id'],
+      knownForDepartment: json['known_for_department'],
+      name: json['name'],
+      originalName: json['original_name'],
+      popularity: (json['popularity'] != null)
+          ? (json['popularity'] as num).toDouble()
+          : null,
+      profilePath: json['profile_path'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$GuestStarModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'character': character,
+      'credit_id': creditId,
+      'order': order,
+      'adult': adult,
+      'gender': gender,
+      'id': id,
+      'known_for_department': knownForDepartment,
+      'name': name,
+      'original_name': originalName,
+      'popularity': popularity,
+      'profile_path': profilePath,
+    };
+  }
 
-    /// ✅ Convert model → entity
-  GuestStarEntity toEntity() => GuestStarEntity(
-        character: character,
-        creditId: creditId,
-        order: order,
-        adult: adult,
-        gender: gender,
-        id: id,
-        knownForDepartment: knownForDepartment,
-        name: name,
-        originalName: originalName,
-        popularity: popularity,
-        profilePath: profilePath,
-      );
+  GuestStarEntity toEntity() {
+    return GuestStarEntity(
+      character: character,
+      creditId: creditId,
+      order: order,
+      adult: adult,
+      gender: gender,
+      id: id,
+      knownForDepartment: knownForDepartment,
+      name: name,
+      originalName: originalName,
+      popularity: popularity,
+      profilePath: profilePath,
+    );
+  }
 }

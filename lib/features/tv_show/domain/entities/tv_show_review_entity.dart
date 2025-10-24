@@ -38,7 +38,7 @@ class TvShowAuthorDetailsEntity {
   final String name;
   final String username;
   final String? avatarPath;
-  final int? rating;
+  final double? rating;
 
   TvShowAuthorDetailsEntity({
     required this.name,

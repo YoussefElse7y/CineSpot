@@ -1,31 +1,46 @@
-// ignore_for_file: invalid_annotation_target
+// tv_season_details_model.dart
 
-import 'package:json_annotation/json_annotation.dart';
 import '../../../domain/entities/tv_season_details_entity.dart';
 
-part 'tv_season_details_model.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class TvSeasonDetailsModel extends TvSeasonDetailsEntity {
-   TvSeasonDetailsModel({
-    @JsonKey(name: 'air_date') super.airDate,
-    @JsonKey(name: 'episodes') required List<TvEpisodeModel> super.episodes,
+  TvSeasonDetailsModel({
+    super.airDate,
+    required List<TvEpisodeModel> super.episodes,
     required super.name,
     required super.overview,
     required super.id,
-    @JsonKey(name: 'poster_path') super.posterPath,
-    @JsonKey(name: 'season_number') required super.seasonNumber,   
+    super.posterPath,
+    required super.seasonNumber,
   });
 
-  factory TvSeasonDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$TvSeasonDetailsModelFromJson(json);
+  factory TvSeasonDetailsModel.fromJson(Map<String, dynamic> json) {
+    return TvSeasonDetailsModel(
+      airDate: json['air_date'] as String?,
+      episodes: (json['episodes'] as List<dynamic>)
+          .map((e) => TvEpisodeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String,
+      overview: json['overview'] as String,
+      id: json['id'] as int,
+      posterPath: json['poster_path'] as String?,
+      seasonNumber: json['season_number'] as int,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvSeasonDetailsModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'air_date': airDate,
+        'episodes':
+            episodes.map((e) => (e as TvEpisodeModel).toJson()).toList(),
+        'name': name,
+        'overview': overview,
+        'id': id,
+        'poster_path': posterPath,
+        'season_number': seasonNumber,
+      };
 
-  /// ✅ Convert model to entity
   TvSeasonDetailsEntity toEntity() => TvSeasonDetailsEntity(
         airDate: airDate,
-        episodes: episodes.map((e) => e.toEntity()).toList(),
+        episodes: episodes.map((e) => (e as TvEpisodeModel).toEntity()).toList(),
         name: name,
         overview: overview,
         id: id,
@@ -34,31 +49,80 @@ class TvSeasonDetailsModel extends TvSeasonDetailsEntity {
       );
 }
 
-@JsonSerializable(explicitToJson: true)
 class TvEpisodeModel extends TvEpisodeEntity {
-   TvEpisodeModel({
-    @JsonKey(name: 'air_date') super.airDate,
-    @JsonKey(name: 'episode_number') required super.episodeNumber,
-    required super.id,
-    required super.name,
-    required super.overview,
-    @JsonKey(name: 'production_code') super.productionCode,
-    super.runtime,
-    @JsonKey(name: 'season_number') required super.seasonNumber,
-    @JsonKey(name: 'show_id') required super.showId,
-    @JsonKey(name: 'still_path') super.stillPath,
-    @JsonKey(name: 'vote_average') required super.voteAverage,
-    @JsonKey(name: 'vote_count') required super.voteCount,
-    required List<TvCrewModel> super.crew,
-    @JsonKey(name: 'guest_stars') required List<TvGuestStarModel> super.guestStars,
-  });
+  TvEpisodeModel({
+    String? airDate,
+    required int episodeNumber,
+    required int id,
+    required String name,
+    required String overview,
+    String? productionCode,
+    int? runtime,
+    required int seasonNumber,
+    required int showId,
+    String? stillPath,
+    required double voteAverage,
+    required int voteCount,
+    required List<TvCrewModel> crew,
+    required List<TvGuestStarModel> guestStars,
+  }) : super(
+          airDate: airDate,
+          episodeNumber: episodeNumber,
+          id: id,
+          name: name,
+          overview: overview,
+          productionCode: productionCode,
+          runtime: runtime,
+          seasonNumber: seasonNumber,
+          showId: showId,
+          stillPath: stillPath,
+          voteAverage: voteAverage,
+          voteCount: voteCount,
+          crew: crew,
+          guestStars: guestStars,
+        );
 
-  factory TvEpisodeModel.fromJson(Map<String, dynamic> json) =>
-      _$TvEpisodeModelFromJson(json);
+  factory TvEpisodeModel.fromJson(Map<String, dynamic> json) {
+    return TvEpisodeModel(
+      airDate: json['air_date'] as String?,
+      episodeNumber: json['episode_number'] as int,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      overview: json['overview'] as String,
+      productionCode: json['production_code'] as String?,
+      runtime: json['runtime'] as int?,
+      seasonNumber: json['season_number'] as int,
+      showId: json['show_id'] as int,
+      stillPath: json['still_path'] as String?,
+      voteAverage: (json['vote_average'] as num).toDouble(),
+      voteCount: json['vote_count'] as int,
+      crew: (json['crew'] as List<dynamic>)
+          .map((e) => TvCrewModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      guestStars: (json['guest_stars'] as List<dynamic>)
+          .map((e) => TvGuestStarModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvEpisodeModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'air_date': airDate,
+        'episode_number': episodeNumber,
+        'id': id,
+        'name': name,
+        'overview': overview,
+        'production_code': productionCode,
+        'runtime': runtime,
+        'season_number': seasonNumber,
+        'show_id': showId,
+        'still_path': stillPath,
+        'vote_average': voteAverage,
+        'vote_count': voteCount,
+        'crew': crew.map((e) => (e as TvCrewModel).toJson()).toList(),
+        'guest_stars':
+            guestStars.map((e) => (e as TvGuestStarModel).toJson()).toList(),
+      };
 
-  /// ✅ Convert model to entity
   TvEpisodeEntity toEntity() => TvEpisodeEntity(
         airDate: airDate,
         episodeNumber: episodeNumber,
@@ -72,30 +136,56 @@ class TvEpisodeModel extends TvEpisodeEntity {
         stillPath: stillPath,
         voteAverage: voteAverage,
         voteCount: voteCount,
-        crew: crew.map((c) => c.toEntity()).toList(),
-        guestStars: guestStars.map((g) => g.toEntity()).toList(),
+        crew: crew.map((e) => (e as TvCrewModel).toEntity()).toList(),
+        guestStars: guestStars.map((e) => (e as TvGuestStarModel ).toEntity()).toList(),
       );
 }
 
-@JsonSerializable()
 class TvCrewModel extends TvCrewEntity {
-   TvCrewModel({
-    required super.job,
-    required super.department,
-    @JsonKey(name: 'credit_id') required super.creditId,
-    required super.id,
-    required super.name,
-    @JsonKey(name: 'original_name') required super.originalName,
-    required super.popularity,
-    @JsonKey(name: 'profile_path') super.profilePath,
-  });
+  TvCrewModel({
+    required String job,
+    required String department,
+    required String creditId,
+    required int id,
+    required String name,
+    required String originalName,
+    required double popularity,
+    String? profilePath,
+  }) : super(
+          job: job,
+          department: department,
+          creditId: creditId,
+          id: id,
+          name: name,
+          originalName: originalName,
+          popularity: popularity,
+          profilePath: profilePath,
+        );
 
-  factory TvCrewModel.fromJson(Map<String, dynamic> json) =>
-      _$TvCrewModelFromJson(json);
+  factory TvCrewModel.fromJson(Map<String, dynamic> json) {
+    return TvCrewModel(
+      job: json['job'] as String,
+      department: json['department'] as String,
+      creditId: json['credit_id'] as String,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      originalName: json['original_name'] as String,
+      popularity: (json['popularity'] as num).toDouble(),
+      profilePath: json['profile_path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvCrewModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'job': job,
+        'department': department,
+        'credit_id': creditId,
+        'id': id,
+        'name': name,
+        'original_name': originalName,
+        'popularity': popularity,
+        'profile_path': profilePath,
+      };
 
-  /// ✅ Convert model to entity
   TvCrewEntity toEntity() => TvCrewEntity(
         job: job,
         department: department,
@@ -108,25 +198,51 @@ class TvCrewModel extends TvCrewEntity {
       );
 }
 
-@JsonSerializable()
 class TvGuestStarModel extends TvGuestStarEntity {
-   TvGuestStarModel({
-    required super.character,
-    @JsonKey(name: 'credit_id') required super.creditId,
-    required super.order,
-    required super.id,
-    required super.name,
-    @JsonKey(name: 'original_name') required super.originalName,
-    required super.popularity,
-    @JsonKey(name: 'profile_path') super.profilePath,
-  });
+  TvGuestStarModel({
+    required String character,
+    required String creditId,
+    required int order,
+    required int id,
+    required String name,
+    required String originalName,
+    required double popularity,
+    String? profilePath,
+  }) : super(
+          character: character,
+          creditId: creditId,
+          order: order,
+          id: id,
+          name: name,
+          originalName: originalName,
+          popularity: popularity,
+          profilePath: profilePath,
+        );
 
-  factory TvGuestStarModel.fromJson(Map<String, dynamic> json) =>
-      _$TvGuestStarModelFromJson(json);
+  factory TvGuestStarModel.fromJson(Map<String, dynamic> json) {
+    return TvGuestStarModel(
+      character: json['character'] as String,
+      creditId: json['credit_id'] as String,
+      order: json['order'] as int,
+      id: json['id'] as int,
+      name: json['name'] as String,
+      originalName: json['original_name'] as String,
+      popularity: (json['popularity'] as num).toDouble(),
+      profilePath: json['profile_path'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvGuestStarModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'character': character,
+        'credit_id': creditId,
+        'order': order,
+        'id': id,
+        'name': name,
+        'original_name': originalName,
+        'popularity': popularity,
+        'profile_path': profilePath,
+      };
 
-  /// ✅ Convert model to entity
   TvGuestStarEntity toEntity() => TvGuestStarEntity(
         character: character,
         creditId: creditId,

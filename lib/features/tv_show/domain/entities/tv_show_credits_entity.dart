@@ -8,6 +8,8 @@ class TvShowCreditsEntity {
     required this.crew,
     required this.id,
   });
+
+  
 }
 
 class TvCastEntity {

@@ -1,7 +1,7 @@
 class TvEpisodeCreditsEntity {
-  final List<dynamic> cast;
-  final List<dynamic> crew;
-  final List<dynamic> guestStars;
+  final List<TvEpisodeCastEntity> cast;
+  final List<TvEpisodeCrewEntity> crew;
+  final List<TvEpisodeGuestStarEntity> guestStars;
   final int id;
 
   const TvEpisodeCreditsEntity({

@@ -1,60 +1,107 @@
-// ignore_for_file: invalid_annotation_target
+import 'package:cine_spot/features/tv_show/domain/entities/tv_episode_videos_entity.dart';
 
-import 'package:json_annotation/json_annotation.dart';
-import '../../../domain/entities/tv_episode_videos_entity.dart';
 
-part 'tv_episode_videos_model.g.dart';
+class TvEpisodeVideosModel {
+  final int id;
+  final List<TvEpisodeVideoItemModel> results;
 
-@JsonSerializable(explicitToJson: true)
-class TvEpisodeVideosModel extends TvEpisodeVideosEntity {
   const TvEpisodeVideosModel({
-    required super.id,
-    @JsonKey(name: 'results') required List<TvEpisodeVideoItemModel> super.results,
+    required this.id,
+    required this.results,
   });
 
-  factory TvEpisodeVideosModel.fromJson(Map<String, dynamic> json) =>
-      _$TvEpisodeVideosModelFromJson(json);
+  factory TvEpisodeVideosModel.fromJson(Map<String, dynamic> json) {
+    return TvEpisodeVideosModel(
+      id: json['id'] ?? 0,
+      results: (json['results'] as List<dynamic>?)
+              ?.map((e) => TvEpisodeVideoItemModel.fromJson(e))
+              .toList() ??
+          [],
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvEpisodeVideosModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'results': results.map((e) => e.toJson()).toList(),
+    };
+  }
 
-  /// ✅ Convert Model → Entity
-  TvEpisodeVideosEntity toEntity() => TvEpisodeVideosEntity(
-        id: id,
-        results: results.map((video) => video.toEntity()).toList(),
-      );
+  TvEpisodeVideosEntity toEntity() {
+    return TvEpisodeVideosEntity(
+      id: id,
+      results: results.map((e) => e.toEntity()).toList(),
+    );
+  }
 }
 
-@JsonSerializable()
-class TvEpisodeVideoItemModel extends TvEpisodeVideoItemEntity {
+class TvEpisodeVideoItemModel {
+  final String iso6391;
+  final String iso31661;
+  final String name;
+  final String key;
+  final String site;
+  final int size;
+  final String type;
+  final bool official;
+  final String publishedAt;
+  final String id;
+
   const TvEpisodeVideoItemModel({
-    @JsonKey(name: 'iso_639_1') required super.iso6391,
-    @JsonKey(name: 'iso_3166_1') required super.iso31661,
-    required super.name,
-    required super.key,
-    required super.site,
-    required super.size,
-    required super.type,
-    required super.official,
-    @JsonKey(name: 'published_at') required super.publishedAt,
-    required super.id,
+    required this.iso6391,
+    required this.iso31661,
+    required this.name,
+    required this.key,
+    required this.site,
+    required this.size,
+    required this.type,
+    required this.official,
+    required this.publishedAt,
+    required this.id,
   });
 
-  factory TvEpisodeVideoItemModel.fromJson(Map<String, dynamic> json) =>
-      _$TvEpisodeVideoItemModelFromJson(json);
+  factory TvEpisodeVideoItemModel.fromJson(Map<String, dynamic> json) {
+    return TvEpisodeVideoItemModel(
+      iso6391: json['iso_639_1'] ?? '',
+      iso31661: json['iso_3166_1'] ?? '',
+      name: json['name'] ?? '',
+      key: json['key'] ?? '',
+      site: json['site'] ?? '',
+      size: json['size'] ?? 0,
+      type: json['type'] ?? '',
+      official: json['official'] ?? false,
+      publishedAt: json['published_at'] ?? '',
+      id: json['id'] ?? '',
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TvEpisodeVideoItemModelToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'iso_639_1': iso6391,
+      'iso_3166_1': iso31661,
+      'name': name,
+      'key': key,
+      'site': site,
+      'size': size,
+      'type': type,
+      'official': official,
+      'published_at': publishedAt,
+      'id': id,
+    };
+  }
 
-  /// ✅ Convert Model → Entity
-  TvEpisodeVideoItemEntity toEntity() => TvEpisodeVideoItemEntity(
-        iso6391: iso6391,
-        iso31661: iso31661,
-        name: name,
-        key: key,
-        site: site,
-        size: size,
-        type: type,
-        official: official,
-        publishedAt: publishedAt,
-        id: id,
-      );
+  TvEpisodeVideoItemEntity toEntity() {
+    return TvEpisodeVideoItemEntity(
+      iso6391: iso6391,
+      iso31661: iso31661,
+      name: name,
+      key: key,
+      site: site,
+      size: size,
+      type: type,
+      official: official,
+      publishedAt: publishedAt,
+      id: id,
+    );
+  }
 }

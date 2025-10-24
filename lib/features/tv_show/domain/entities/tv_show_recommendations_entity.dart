@@ -1,8 +1,8 @@
-import 'package:equatable/equatable.dart';
 
-class TvShowRecommendationsEntity extends Equatable {
+
+class TvShowRecommendationsEntity{
   final int page;
-  final List<dynamic> results;
+  final List<TvShowRecommendationItemEntity> results;
   final int totalPages;
   final int totalResults;
 
@@ -13,11 +13,9 @@ class TvShowRecommendationsEntity extends Equatable {
     required this.totalResults,
   });
 
-  @override
-  List<Object?> get props => [page, results, totalPages, totalResults];
 }
 
-class TvShowRecommendationItemEntity extends Equatable {
+class TvShowRecommendationItemEntity{
   final bool adult;
   final String? backdropPath;
   final int id;
@@ -52,22 +50,4 @@ class TvShowRecommendationItemEntity extends Equatable {
     required this.originCountry,
   });
 
-  @override
-  List<Object?> get props => [
-        adult,
-        backdropPath,
-        id,
-        name,
-        originalLanguage,
-        originalName,
-        overview,
-        posterPath,
-        mediaType,
-        genreIds,
-        popularity,
-        firstAirDate,
-        voteAverage,
-        voteCount,
-        originCountry,
-      ];
 }

@@ -1,6 +1,6 @@
 class TvEpisodeVideosEntity {
   final int id;
-  final List<dynamic> results;
+  final List<TvEpisodeVideoItemEntity> results;
 
   const TvEpisodeVideosEntity({
     required this.id,
