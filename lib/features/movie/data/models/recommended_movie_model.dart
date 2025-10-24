@@ -4,28 +4,17 @@ import 'package:cine_spot/features/movie/domain/entities/recommended_movie_entit
 
 class RecommendedMovieModel extends RecommendedMovieEntity {
   const RecommendedMovieModel({
-    required int id,
-    required String title,
-    required String overview,
-    String? posterPath,
-    String? backdropPath,
-    required double voteAverage,
-    required int voteCount,
-    required String releaseDate,
-    required List<int> genreIds,
-    required double popularity,
-  }) : super(
-          id: id,
-          title: title,
-          overview: overview,
-          posterPath: posterPath,
-          backdropPath: backdropPath,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-          releaseDate: releaseDate,
-          genreIds: genreIds,
-          popularity: popularity,
-        );
+    required super.id,
+    required super.title,
+    required super.overview,
+    super.posterPath,
+    super.backdropPath,
+    required super.voteAverage,
+    required super.voteCount,
+    required super.releaseDate,
+    required super.genreIds,
+    required super.popularity,
+  });
 
   factory RecommendedMovieModel.fromJson(Map<String, dynamic> json) {
     return RecommendedMovieModel(

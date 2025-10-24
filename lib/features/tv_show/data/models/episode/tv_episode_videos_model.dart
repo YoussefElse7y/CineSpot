@@ -8,9 +8,9 @@ part 'tv_episode_videos_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class TvEpisodeVideosModel extends TvEpisodeVideosEntity {
   const TvEpisodeVideosModel({
-    required int id,
-    @JsonKey(name: 'results') required List<TvEpisodeVideoItemModel> results,
-  }) : super(id: id, results: results);
+    required super.id,
+    @JsonKey(name: 'results') required List<TvEpisodeVideoItemModel> super.results,
+  });
 
   factory TvEpisodeVideosModel.fromJson(Map<String, dynamic> json) =>
       _$TvEpisodeVideosModelFromJson(json);
@@ -27,28 +27,17 @@ class TvEpisodeVideosModel extends TvEpisodeVideosEntity {
 @JsonSerializable()
 class TvEpisodeVideoItemModel extends TvEpisodeVideoItemEntity {
   const TvEpisodeVideoItemModel({
-    @JsonKey(name: 'iso_639_1') required String iso6391,
-    @JsonKey(name: 'iso_3166_1') required String iso31661,
-    required String name,
-    required String key,
-    required String site,
-    required int size,
-    required String type,
-    required bool official,
-    @JsonKey(name: 'published_at') required String publishedAt,
-    required String id,
-  }) : super(
-          iso6391: iso6391,
-          iso31661: iso31661,
-          name: name,
-          key: key,
-          site: site,
-          size: size,
-          type: type,
-          official: official,
-          publishedAt: publishedAt,
-          id: id,
-        );
+    @JsonKey(name: 'iso_639_1') required super.iso6391,
+    @JsonKey(name: 'iso_3166_1') required super.iso31661,
+    required super.name,
+    required super.key,
+    required super.site,
+    required super.size,
+    required super.type,
+    required super.official,
+    @JsonKey(name: 'published_at') required super.publishedAt,
+    required super.id,
+  });
 
   factory TvEpisodeVideoItemModel.fromJson(Map<String, dynamic> json) =>
       _$TvEpisodeVideoItemModelFromJson(json);

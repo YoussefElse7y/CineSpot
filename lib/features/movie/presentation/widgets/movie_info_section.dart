@@ -21,7 +21,7 @@ class MovieInfoSection extends StatelessWidget {
     if (budget >= 1000000) {
       return '\$${(budget / 1000000).toStringAsFixed(2)}M';
     }
-    return '\$${budget}';
+    return '\$$budget';
   }
 
   @override

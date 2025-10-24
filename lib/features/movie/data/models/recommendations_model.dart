@@ -5,16 +5,11 @@ import '../../domain/entities/recommendations_entity.dart';
 
 class RecommendationsModel extends RecommendationsEntity {
   const RecommendationsModel({
-    required int page,
-    required List<RecommendedMovieModel> results,
-    required int totalPages,
-    required int totalResults,
-  }) : super(
-          page: page,
-          results: results,
-          totalPages: totalPages,
-          totalResults: totalResults,
-        );
+    required super.page,
+    required List<RecommendedMovieModel> super.results,
+    required super.totalPages,
+    required super.totalResults,
+  });
 
   factory RecommendationsModel.fromJson(Map<String, dynamic> json) {
     final results = (json['results'] as List<dynamic>?)

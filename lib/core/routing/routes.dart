@@ -10,5 +10,9 @@ class Routes {
   static const String editProfileScreen = '/editProfileScreen';
 static const String languageScreen = '/languageScreen';
   static const String movieDetailsScreen = '/movieDetailsScreen';
+   // TV Show routes
+  static const String tvShowDetailsScreen = '/tvShowDetailsScreen';
+  static const String seasonDetailsScreen = '/seasonDetailsScreen';
+  static const String episodeDetailsScreen = '/episodeDetailsScreen';
 
 }

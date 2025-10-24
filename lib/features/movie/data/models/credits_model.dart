@@ -3,9 +3,9 @@ import 'cast_model.dart';
 
 class CreditsModel extends CreditsEntity {
   const CreditsModel({
-    required int id,
-    required List<CastModel> cast,
-  }) : super(id: id, cast: cast);
+    required super.id,
+    required List<CastModel> super.cast,
+  });
 
   factory CreditsModel.fromJson(Map<String, dynamic> json) {
     return CreditsModel(

@@ -132,7 +132,7 @@ class InitialSearchState extends StatelessWidget {
                     context: context,
                   ),
                 )
-                .toList(),
+                ,
           ],
         ),
       ),

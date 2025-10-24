@@ -75,6 +75,24 @@ import 'package:cine_spot/features/movie/domain/usecases/get_similar_movies_usec
 import 'package:cine_spot/features/movie/domain/usecases/get_recommendations_usecase.dart';
 import 'package:cine_spot/features/movie/domain/usecases/get_movie_reviews_usecase.dart';
 
+// TV Show imports
+import 'package:cine_spot/features/tv_show/data/datasources/tv_show_services.dart';
+import 'package:cine_spot/features/tv_show/data/repository/tv_show_repository_impl.dart';
+import 'package:cine_spot/features/tv_show/domain/repository/tv_show_repository.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_tv_show_details_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_tv_show_credits_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_tv_show_videos_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_tv_show_recommendations_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_tv_show_reviews_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_season_details_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_season_credits_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_season_videos_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_episode_details_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_episode_credits_usecase.dart';
+import 'package:cine_spot/features/tv_show/domain/usecases/get_episode_videos_usecase.dart';
+import 'package:cine_spot/features/tv_show/presentation/bloc/tv_show_bloc.dart';
+
+
 
 final sl = GetIt.instance;
 
@@ -144,6 +162,23 @@ Future<void> init() async {
     ),
   );
 
+  // Add TV Show BLoC after Movie BLoC
+sl.registerFactory(
+  () => TvShowBloc(
+    getTvShowDetailsUseCase: sl(),
+    getTvShowCreditsUseCase: sl(),
+    getTvShowVideosUseCase: sl(),
+    getTvShowRecommendationsUseCase: sl(),
+    getTvShowReviewsUseCase: sl(),
+    getSeasonDetailsUseCase: sl(),
+    getSeasonCreditsUseCase: sl(),
+    getSeasonVideosUseCase: sl(),
+    getEpisodeDetailsUseCase: sl(),
+    getEpisodeCreditsUseCase: sl(),
+    getEpisodeVideosUseCase: sl(),
+  ),
+);
+
   // ========== Use Cases ==========
   // Theme
   sl.registerLazySingleton(() => GetThemeMode(sl()));
@@ -203,6 +238,26 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetMovieReviewsUseCase(sl()));
 
 
+  // Add TV Show Use Cases after Movie Use Cases
+// TV Show Use Cases
+sl.registerLazySingleton(() => GetTvShowDetailsUseCase(sl()));
+sl.registerLazySingleton(() => GetTvShowCreditsUseCase(sl()));
+sl.registerLazySingleton(() => GetTvShowVideosUseCase(sl()));
+sl.registerLazySingleton(() => GetTvShowRecommendationsUseCase(sl()));
+sl.registerLazySingleton(() => GetTvShowReviewsUseCase(sl()));
+
+// Season Use Cases
+sl.registerLazySingleton(() => GetSeasonDetailsUseCase(sl()));
+sl.registerLazySingleton(() => GetSeasonCreditsUseCase(sl()));
+sl.registerLazySingleton(() => GetSeasonVideosUseCase(sl()));
+
+// Episode Use Cases
+sl.registerLazySingleton(() => GetEpisodeDetailsUseCase(sl()));
+sl.registerLazySingleton(() => GetEpisodeCreditsUseCase(sl()));
+sl.registerLazySingleton(() => GetEpisodeVideosUseCase(sl()));
+
+
+
   // ========== Repositories ==========
   // Theme
   sl.registerLazySingleton<ThemeRepository>(
@@ -233,6 +288,11 @@ Future<void> init() async {
   sl.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(sl()),
   );
+
+  // Add TV Show Repository after Movie Repository
+sl.registerLazySingleton<TvShowRepository>(
+  () => TvShowRepositoryImpl(sl()),
+);
 
   // ========== Data Sources ==========
   // Theme
@@ -269,7 +329,8 @@ Future<void> init() async {
   sl.registerLazySingleton<MovieServices>(() => MovieServices(sl()));
 
 
-
+// Add TV Show Services after Movie Services
+sl.registerLazySingleton<TvShowServices>(() => TvShowServices(sl()));
 
 
   // ========== External ==========
