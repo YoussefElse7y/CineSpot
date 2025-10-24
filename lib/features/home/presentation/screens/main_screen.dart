@@ -7,6 +7,7 @@ import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_bloc.dart';
 import 'package:cine_spot/features/explore/presentation/bloc/explore_event.dart';
 import 'package:cine_spot/features/explore/presentation/screens/explore_screen.dart';
+import 'package:cine_spot/features/home/presentation/screens/my_list_screen.dart';
 import 'package:cine_spot/features/profile/presentation/screens/profile_sceen.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -138,13 +139,13 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 // ---------- Placeholder Screens ----------
-class MyListScreen extends StatelessWidget {
-  const MyListScreen({super.key});
+// class MyListScreen extends StatelessWidget {
+//   const MyListScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) =>
-      _buildPlaceholder(AppLocalizations.of(context)!.myList);
-}
+//   @override
+//   Widget build(BuildContext context) =>
+//       _buildPlaceholder(AppLocalizations.of(context)!.myList);
+// }
 
 class DownloadScreen extends StatelessWidget {
   const DownloadScreen({super.key});
