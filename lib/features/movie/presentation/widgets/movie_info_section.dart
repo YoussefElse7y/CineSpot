@@ -1,3 +1,4 @@
+import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -79,19 +80,11 @@ class MovieInfoSection extends StatelessWidget {
 
           // Additional Info
           if (movie.tagline != null && movie.tagline!.isNotEmpty) ...[
-            _InfoRow(
-              label: 'Tagline',
-              value: movie.tagline!,
-              isDark: isDark,
-            ),
+            _InfoRow(label: 'Tagline', value: movie.tagline!, isDark: isDark),
             const SizedBox(height: 12),
           ],
 
-          _InfoRow(
-            label: 'Status',
-            value: movie.status,
-            isDark: isDark,
-          ),
+          _InfoRow(label: 'Status', value: movie.status, isDark: isDark),
           const SizedBox(height: 12),
 
           _InfoRow(
@@ -136,16 +129,32 @@ class MovieInfoSection extends StatelessWidget {
               runSpacing: 8,
               children: movie.productionCompanies.map((company) {
                 return Chip(
-                  label: Text(
-                    company.name,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min, // 👈 This is the key fix
+
+                    children: [
+                      if (company.logoPath != null) ...[
+                        Image.network(
+                          TMDBImageHelper.getLogo(
+                            company.logoPath!,
+                            LogoSize.w92,
+                          ),
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 4),
+                      ],
+                      SizedBox(width: 4),
+                      Text(
+                        company.name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                  backgroundColor: isDark
-                      ? Colors.grey[800]
-                      : Colors.grey[200],
+                  backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
                 );
               }).toList(),
             ),

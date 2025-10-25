@@ -1,3 +1,4 @@
+import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class TvShowInfoSection extends StatelessWidget {
             children: [
               _StatItem(
                 label: 'First Air',
-                value: tvShow.firstAirDate.isNotEmpty 
+                value: tvShow.firstAirDate.isNotEmpty
                     ? tvShow.firstAirDate.split('-')[0]
                     : 'N/A',
                 isDark: isDark,
@@ -68,11 +69,7 @@ class TvShowInfoSection extends StatelessWidget {
 
           // Additional Info
           if (tvShow.tagline != null && tvShow.tagline!.isNotEmpty) ...[
-            _InfoRow(
-              label: 'Tagline',
-              value: tvShow.tagline!,
-              isDark: isDark,
-            ),
+            _InfoRow(label: 'Tagline', value: tvShow.tagline!, isDark: isDark),
             const SizedBox(height: 12),
           ],
 
@@ -116,9 +113,7 @@ class TvShowInfoSection extends StatelessWidget {
                       color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
-                  backgroundColor: isDark
-                      ? Colors.grey[800]
-                      : Colors.grey[200],
+                  backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
                 );
               }).toList(),
             ),
@@ -141,16 +136,31 @@ class TvShowInfoSection extends StatelessWidget {
               runSpacing: 8,
               children: tvShow.networks.map((network) {
                 return Chip(
-                  label: Text(
-                    network.name,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isDark ? Colors.white : Colors.black,
-                    ),
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (network.logoPath != null) ...[
+                        Image.network(
+                          TMDBImageHelper.getLogo(
+                            network.logoPath!,
+                            LogoSize.w92,
+                          ),
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 4),
+                      ],
+                      SizedBox(width: 4),
+                      Text(
+                        network.name,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                  backgroundColor: isDark
-                      ? Colors.grey[800]
-                      : Colors.grey[200],
+                  backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],
                 );
               }).toList(),
             ),

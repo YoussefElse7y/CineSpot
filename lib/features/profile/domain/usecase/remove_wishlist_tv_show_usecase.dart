@@ -9,6 +9,6 @@ class RemoveWishlistTvShowUseCase {
   RemoveWishlistTvShowUseCase(this.repository);
 
   Future<Either<Failure, ProfileEntity>> call(String userId, int tvShowId) {
-    return repository.removeWishlistMovie(userId, tvShowId);
+    return repository.removeWishlistTvShow(userId, tvShowId);
   }
 }

@@ -6,6 +6,8 @@ import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entity.dart';
+import 'package:cine_spot/features/tv_show/presentation/bloc/tv_show_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,10 @@ class MyListScreen extends StatefulWidget {
 
 class _MyListScreenState extends State<MyListScreen> {
   final Map<int, MovieDetailsEntity> _movieCache = {};
-  final Map<int, bool> _loadingStates = {};
+  final Map<int, bool> _movieLoadingStates = {};
+
+  final Map<int, TvShowDetailsEntity> _tvShowCache = {};
+  final Map<int, bool> _tvShowLoadingStates = {};
 
   @override
   void initState() {
@@ -36,15 +41,15 @@ class _MyListScreenState extends State<MyListScreen> {
   }
 
   void _fetchMovieDetails(int movieId) {
-    if (_movieCache.containsKey(movieId) || _loadingStates[movieId] == true) {
+    if (_movieCache.containsKey(movieId) ||
+        _movieLoadingStates[movieId] == true) {
       return;
     }
 
     setState(() {
-      _loadingStates[movieId] = true;
+      _movieLoadingStates[movieId] = true;
     });
 
-    // Create a temporary MovieBloc to fetch details
     final movieBloc = sl<MovieBloc>();
     movieBloc.add(MovieEvent.loadMovieDetails(movieId));
 
@@ -53,11 +58,39 @@ class _MyListScreenState extends State<MyListScreen> {
           state.movieDetails != null) {
         setState(() {
           _movieCache[movieId] = state.movieDetails!;
-          _loadingStates[movieId] = false;
+          _movieLoadingStates[movieId] = false;
         });
       } else if (state.detailsStatus == MovieDetailsStatus.error) {
         setState(() {
-          _loadingStates[movieId] = false;
+          _movieLoadingStates[movieId] = false;
+        });
+      }
+    });
+  }
+
+  void _fetchTvShowDetails(int tvShowId) {
+    if (_tvShowCache.containsKey(tvShowId) ||
+        _tvShowLoadingStates[tvShowId] == true) {
+      return;
+    }
+
+    setState(() {
+      _tvShowLoadingStates[tvShowId] = true;
+    });
+
+    final tvShowBloc = sl<TvShowBloc>();
+    tvShowBloc.add(TvShowEvent.loadTvShowDetails(tvShowId));
+
+    tvShowBloc.stream.listen((state) {
+      if (state.detailsStatus == TvShowDetailsStatus.loaded &&
+          state.tvShowDetails != null) {
+        setState(() {
+          _tvShowCache[tvShowId] = state.tvShowDetails!;
+          _tvShowLoadingStates[tvShowId] = false;
+        });
+      } else if (state.detailsStatus == TvShowDetailsStatus.error) {
+        setState(() {
+          _tvShowLoadingStates[tvShowId] = false;
         });
       }
     });
@@ -161,7 +194,7 @@ class _MyListScreenState extends State<MyListScreen> {
             );
           }
 
-          // Fetch movie details for all wishlist items
+          // Fetch details for all wishlist items
           if (wishlistMovieIds.isNotEmpty) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               for (final movieId in wishlistMovieIds) {
@@ -170,14 +203,25 @@ class _MyListScreenState extends State<MyListScreen> {
             });
           }
 
+          if (wishlistTvIds.isNotEmpty) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              for (final tvShowId in wishlistTvIds) {
+                _fetchTvShowDetails(tvShowId);
+              }
+            });
+          }
+
           return RefreshIndicator(
             onRefresh: () async {
               _loadUserProfile();
               _movieCache.clear();
-              _loadingStates.clear();
+              _movieLoadingStates.clear();
+              _tvShowCache.clear();
+              _tvShowLoadingStates.clear();
             },
             child: CustomScrollView(
               slivers: [
+                // Movies Section
                 if (wishlistMovieIds.isNotEmpty) ...[
                   SliverToBoxAdapter(
                     child: Padding(
@@ -235,7 +279,7 @@ class _MyListScreenState extends State<MyListScreen> {
                       delegate: SliverChildBuilderDelegate((context, index) {
                         final movieId = wishlistMovieIds[index];
                         final movie = _movieCache[movieId];
-                        final isLoading = _loadingStates[movieId] ?? true;
+                        final isLoading = _movieLoadingStates[movieId] ?? true;
 
                         return _buildMovieCard(
                           context,
@@ -249,6 +293,8 @@ class _MyListScreenState extends State<MyListScreen> {
                     ),
                   ),
                 ],
+
+                // TV Shows Section
                 if (wishlistTvIds.isNotEmpty) ...[
                   SliverToBoxAdapter(
                     child: Padding(
@@ -295,20 +341,34 @@ class _MyListScreenState extends State<MyListScreen> {
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    sliver: SliverToBoxAdapter(
-                      child: Center(
-                        child: Text(
-                          'TV shows coming soon',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 0.55,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 16,
                           ),
-                        ),
-                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final tvShowId = wishlistTvIds[index];
+                        final tvShow = _tvShowCache[tvShowId];
+                        final isLoading =
+                            _tvShowLoadingStates[tvShowId] ?? true;
+
+                        return _buildTvShowCard(
+                          context,
+                          tvShowId,
+                          tvShow,
+                          isLoading,
+                          isDark,
+                          userId,
+                        );
+                      }, childCount: wishlistTvIds.length),
                     ),
                   ),
                 ],
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 150)),
               ],
             ),
           );
@@ -512,10 +572,207 @@ class _MyListScreenState extends State<MyListScreen> {
     );
   }
 
+  Widget _buildTvShowCard(
+    BuildContext context,
+    int tvShowId,
+    TvShowDetailsEntity? tvShow,
+    bool isLoading,
+    bool isDark,
+    String userId,
+  ) {
+    if (isLoading) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: isDark ? Colors.grey[850] : Colors.grey[200],
+        ),
+        child: const Center(
+          child: SizedBox(
+            width: 30,
+            height: 30,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    if (tvShow == null) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: isDark ? Colors.grey[850] : Colors.grey[200],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 40, color: Colors.grey[600]),
+            const SizedBox(height: 8),
+            Text(
+              'Failed to load',
+              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.tvShowDetailsScreen,
+          arguments: tvShowId,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: isDark ? Colors.grey[850] : Colors.grey[200],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: tvShow.posterPath != null
+                        ? CachedNetworkImage(
+                            imageUrl: TMDBImageHelper.getPoster(
+                              tvShow.posterPath!,
+                              PosterSize.w342,
+                            ),
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              color: isDark
+                                  ? Colors.grey[800]
+                                  : Colors.grey[300],
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: isDark
+                                  ? Colors.grey[800]
+                                  : Colors.grey[300],
+                              child: const Icon(
+                                Icons.tv,
+                                size: 60,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            color: isDark ? Colors.grey[800] : Colors.grey[300],
+                            child: const Icon(
+                              Icons.tv,
+                              size: 60,
+                              color: Colors.grey,
+                            ),
+                          ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE21221),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.white, size: 12),
+                          const SizedBox(width: 2),
+                          Text(
+                            tvShow.voteAverage.toStringAsFixed(1),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      height: 24,
+                      width: 24,
+                      decoration: BoxDecoration(
+                        color: ThemeConstants.primaryDark.withOpacity(0.9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(
+                          minWidth: 22,
+                          minHeight: 22,
+                        ),
+                        onPressed: () {
+                          context.read<ProfileBloc>().add(
+                            ProfileEvent.removeWishlistTvShow(userId, tvShowId),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tvShow.name,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    tvShow.firstAirDate.isNotEmpty
+                        ? tvShow.firstAirDate.split('-')[0]
+                        : 'N/A',
+                    style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _movieCache.clear();
-    _loadingStates.clear();
+    _movieLoadingStates.clear();
+    _tvShowCache.clear();
+    _tvShowLoadingStates.clear();
     super.dispose();
   }
 }
