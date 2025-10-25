@@ -6,6 +6,7 @@ import 'package:cine_spot/features/language/presentation/bloc/language_state.dar
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'core/di/injection_container.dart' as di;
 import 'features/theme/presentation/bloc/theme_bloc.dart';
 import 'features/theme/presentation/bloc/theme_event.dart';
@@ -15,12 +16,28 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // Ensure all bindings are initialized
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Keep the native splash screen until initialization completes
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // Optional debug optimizations
   debugProfileBuildsEnabled = false;
   debugPrintRebuildDirtyWidgets = false;
+
+  // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize dependency injection
   await di.init();
+
+  // Run your app
   runApp(const CineSpotApp());
+
+  // Remove splash screen after initialization is complete
+  await Future.delayed(const Duration(milliseconds: 500));
+FlutterNativeSplash.remove();
 }
 
 class CineSpotApp extends StatelessWidget {
