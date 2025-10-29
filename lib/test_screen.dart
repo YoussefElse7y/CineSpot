@@ -24,7 +24,7 @@ class TestScreen extends StatelessWidget {
 
     return BlocProvider<AuthBloc>(
       create: (context) =>
-          AuthBloc(sl(), sl(), sl(), sl())..add(CheckAuthStatus()),
+          AuthBloc(sl(), sl(), sl(), sl(), sl())..add(CheckAuthStatus()),
       child: Scaffold(
         appBar: AppBar(
           title: Text(l10n.appTitle),

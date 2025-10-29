@@ -1,6 +1,7 @@
 import 'package:cine_spot/features/auth/domain/entities/user_entity.dart';
 import 'package:cine_spot/features/auth/domain/repositories/auth_repository.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:cine_spot/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,12 +18,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignUpUseCase signUpUseCase;
   final SignOutUseCase signOutUseCase;
   final AuthRepository authRepository;
+  final SignInWithGoogleUseCase signInWithGoogleUseCase;
+
 
   AuthBloc(
     this.signInUseCase,
     this.signUpUseCase,
     this.signOutUseCase,
     this.authRepository,
+    this.signInWithGoogleUseCase,
+
   ) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
       await event.when(
@@ -30,10 +35,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signIn: (email, password) => _onSignIn(email, password, emit),
         signUp: (email, password) => _onSignUp(email, password, emit),
         signOut: () => _onSignOut(emit),
+        signInWithGoogle: () => _onSignInWithGoogle(emit),
+
       );
     });
   }
-
+  Future<void> _onSignInWithGoogle(Emitter<AuthState> emit) async {
+  emit(const AuthState.loading());
+  final result = await signInWithGoogleUseCase();
+  result.fold(
+    (failure) => emit(AuthState.error(failure.toString())),
+    (user) => emit(AuthState.authenticated(user)),
+  );
+}
   Future<void> _onCheckAuthStatus(Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     final result = await authRepository.getCurrentUser();

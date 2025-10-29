@@ -3,6 +3,7 @@ import 'package:cine_spot/features/auth/data/datasources/auth_remote_datasource.
 import 'package:cine_spot/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:cine_spot/features/auth/domain/repositories/auth_repository.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:cine_spot/features/auth/domain/usecases/sign_in_with_google_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:cine_spot/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
@@ -109,7 +110,7 @@ Future<void> init() async {
   sl.registerFactory(() => LanguageBloc(getLanguage: sl(), saveLanguage: sl()));
 
   // Auth BLoC
-  sl.registerFactory(() => AuthBloc(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => AuthBloc(sl(), sl(), sl(), sl(), sl()));
   // Profile BLoC
   sl.registerFactory(
     () => ProfileBloc(
@@ -192,6 +193,8 @@ sl.registerFactory(
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
+  sl.registerLazySingleton(() => SignInWithGoogleUseCase(sl()));
+
 
   // Profile Use Cases
   sl.registerLazySingleton(() => CreateProfileUseCase(sl()));

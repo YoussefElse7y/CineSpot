@@ -7,6 +7,7 @@ abstract class AuthRemoteDataSource {
   Future<void> signOut();
   Future<UserModel?> getCurrentUser();
   Stream<UserModel?> get authStateChanges;
+  Future<UserModel> signInWithGoogle();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -62,5 +63,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return _firebaseAuth.authStateChanges().map(
       (user) => user != null ? UserModel.fromFirebaseUser(user) : null,
     );
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async {
+    try {
+      final GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+      final UserCredential credential = await _firebaseAuth.signInWithProvider(
+        googleProvider,
+      );
+
+      if (credential.user == null) {
+        throw Exception('Google sign in failed');
+      }
+      return UserModel.fromFirebaseUser(credential.user!);
+    } catch (e) {
+      throw Exception('Google sign in failed: ${e.toString()}');
+    }
   }
 }

@@ -52,6 +52,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+  try {
+    final user = await remoteDataSource.signInWithGoogle();
+    return Right(user.toEntity());
+  } catch (e) {
+    return Left(Failure.authFailure(e.toString()));
+  }
+}
+
+  @override
   Stream<UserEntity?> get authStateChanges {
     return remoteDataSource.authStateChanges.map(
       (user) => user?.toEntity(),
