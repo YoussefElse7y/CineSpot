@@ -4,6 +4,7 @@ import 'package:cine_spot/features/movie/data/models/credits_model.dart';
 import 'package:cine_spot/features/movie/data/models/movie_details_model.dart';
 import 'package:cine_spot/features/movie/data/models/movie_review_model.dart';
 import 'package:cine_spot/features/movie/data/models/movie_videos_model.dart';
+import 'package:cine_spot/features/movie/data/models/movie_watch_providers_model.dart';
 import 'package:cine_spot/features/movie/data/models/recommendations_model.dart';
 import 'package:cine_spot/features/movie/data/models/similar_movies_response_model.dart';
 import 'package:cine_spot/features/movie/domain/repository/movie_repository.dart';
@@ -118,6 +119,19 @@ class MovieRepositoryImpl implements MovieRepository {
       final data = MovieReviewsResponseModel.fromJson(response.data);
       final reviews = data.results;
       return Right(reviews);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MovieWatchProvidersModel>> getWatchProviders(
+    int movieId,
+  ) async {
+    try {
+      final response = await _movieServices.getWatchProviders(movieId);
+      final data = MovieWatchProvidersModel.fromJson(response.data);
+      return Right(data);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

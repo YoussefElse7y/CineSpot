@@ -53,4 +53,10 @@ abstract class MovieServices {
     @Query("language") String language = 'en-US',
     @Query("page") int page = 1,
   });
+
+  // ✅ Get Watch Providers
+  @GET("/movie/{movie_id}/watch/providers")
+  Future<HttpResponse<dynamic>> getWatchProviders(
+    @Path("movie_id") int movieId,
+  );
 }
