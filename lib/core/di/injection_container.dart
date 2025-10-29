@@ -23,6 +23,7 @@ import 'package:cine_spot/features/home/domain/usecases/get_playing_now_movies.d
 import 'package:cine_spot/features/home/domain/usecases/get_top_ten_movies_tihs_week.dart';
 import 'package:cine_spot/features/home/domain/usecases/get_trending_tv_shows.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_watch_providers_usecase.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cine_spot/features/profile/data/datasources/cloudinary_service.dart';
 import 'package:cine_spot/features/profile/data/datasources/profile_remote_datasource.dart';
@@ -160,6 +161,7 @@ Future<void> init() async {
       getSimilarMoviesUseCase: sl(),
       getRecommendationsUseCase: sl(),
       getMovieReviewsUseCase: sl(),
+      getWatchProvidersUseCase: sl(), 
     ),
   );
 
@@ -232,13 +234,15 @@ sl.registerFactory(
   sl.registerLazySingleton(() => PersonSearchResultUseCase(sl()));
   sl.registerLazySingleton(() => CompanySearchResultUseCase(sl()));
 
-    // Add Movie Use Cases
+    //  Movie Use Cases
   sl.registerLazySingleton(() => GetMovieDetailsUseCase(sl()));
   sl.registerLazySingleton(() => GetCreditsUseCase(sl()));
   sl.registerLazySingleton(() => GetMovieVideosUseCase(sl()));
   sl.registerLazySingleton(() => GetSimilarMoviesUseCase(sl()));
   sl.registerLazySingleton(() => GetRecommendationsUseCase(sl()));
   sl.registerLazySingleton(() => GetMovieReviewsUseCase(sl()));
+  sl.registerLazySingleton(() => GetWatchProvidersUseCase(sl()));
+
 
 
   // Add TV Show Use Cases after Movie Use Cases

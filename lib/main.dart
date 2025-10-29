@@ -69,6 +69,8 @@ class CineSpotApp extends StatelessWidget {
               ..add(HomeEvent.getTrendingTvShows(currentLanguage));
           },
         ),
+
+        
       ],
       child: CineSpot(appRouter: AppRouter()),
     );

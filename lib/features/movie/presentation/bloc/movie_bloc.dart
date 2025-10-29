@@ -1,3 +1,5 @@
+import 'package:cine_spot/features/movie/domain/entities/movie_watch_providers_entity.dart';
+import 'package:cine_spot/features/movie/domain/usecases/get_watch_providers_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/movie_details_entity.dart';
@@ -24,6 +26,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final GetSimilarMoviesUseCase getSimilarMoviesUseCase;
   final GetRecommendationsUseCase getRecommendationsUseCase;
   final GetMovieReviewsUseCase getMovieReviewsUseCase;
+  final GetWatchProvidersUseCase getWatchProvidersUseCase; // ✅ NEW
 
   MovieBloc({
     required this.getMovieDetailsUseCase,
@@ -32,6 +35,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     required this.getSimilarMoviesUseCase,
     required this.getRecommendationsUseCase,
     required this.getMovieReviewsUseCase,
+    required this.getWatchProvidersUseCase, // ✅ NEW
   }) : super(const MovieState()) {
     on<MovieEvent>((event, emit) async {
       await event.when(
@@ -47,6 +51,9 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
             _onLoadRecommendations(movieId, language, page, emit),
         loadReviews: (movieId, language, page) =>
             _onLoadReviews(movieId, language, page, emit),
+        loadWatchProviders: (movieId) =>
+            _onLoadWatchProviders(movieId, emit), // ✅ NEW
+
         resetMovie: () => _onResetMovie(emit),
       );
     });
@@ -58,18 +65,25 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     emit(state.copyWith(detailsStatus: MovieDetailsStatus.loading));
-    
-    final result = await getMovieDetailsUseCase.execute(movieId, language: language);
-    
+
+    final result = await getMovieDetailsUseCase.execute(
+      movieId,
+      language: language,
+    );
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        detailsStatus: MovieDetailsStatus.error,
-        detailsError: failure.toString(),
-      )),
-      (details) => emit(state.copyWith(
-        detailsStatus: MovieDetailsStatus.loaded,
-        movieDetails: details,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          detailsStatus: MovieDetailsStatus.error,
+          detailsError: failure.toString(),
+        ),
+      ),
+      (details) => emit(
+        state.copyWith(
+          detailsStatus: MovieDetailsStatus.loaded,
+          movieDetails: details,
+        ),
+      ),
     );
   }
 
@@ -79,18 +93,22 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     emit(state.copyWith(creditsStatus: MovieCreditsStatus.loading));
-    
+
     final result = await getCreditsUseCase.execute(movieId, language: language);
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        creditsStatus: MovieCreditsStatus.error,
-        creditsError: failure.toString(),
-      )),
-      (credits) => emit(state.copyWith(
-        creditsStatus: MovieCreditsStatus.loaded,
-        credits: credits,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          creditsStatus: MovieCreditsStatus.error,
+          creditsError: failure.toString(),
+        ),
+      ),
+      (credits) => emit(
+        state.copyWith(
+          creditsStatus: MovieCreditsStatus.loaded,
+          credits: credits,
+        ),
+      ),
     );
   }
 
@@ -100,18 +118,22 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     emit(state.copyWith(videosStatus: MovieVideosStatus.loading));
-    
-    final result = await getMovieVideosUseCase.execute(movieId, language: language);
-    
+
+    final result = await getMovieVideosUseCase.execute(
+      movieId,
+      language: language,
+    );
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        videosStatus: MovieVideosStatus.error,
-        videosError: failure.toString(),
-      )),
-      (videos) => emit(state.copyWith(
-        videosStatus: MovieVideosStatus.loaded,
-        videos: videos,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          videosStatus: MovieVideosStatus.error,
+          videosError: failure.toString(),
+        ),
+      ),
+      (videos) => emit(
+        state.copyWith(videosStatus: MovieVideosStatus.loaded, videos: videos),
+      ),
     );
   }
 
@@ -122,22 +144,26 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     emit(state.copyWith(similarStatus: MovieSimilarStatus.loading));
-    
+
     final result = await getSimilarMoviesUseCase.execute(
       movieId,
       language: language,
       page: page,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        similarStatus: MovieSimilarStatus.error,
-        similarError: failure.toString(),
-      )),
-      (similar) => emit(state.copyWith(
-        similarStatus: MovieSimilarStatus.loaded,
-        similarMovies: similar,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          similarStatus: MovieSimilarStatus.error,
+          similarError: failure.toString(),
+        ),
+      ),
+      (similar) => emit(
+        state.copyWith(
+          similarStatus: MovieSimilarStatus.loaded,
+          similarMovies: similar,
+        ),
+      ),
     );
   }
 
@@ -147,23 +173,29 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     int? page,
     Emitter<MovieState> emit,
   ) async {
-    emit(state.copyWith(recommendationsStatus: MovieRecommendationsStatus.loading));
-    
+    emit(
+      state.copyWith(recommendationsStatus: MovieRecommendationsStatus.loading),
+    );
+
     final result = await getRecommendationsUseCase.execute(
       movieId,
       language: language,
       page: page,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        recommendationsStatus: MovieRecommendationsStatus.error,
-        recommendationsError: failure.toString(),
-      )),
-      (recommendations) => emit(state.copyWith(
-        recommendationsStatus: MovieRecommendationsStatus.loaded,
-        recommendations: recommendations,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          recommendationsStatus: MovieRecommendationsStatus.error,
+          recommendationsError: failure.toString(),
+        ),
+      ),
+      (recommendations) => emit(
+        state.copyWith(
+          recommendationsStatus: MovieRecommendationsStatus.loaded,
+          recommendations: recommendations,
+        ),
+      ),
     );
   }
 
@@ -174,22 +206,53 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     emit(state.copyWith(reviewsStatus: MovieReviewsStatus.loading));
-    
+
     final result = await getMovieReviewsUseCase.execute(
       movieId,
       language: language,
       page: page,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        reviewsStatus: MovieReviewsStatus.error,
-        reviewsError: failure.toString(),
-      )),
-      (reviews) => emit(state.copyWith(
-        reviewsStatus: MovieReviewsStatus.loaded,
-        reviews: reviews,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          reviewsStatus: MovieReviewsStatus.error,
+          reviewsError: failure.toString(),
+        ),
+      ),
+      (reviews) => emit(
+        state.copyWith(
+          reviewsStatus: MovieReviewsStatus.loaded,
+          reviews: reviews,
+        ),
+      ),
+    );
+  }
+
+  // ✅ NEW METHOD
+  Future<void> _onLoadWatchProviders(
+    int movieId,
+    Emitter<MovieState> emit,
+  ) async {
+    emit(
+      state.copyWith(watchProvidersStatus: MovieWatchProvidersStatus.loading),
+    );
+
+    final result = await getWatchProvidersUseCase.call(movieId);
+
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          watchProvidersStatus: MovieWatchProvidersStatus.error,
+          watchProvidersError: failure.toString(),
+        ),
+      ),
+      (providers) => emit(
+        state.copyWith(
+          watchProvidersStatus: MovieWatchProvidersStatus.loaded,
+          watchProviders: providers,
+        ),
+      ),
     );
   }
 

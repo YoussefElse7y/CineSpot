@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
+import 'package:cine_spot/features/movie/presentation/screens/watch_providers_screen.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -140,21 +141,30 @@ class MovieHeader extends StatelessWidget {
                   // Play Button
                   Expanded(
                     flex: 2,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        // TODO: Navigate to video player
-                      },
-                      icon: const Icon(Icons.play_arrow),
-                      label: const Text('Play'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE21221),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
+                    child: // In the Play Button onPressed callback:
+ElevatedButton.icon(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WatchProvidersScreen(
+          movieId: movie.id,
+          movieTitle: movie.title,
+        ),
+      ),
+    );
+  },
+  icon: const Icon(Icons.play_arrow),
+  label: const Text('Play'),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: const Color(0xFFE21221),
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+),
                   ),
                   const SizedBox(width: 12),
 

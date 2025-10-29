@@ -8,5 +8,7 @@ abstract class MovieEvent with _$MovieEvent {
   const factory MovieEvent.loadSimilarMovies(int movieId, {String? language, int? page}) = LoadSimilarMovies;
   const factory MovieEvent.loadRecommendations(int movieId, {String? language, int? page}) = LoadRecommendations;
   const factory MovieEvent.loadReviews(int movieId, {String? language, int? page}) = LoadReviews;
+    const factory MovieEvent.loadWatchProviders(int movieId) = LoadWatchProviders;
+
   const factory MovieEvent.resetMovie() = ResetMovie;
 }
