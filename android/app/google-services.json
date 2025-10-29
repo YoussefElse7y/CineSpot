@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "913530838601-s2d4ur05i7koe7u225ppl7g0vqnvqa3d.apps.googleusercontent.com",
+          "client_id": "913530838601-8n2i077fs0utmp4tv8gp6j7h5eut9n67.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.cine_spot",
-            "certificate_hash": "db2480d052a47f690c4fe933b89ebfd2ed718b00"
+            "certificate_hash": "7d415880e7b6826f756697a492ccff3d5a69b19b"
           }
         },
         {

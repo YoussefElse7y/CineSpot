@@ -3,28 +3,70 @@ import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:cine_spot/features/auth/presentation/widgets/illustration_painter.dart';
 import 'package:cine_spot/features/auth/presentation/widgets/social_login_button.dart';
+import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class LetYouInScreen extends StatelessWidget {
   const LetYouInScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: isDark
-          ? ThemeConstants.backgroundDark
-          : ThemeConstants.backgroundLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: ThemeConstants.spacingL,
-            ),
-            child: Column(
+@override
+Widget build(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
+  final l10n = AppLocalizations.of(context)!;
+  return Scaffold(
+    backgroundColor: isDark
+        ? ThemeConstants.backgroundDark
+        : ThemeConstants.backgroundLight,
+    body: BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          authenticated: (user) {
+            // Check if profile exists after Google sign-in
+            context.read<ProfileBloc>().add(
+              ProfileEvent.checkProfileExists(user.id),
+            );
+          },
+          error: (message) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
+          },
+          orElse: () {},
+        );
+      },
+      child: BlocListener<ProfileBloc, ProfileState>(
+        listener: (context, profileState) {
+          profileState.maybeWhen(
+            notFound: () {
+              // No profile, go to fill profile
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.fillProfileScreen,
+                (route) => false,
+              );
+            },
+            loaded: (profile) {
+              // Profile exists, go to home
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.mainScreen,
+                (route) => false,
+              );
+            },
+            orElse: () {},
+          );
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: ThemeConstants.spacingL,
+              ),
+              child: Column(
+                // ... rest of your existing Column children
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: ThemeConstants.spacingM),
@@ -101,6 +143,8 @@ class LetYouInScreen extends StatelessWidget {
           ),
         ),
       ),
+      )
+    )
     );
   }
 

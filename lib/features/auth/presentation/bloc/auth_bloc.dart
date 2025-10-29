@@ -7,11 +7,9 @@ import 'package:cine_spot/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
 part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
-
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInUseCase signInUseCase;
@@ -20,14 +18,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
   final SignInWithGoogleUseCase signInWithGoogleUseCase;
 
-
   AuthBloc(
     this.signInUseCase,
     this.signUpUseCase,
     this.signOutUseCase,
     this.authRepository,
     this.signInWithGoogleUseCase,
-
   ) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
       await event.when(
@@ -36,37 +32,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signUp: (email, password) => _onSignUp(email, password, emit),
         signOut: () => _onSignOut(emit),
         signInWithGoogle: () => _onSignInWithGoogle(emit),
-
       );
     });
   }
   Future<void> _onSignInWithGoogle(Emitter<AuthState> emit) async {
-  emit(const AuthState.loading());
-  final result = await signInWithGoogleUseCase();
-  result.fold(
-    (failure) => emit(AuthState.error(failure.toString())),
-    (user) => emit(AuthState.authenticated(user)),
-  );
-}
+    emit(const AuthState.loading());
+    final result = await signInWithGoogleUseCase();
+    result.fold((failure) {
+      print('Google Sign-In failed: ${failure.toString()}');
+      return emit(AuthState.error(failure.toString()));
+    }, (user) => emit(AuthState.authenticated(user)));
+  }
+
   Future<void> _onCheckAuthStatus(Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     final result = await authRepository.getCurrentUser();
-    result.fold(
-      (failure) => emit(const AuthState.unauthenticated()),
-      (user) {
-        if (user != null) {
-          emit(AuthState.authenticated(user));
-        } else {
-          emit(const AuthState.unauthenticated());
-        }
-      },
-    );
+    result.fold((failure) => emit(const AuthState.unauthenticated()), (user) {
+      if (user != null) {
+        emit(AuthState.authenticated(user));
+      } else {
+        emit(const AuthState.unauthenticated());
+      }
+    });
   }
 
   Future<void> _onSignIn(
-      String email,
-      String password,
-      Emitter<AuthState> emit) async {
+    String email,
+    String password,
+    Emitter<AuthState> emit,
+  ) async {
     emit(const AuthState.loading());
     final result = await signInUseCase(email, password);
     result.fold(
@@ -76,9 +70,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onSignUp(
-      String email,
-      String password,
-      Emitter<AuthState> emit) async {
+    String email,
+    String password,
+    Emitter<AuthState> emit,
+  ) async {
     emit(const AuthState.loading());
     final result = await signUpUseCase(email, password);
     result.fold(
