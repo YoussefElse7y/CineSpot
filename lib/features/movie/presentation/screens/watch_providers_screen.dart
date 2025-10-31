@@ -23,7 +23,6 @@ class WatchProvidersScreen extends StatefulWidget {
 
 class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
   String _selectedCountry = 'EG'; // Default to Egypt
-  bool _isLoadingCountry = true;
 
   @override
   void initState() {
@@ -40,16 +39,13 @@ class _WatchProvidersScreenState extends State<WatchProvidersScreen> {
       if (countryCode != null && _availableRegions.containsKey(countryCode)) {
         setState(() {
           _selectedCountry = countryCode;
-          _isLoadingCountry = false;
         });
       } else {
         setState(() {
-          _isLoadingCountry = false;
         });
       }
     } catch (e) {
       setState(() {
-        _isLoadingCountry = false;
       });
     }
   }

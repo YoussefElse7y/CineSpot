@@ -105,7 +105,6 @@ class MovieDetailsView extends StatelessWidget {
                   ),
                   backgroundColor: Colors.transparent,
                   surfaceTintColor: Colors.transparent,
-                  
                 ),
 
                 // Movie Info Section
@@ -118,12 +117,12 @@ class MovieDetailsView extends StatelessWidget {
                 const SliverToBoxAdapter(child: TrailersSection()),
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-                // Similar Movies Section
-                const SliverToBoxAdapter(child: SimilarMoviesSection()),
-                const SliverToBoxAdapter(child: SizedBox(height: 20)),
-
                 // Recommendations Section
                 const SliverToBoxAdapter(child: RecommendationsSection()),
+                const SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+                // Similar Movies Section
+                const SliverToBoxAdapter(child: SimilarMoviesSection()),
                 const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
                 // Reviews Section

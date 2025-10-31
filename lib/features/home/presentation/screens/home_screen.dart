@@ -7,6 +7,7 @@ import 'package:cine_spot/core/routing/routes.dart';
 import 'package:cine_spot/core/theme/theme_constants.dart';
 import 'package:cine_spot/features/home/presentation/bloc/home_bloc.dart';
 import 'package:cine_spot/features/home/presentation/widgets/featured_banner_carousel.dart';
+import 'package:cine_spot/features/home/presentation/widgets/shimmer_widgets.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,7 @@ class HomeScreen extends StatelessWidget {
                       previous.topMovies != current.topMovies,
                   builder: (context, state) {
                     if (state.isLoadingTopMovies) {
-                      return const SizedBox(
-                        height: 500,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
+                      return ShimmerWidgets.featuredBannerShimmer(isDark);
                     } else if (state.topMovies != null &&
                         state.topMovies!.results.isNotEmpty) {
                       return FeaturedBannerCarousel(
@@ -54,11 +52,11 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24),
-                _topMoviesThisWeek(l10n),
+                _topMoviesThisWeek(l10n, isDark),
                 const SizedBox(height: 24),
-                _nowPlaying(l10n),
+                _nowPlaying(l10n, isDark),
                 const SizedBox(height: 24),
-                _trendingTvShows(l10n),
+                _trendingTvShows(l10n, isDark),
                 const SizedBox(height: 160),
               ],
             ),
@@ -105,21 +103,13 @@ class HomeScreen extends StatelessWidget {
 
   BlocBuilder<HomeBloc, HomeState> _topMoviesThisWeek(
     AppLocalizations localization,
+    bool isDark,
   ) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous.topMovies != current.topMovies,
       builder: (context, state) {
         if (state.isLoadingTopMovies) {
-          return const SizedBox(
-            height: 240,
-            child: Center(
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
+          return ShimmerWidgets.movieSectionShimmer(isDark);
         } else if (state.topMovies != null) {
           return _buildMovieSection(
             context,
@@ -148,22 +138,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> _nowPlaying(AppLocalizations l10n) {
+  BlocBuilder<HomeBloc, HomeState> _nowPlaying(
+    AppLocalizations l10n,
+    bool isDark,
+  ) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
           previous.nowPlayingMovies != current.nowPlayingMovies,
       builder: (context, state) {
         if (state.isLoadingNowPlaying) {
-          return const SizedBox(
-            height: 240,
-            child: Center(
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
+          return ShimmerWidgets.movieSectionShimmer(isDark);
         } else if (state.nowPlayingMovies != null) {
           return _buildMovieSection(
             context,
@@ -192,22 +176,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocBuilder<HomeBloc, HomeState> _trendingTvShows(AppLocalizations l10n) {
+  BlocBuilder<HomeBloc, HomeState> _trendingTvShows(
+    AppLocalizations l10n,
+    bool isDark,
+  ) {
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (previous, current) =>
           previous.trendingTvShows != current.trendingTvShows,
       builder: (context, state) {
         if (state.isLoadingTrendingTvShows) {
-          return const SizedBox(
-            height: 240,
-            child: Center(
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
+          return ShimmerWidgets.movieSectionShimmer(isDark);
         } else if (state.trendingTvShows != null) {
           return _buildMovieSection(
             context,
@@ -312,8 +290,7 @@ class HomeScreen extends StatelessWidget {
             Routes.movieDetailsScreen,
             arguments: movie.id,
           );
-        }
-        else {
+        } else {
           Navigator.pushNamed(
             context,
             Routes.tvShowDetailsScreen,
