@@ -4,18 +4,12 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_show_review_entity
 
 class TvShowReviewModel extends TvShowReviewEntity {
   TvShowReviewModel({
-    required int id,
-    required int page,
-    required List<TvShowReviewResultModel> results,
-    required int totalPages,
-    required int totalResults,
-  }) : super(
-         id: id,
-         page: page,
-         results: results,
-         totalPages: totalPages,
-         totalResults: totalResults,
-       );
+    required super.id,
+    required super.page,
+    required List<TvShowReviewResultModel> super.results,
+    required super.totalPages,
+    required super.totalResults,
+  });
 
   factory TvShowReviewModel.fromJson(Map<String, dynamic> json) {
     return TvShowReviewModel(
@@ -56,22 +50,14 @@ class TvShowReviewModel extends TvShowReviewEntity {
 
 class TvShowReviewResultModel extends TvShowReviewResultEntity {
   TvShowReviewResultModel({
-    required String author,
-    required TvShowAuthorDetailsModel authorDetails,
-    required String content,
-    required String createdAt,
-    required String id,
-    required String updatedAt,
-    required String url,
-  }) : super(
-         author: author,
-         authorDetails: authorDetails,
-         content: content,
-         createdAt: createdAt,
-         id: id,
-         updatedAt: updatedAt,
-         url: url,
-       );
+    required super.author,
+    required TvShowAuthorDetailsModel super.authorDetails,
+    required super.content,
+    required super.createdAt,
+    required super.id,
+    required super.updatedAt,
+    required super.url,
+  });
 
   factory TvShowReviewResultModel.fromJson(Map<String, dynamic> json) {
     return TvShowReviewResultModel(
@@ -114,16 +100,11 @@ class TvShowReviewResultModel extends TvShowReviewResultEntity {
 
 class TvShowAuthorDetailsModel extends TvShowAuthorDetailsEntity {
   TvShowAuthorDetailsModel({
-    required String name,
-    required String username,
-    String? avatarPath,
-    double? rating,
-  }) : super(
-         name: name,
-         username: username,
-         avatarPath: avatarPath,
-         rating: rating,
-       );
+    required super.name,
+    required super.username,
+    super.avatarPath,
+    super.rating,
+  });
 
   factory TvShowAuthorDetailsModel.fromJson(Map<String, dynamic> json) {
     return TvShowAuthorDetailsModel(

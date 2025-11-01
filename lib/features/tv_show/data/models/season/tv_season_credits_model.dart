@@ -5,14 +5,10 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_season_credits_ent
 
 class TvSeasonCreditsModel extends TvSeasonCreditsEntity {
   TvSeasonCreditsModel({
-    required List<TvSeasonCastModel> cast,
-    required List<TvSeasonCrewModel> crew,
-    required int id,
-  }) : super(
-          cast: cast,
-          crew: crew,
-          id: id,
-        );
+    required List<TvSeasonCastModel> super.cast,
+    required List<TvSeasonCrewModel> super.crew,
+    required super.id,
+  });
 
   factory TvSeasonCreditsModel.fromJson(Map<String, dynamic> json) {
     return TvSeasonCreditsModel(
@@ -45,30 +41,18 @@ class TvSeasonCreditsModel extends TvSeasonCreditsEntity {
 
 class TvSeasonCastModel extends TvSeasonCastEntity {
   const TvSeasonCastModel({
-    required bool adult,
-    required int gender,
-    required int id,
-    required String knownForDepartment,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-    required String character,
-    required String creditId,
-    required int order,
-  }) : super(
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-          character: character,
-          creditId: creditId,
-          order: order,
-        );
+    required super.adult,
+    required super.gender,
+    required super.id,
+    required super.knownForDepartment,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+    required super.character,
+    required super.creditId,
+    required super.order,
+  });
 
   factory TvSeasonCastModel.fromJson(Map<String, dynamic> json) {
     return TvSeasonCastModel(
@@ -121,30 +105,18 @@ class TvSeasonCastModel extends TvSeasonCastEntity {
 
 class TvSeasonCrewModel extends TvSeasonCrewEntity {
   const TvSeasonCrewModel({
-    required bool adult,
-    required int gender,
-    required int id,
-    required String knownForDepartment,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-    required String creditId,
-    required String department,
-    required String job,
-  }) : super(
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-          creditId: creditId,
-          department: department,
-          job: job,
-        );
+    required super.adult,
+    required super.gender,
+    required super.id,
+    required super.knownForDepartment,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+    required super.creditId,
+    required super.department,
+    required super.job,
+  });
 
   factory TvSeasonCrewModel.fromJson(Map<String, dynamic> json) {
     return TvSeasonCrewModel(

@@ -91,7 +91,6 @@ class TvShowReviewsSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Navigate to all reviews
                     },
                     child: const Text('See All Reviews'),
                   ),

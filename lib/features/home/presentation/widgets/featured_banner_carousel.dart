@@ -9,6 +9,7 @@ import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeaturedBannerCarousel extends StatefulWidget {
   final List<dynamic> movies;
@@ -238,9 +239,16 @@ class _FeaturedBannerCarouselState extends State<FeaturedBannerCarousel> {
               fit: BoxFit.cover,
               width: double.infinity,
               height: 500,
-              placeholder: (context, url) => Container(
-                color: widget.isDark ? Colors.grey[850] : Colors.grey[300],
-              ),
+                // ADD SHIMMER
+  placeholder: (context, url) => Shimmer.fromColors(
+    baseColor: widget.isDark ? const Color(0xFF1F1F1F) : const Color(0xFFE0E0E0),
+    highlightColor: widget.isDark ? const Color(0xFF4A4A4A) : const Color(0xFFF5F5F5),
+    child: Container(
+      width: double.infinity,
+      height: 500,
+      color: Colors.white,
+    ),
+  ),
               errorWidget: (context, url, error) => Container(
                 color: widget.isDark ? Colors.grey[850] : Colors.grey[300],
                 child: const Icon(Icons.error),

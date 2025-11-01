@@ -37,7 +37,7 @@ void main() async {
 
   // Remove splash screen after initialization is complete
   await Future.delayed(const Duration(milliseconds: 500));
-FlutterNativeSplash.remove();
+  FlutterNativeSplash.remove();
 }
 
 class CineSpotApp extends StatelessWidget {
@@ -69,8 +69,6 @@ class CineSpotApp extends StatelessWidget {
               ..add(HomeEvent.getTrendingTvShows(currentLanguage));
           },
         ),
-
-        
       ],
       child: CineSpot(appRouter: AppRouter()),
     );

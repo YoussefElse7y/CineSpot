@@ -5,12 +5,9 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_show_videos_entity
 
 class TvShowVideosModel extends TvShowVideosEntity {
   TvShowVideosModel({
-    required int id,
-    required List<TvShowVideoResultModel> results,
-  }) : super(
-          id: id,
-          results: results,
-        );
+    required super.id,
+    required List<TvShowVideoResultModel> super.results,
+  });
 
   factory TvShowVideosModel.fromJson(Map<String, dynamic> json) {
     return TvShowVideosModel(
@@ -38,28 +35,17 @@ class TvShowVideosModel extends TvShowVideosEntity {
 
 class TvShowVideoResultModel extends TvShowVideoResultEntity {
   TvShowVideoResultModel({
-    required String iso6391,
-    required String iso31661,
-    required String name,
-    required String key,
-    required String site,
-    required int size,
-    required String type,
-    required bool official,
-    required String publishedAt,
-    required String id,
-  }) : super(
-          iso6391: iso6391,
-          iso31661: iso31661,
-          name: name,
-          key: key,
-          site: site,
-          size: size,
-          type: type,
-          official: official,
-          publishedAt: publishedAt,
-          id: id,
-        );
+    required super.iso6391,
+    required super.iso31661,
+    required super.name,
+    required super.key,
+    required super.site,
+    required super.size,
+    required super.type,
+    required super.official,
+    required super.publishedAt,
+    required super.id,
+  });
 
   factory TvShowVideoResultModel.fromJson(Map<String, dynamic> json) {
     return TvShowVideoResultModel(

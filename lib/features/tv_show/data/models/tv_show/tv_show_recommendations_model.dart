@@ -5,16 +5,11 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_show_recommendatio
 
 class TvShowRecommendationsModel extends TvShowRecommendationsEntity {
   TvShowRecommendationsModel({
-    required int page,
-    required List<TvShowRecommendationItemModel> results,
-    required int totalPages,
-    required int totalResults,
-  }) : super(
-          page: page,
-          results: results,
-          totalPages: totalPages,
-          totalResults: totalResults,
-        );
+    required super.page,
+    required List<TvShowRecommendationItemModel> super.results,
+    required super.totalPages,
+    required super.totalResults,
+  });
 
   factory TvShowRecommendationsModel.fromJson(Map<String, dynamic> json) {
     return TvShowRecommendationsModel(
@@ -48,38 +43,22 @@ class TvShowRecommendationsModel extends TvShowRecommendationsEntity {
 
 class TvShowRecommendationItemModel extends TvShowRecommendationItemEntity {
   TvShowRecommendationItemModel({
-    required bool adult,
-    String? backdropPath,
-    required int id,
-    required String name,
-    required String originalLanguage,
-    required String originalName,
-    required String overview,
-    String? posterPath,
-    required String mediaType,
-    required List<int> genreIds,
-    required double popularity,
-    String? firstAirDate,
-    required double voteAverage,
-    required int voteCount,
-    required List<String> originCountry,
-  }) : super(
-          adult: adult,
-          backdropPath: backdropPath,
-          id: id,
-          name: name,
-          originalLanguage: originalLanguage,
-          originalName: originalName,
-          overview: overview,
-          posterPath: posterPath,
-          mediaType: mediaType,
-          genreIds: genreIds,
-          popularity: popularity,
-          firstAirDate: firstAirDate,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-          originCountry: originCountry,
-        );
+    required super.adult,
+    super.backdropPath,
+    required super.id,
+    required super.name,
+    required super.originalLanguage,
+    required super.originalName,
+    required super.overview,
+    super.posterPath,
+    required super.mediaType,
+    required super.genreIds,
+    required super.popularity,
+    super.firstAirDate,
+    required super.voteAverage,
+    required super.voteCount,
+    required super.originCountry,
+  });
 
   factory TvShowRecommendationItemModel.fromJson(Map<String, dynamic> json) {
     return TvShowRecommendationItemModel(

@@ -3,6 +3,7 @@ import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CastSection extends StatelessWidget {
   const CastSection({super.key});
@@ -122,9 +123,15 @@ class _CastCard extends StatelessWidget {
                     height: 120,
                     width: 100,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: isDark ? Colors.grey[800] : Colors.grey[300],
-                    ),
+                    placeholder: (context, url) => Shimmer.fromColors(
+    baseColor: isDark ? const Color(0xFF1F1F1F) : const Color(0xFFE0E0E0),
+    highlightColor: isDark ? const Color(0xFF4A4A4A) : const Color(0xFFF5F5F5),
+    child: Container(
+      height: 120,
+      width: 100,
+      color: Colors.white,
+    ),
+  ),
                     errorWidget: (context, url, error) => Container(
                       color: isDark ? Colors.grey[800] : Colors.grey[300],
                       child: const Icon(

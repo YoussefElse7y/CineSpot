@@ -5,44 +5,25 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entit
 
 class TvShowDetailsModel extends TvShowDetailsEntity {
   TvShowDetailsModel({
-    required int id,
-    required String name,
-    required String originalName,
-    required String overview,
-    String? tagline,
-    String? backdropPath,
-    String? posterPath,
-    required String firstAirDate,
-    String? lastAirDate,
-    required bool inProduction,
-    required int numberOfSeasons,
-    required int numberOfEpisodes,
-    required double voteAverage,
-    required int voteCount,
-    required List<GenreModel> genres,
-    required List<SeasonModel> seasons,
-    required List<CreatedByModel> createdBy,
-    required List<NetworkModel> networks,
-  }) : super(
-          id: id,
-          name: name,
-          originalName: originalName,
-          overview: overview,
-          tagline: tagline,
-          backdropPath: backdropPath,
-          posterPath: posterPath,
-          firstAirDate: firstAirDate,
-          lastAirDate: lastAirDate,
-          inProduction: inProduction,
-          numberOfSeasons: numberOfSeasons,
-          numberOfEpisodes: numberOfEpisodes,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-          genres: genres,
-          seasons: seasons,
-          createdBy: createdBy,
-          networks: networks,
-        );
+    required super.id,
+    required super.name,
+    required super.originalName,
+    required super.overview,
+    super.tagline,
+    super.backdropPath,
+    super.posterPath,
+    required super.firstAirDate,
+    super.lastAirDate,
+    required super.inProduction,
+    required super.numberOfSeasons,
+    required super.numberOfEpisodes,
+    required super.voteAverage,
+    required super.voteCount,
+    required List<GenreModel> super.genres,
+    required List<SeasonModel> super.seasons,
+    required List<CreatedByModel> super.createdBy,
+    required List<NetworkModel> super.networks,
+  });
 
   factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) {
     return TvShowDetailsModel(
@@ -123,7 +104,7 @@ class TvShowDetailsModel extends TvShowDetailsEntity {
 }
 
 class GenreModel extends GenreEntity {
-  GenreModel({required int id, required String name}) : super(id: id, name: name);
+  GenreModel({required super.id, required super.name});
 
   factory GenreModel.fromJson(Map<String, dynamic> json) {
     return GenreModel(
@@ -142,24 +123,15 @@ class GenreModel extends GenreEntity {
 
 class SeasonModel extends SeasonEntity {
   SeasonModel({
-    required int id,
-    required String name,
-    String? overview,
-    String? posterPath,
-    String? airDate,
-    required int episodeCount,
-    required int seasonNumber,
-    required double voteAverage,
-  }) : super(
-          id: id,
-          name: name,
-          overview: overview,
-          posterPath: posterPath,
-          airDate: airDate,
-          episodeCount: episodeCount,
-          seasonNumber: seasonNumber,
-          voteAverage: voteAverage,
-        );
+    required super.id,
+    required super.name,
+    super.overview,
+    super.posterPath,
+    super.airDate,
+    required super.episodeCount,
+    required super.seasonNumber,
+    required super.voteAverage,
+  });
 
   factory SeasonModel.fromJson(Map<String, dynamic> json) {
     return SeasonModel(
@@ -198,8 +170,7 @@ class SeasonModel extends SeasonEntity {
 }
 
 class CreatedByModel extends CreatedByEntity {
-  CreatedByModel({required int id, required String name, int? gender, String? profilePath})
-      : super(id: id, name: name, gender: gender, profilePath: profilePath);
+  CreatedByModel({required super.id, required super.name, super.gender, super.profilePath});
 
   factory CreatedByModel.fromJson(Map<String, dynamic> json) {
     return CreatedByModel(
@@ -226,8 +197,7 @@ class CreatedByModel extends CreatedByEntity {
 }
 
 class NetworkModel extends NetworkEntity {
-  NetworkModel({required int id, required String name, String? logoPath, required String originCountry})
-      : super(id: id, name: name, logoPath: logoPath, originCountry: originCountry);
+  NetworkModel({required super.id, required super.name, super.logoPath, required super.originCountry});
 
   factory NetworkModel.fromJson(Map<String, dynamic> json) {
     return NetworkModel(

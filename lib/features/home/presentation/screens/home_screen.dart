@@ -12,6 +12,7 @@ import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -38,6 +39,7 @@ class HomeScreen extends StatelessWidget {
                       previous.topMovies != current.topMovies,
                   builder: (context, state) {
                     if (state.isLoadingTopMovies) {
+
                       return ShimmerWidgets.featuredBannerShimmer(isDark);
                     } else if (state.topMovies != null &&
                         state.topMovies!.results.isNotEmpty) {
@@ -245,8 +247,11 @@ class HomeScreen extends StatelessWidget {
                     Routes.detailsScreen,
                     arguments: {'movies': movies, 'title': title},
                   );
+                   
+
                 },
                 child: Text(
+                   
                   l10n.seeAll,
                   style: TextStyle(
                     color: ThemeConstants.primaryDark,
@@ -318,9 +323,19 @@ class HomeScreen extends StatelessWidget {
                     height: 240,
                     width: 160,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      color: isDark ? Colors.grey[800] : Colors.grey[300],
-                      child: const Center(child: CircularProgressIndicator()),
+                    // ADD SHIMMER HERE
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: isDark
+                          ? const Color(0xFF1F1F1F)
+                          : const Color(0xFFE0E0E0),
+                      highlightColor: isDark
+                          ? const Color(0xFF4A4A4A)
+                          : const Color(0xFFF5F5F5),
+                      child: Container(
+                        height: 240,
+                        width: 160,
+                        color: Colors.white,
+                      ),
                     ),
                     errorWidget: (context, url, error) => Container(
                       color: isDark ? Colors.grey[800] : Colors.grey[300],

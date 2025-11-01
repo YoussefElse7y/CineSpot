@@ -39,7 +39,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading());
     final result = await signInWithGoogleUseCase();
     result.fold((failure) {
-      print('Google Sign-In failed: ${failure.toString()}');
       return emit(AuthState.error(failure.toString()));
     }, (user) => emit(AuthState.authenticated(user)));
   }

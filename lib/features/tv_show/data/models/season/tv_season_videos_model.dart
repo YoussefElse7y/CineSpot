@@ -5,9 +5,9 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_season_videos_enti
 
 class TvSeasonVideosModel extends TvSeasonVideosEntity {
   const TvSeasonVideosModel({
-    required int id,
-    required List<TvSeasonVideoItemModel> results,
-  }) : super(id: id, results: results);
+    required super.id,
+    required List<TvSeasonVideoItemModel> super.results,
+  });
 
   factory TvSeasonVideosModel.fromJson(Map<String, dynamic> json) {
     return TvSeasonVideosModel(

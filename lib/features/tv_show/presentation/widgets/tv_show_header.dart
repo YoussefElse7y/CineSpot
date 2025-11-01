@@ -142,7 +142,6 @@ class TvShowHeader extends StatelessWidget {
                     flex: 2,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        // TODO: Navigate to video player
                       },
                       icon: const Icon(Icons.play_arrow),
                       label: const Text('Play'),
@@ -229,7 +228,6 @@ class TvShowHeader extends StatelessWidget {
                   _ActionButton(
                     icon: Icons.share,
                     onTap: () {
-                      // TODO: Implement share
                     },
                   ),
                 ],

@@ -5,10 +5,10 @@ import 'package:cine_spot/features/tv_show/domain/entities/tv_show_credits_entit
 
 class TvShowCreditsModel extends TvShowCreditsEntity {
   TvShowCreditsModel({
-    required List<TvCastModel> cast,
-    required List<TvCrewModel> crew,
-    required int id,
-  }) : super(cast: cast, crew: crew, id: id);
+    required List<TvCastModel> super.cast,
+    required List<TvCrewModel> super.crew,
+    required super.id,
+  });
 
   factory TvShowCreditsModel.fromJson(Map<String, dynamic> json) {
     return TvShowCreditsModel(
@@ -41,30 +41,18 @@ class TvShowCreditsModel extends TvShowCreditsEntity {
 
 class TvCastModel extends TvCastEntity {
   TvCastModel({
-    required bool adult,
-    int? gender,
-    required int id,
-    required String knownForDepartment,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-    required List<TvRoleModel> roles,
-    required int totalEpisodeCount,
-    required int order,
-  }) : super(
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-          roles: roles,
-          totalEpisodeCount: totalEpisodeCount,
-          order: order,
-        );
+    required super.adult,
+    super.gender,
+    required super.id,
+    required super.knownForDepartment,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+    required List<TvRoleModel> super.roles,
+    required super.totalEpisodeCount,
+    required super.order,
+  });
 
   factory TvCastModel.fromJson(Map<String, dynamic> json) {
     return TvCastModel(
@@ -119,14 +107,10 @@ class TvCastModel extends TvCastEntity {
 
 class TvRoleModel extends TvRoleEntity {
   TvRoleModel({
-    required String creditId,
-    required String character,
-    required int episodeCount,
-  }) : super(
-          creditId: creditId,
-          character: character,
-          episodeCount: episodeCount,
-        );
+    required super.creditId,
+    required super.character,
+    required super.episodeCount,
+  });
 
   factory TvRoleModel.fromJson(Map<String, dynamic> json) {
     return TvRoleModel(
@@ -155,30 +139,18 @@ class TvRoleModel extends TvRoleEntity {
 
 class TvCrewModel extends TvCrewEntity {
   TvCrewModel({
-    required bool adult,
-    int? gender,
-    required int id,
-    required String knownForDepartment,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-    required List<TvJobModel> jobs,
-    required String department,
-    required int totalEpisodeCount,
-  }) : super(
-          adult: adult,
-          gender: gender,
-          id: id,
-          knownForDepartment: knownForDepartment,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-          jobs: jobs,
-          department: department,
-          totalEpisodeCount: totalEpisodeCount,
-        );
+    required super.adult,
+    super.gender,
+    required super.id,
+    required super.knownForDepartment,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+    required List<TvJobModel> super.jobs,
+    required super.department,
+    required super.totalEpisodeCount,
+  });
 
   factory TvCrewModel.fromJson(Map<String, dynamic> json) {
     return TvCrewModel(
@@ -233,14 +205,10 @@ class TvCrewModel extends TvCrewEntity {
 
 class TvJobModel extends TvJobEntity {
   TvJobModel({
-    required String creditId,
-    required String job,
-    required int episodeCount,
-  }) : super(
-          creditId: creditId,
-          job: job,
-          episodeCount: episodeCount,
-        );
+    required super.creditId,
+    required super.job,
+    required super.episodeCount,
+  });
 
   factory TvJobModel.fromJson(Map<String, dynamic> json) {
     return TvJobModel(

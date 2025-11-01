@@ -51,36 +51,21 @@ class TvSeasonDetailsModel extends TvSeasonDetailsEntity {
 
 class TvEpisodeModel extends TvEpisodeEntity {
   TvEpisodeModel({
-    String? airDate,
-    required int episodeNumber,
-    required int id,
-    required String name,
-    required String overview,
-    String? productionCode,
-    int? runtime,
-    required int seasonNumber,
-    required int showId,
-    String? stillPath,
-    required double voteAverage,
-    required int voteCount,
-    required List<TvCrewModel> crew,
-    required List<TvGuestStarModel> guestStars,
-  }) : super(
-          airDate: airDate,
-          episodeNumber: episodeNumber,
-          id: id,
-          name: name,
-          overview: overview,
-          productionCode: productionCode,
-          runtime: runtime,
-          seasonNumber: seasonNumber,
-          showId: showId,
-          stillPath: stillPath,
-          voteAverage: voteAverage,
-          voteCount: voteCount,
-          crew: crew,
-          guestStars: guestStars,
-        );
+    super.airDate,
+    required super.episodeNumber,
+    required super.id,
+    required super.name,
+    required super.overview,
+    super.productionCode,
+    super.runtime,
+    required super.seasonNumber,
+    required super.showId,
+    super.stillPath,
+    required super.voteAverage,
+    required super.voteCount,
+    required List<TvCrewModel> super.crew,
+    required List<TvGuestStarModel> super.guestStars,
+  });
 
   factory TvEpisodeModel.fromJson(Map<String, dynamic> json) {
     return TvEpisodeModel(
@@ -143,24 +128,15 @@ class TvEpisodeModel extends TvEpisodeEntity {
 
 class TvCrewModel extends TvCrewEntity {
   TvCrewModel({
-    required String job,
-    required String department,
-    required String creditId,
-    required int id,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-  }) : super(
-          job: job,
-          department: department,
-          creditId: creditId,
-          id: id,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-        );
+    required super.job,
+    required super.department,
+    required super.creditId,
+    required super.id,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+  });
 
   factory TvCrewModel.fromJson(Map<String, dynamic> json) {
     return TvCrewModel(
@@ -200,24 +176,15 @@ class TvCrewModel extends TvCrewEntity {
 
 class TvGuestStarModel extends TvGuestStarEntity {
   TvGuestStarModel({
-    required String character,
-    required String creditId,
-    required int order,
-    required int id,
-    required String name,
-    required String originalName,
-    required double popularity,
-    String? profilePath,
-  }) : super(
-          character: character,
-          creditId: creditId,
-          order: order,
-          id: id,
-          name: name,
-          originalName: originalName,
-          popularity: popularity,
-          profilePath: profilePath,
-        );
+    required super.character,
+    required super.creditId,
+    required super.order,
+    required super.id,
+    required super.name,
+    required super.originalName,
+    required super.popularity,
+    super.profilePath,
+  });
 
   factory TvGuestStarModel.fromJson(Map<String, dynamic> json) {
     return TvGuestStarModel(
