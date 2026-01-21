@@ -3,6 +3,7 @@ import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
 import 'package:cine_spot/features/movie/presentation/screens/watch_providers_screen.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ class MovieHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final l10n = AppLocalizations.of(context)!;
 
     return Stack(
       fit: StackFit.expand,
@@ -29,15 +31,19 @@ class MovieHeader extends StatelessWidget {
               BackdropSize.w1280,
             ),
             fit: BoxFit.cover,
-             placeholder: (context, url) => Shimmer.fromColors(
-    baseColor: isDark ? const Color(0xFF1F1F1F) : const Color(0xFFE0E0E0),
-    highlightColor: isDark ? const Color(0xFF4A4A4A) : const Color(0xFFF5F5F5),
-    child: Container(
-      height: 400,
-      width: double.infinity,
-      color: Colors.white,
-    ),
-  ),
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: isDark
+                  ? const Color(0xFF1F1F1F)
+                  : const Color(0xFFE0E0E0),
+              highlightColor: isDark
+                  ? const Color(0xFF4A4A4A)
+                  : const Color(0xFFF5F5F5),
+              child: Container(
+                height: 400,
+                width: double.infinity,
+                color: Colors.white,
+              ),
+            ),
             errorWidget: (context, url, error) => Container(
               color: isDark ? Colors.grey[850] : Colors.grey[300],
               child: const Icon(Icons.movie, size: 80),
@@ -81,11 +87,7 @@ class MovieHeader extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                    const Icon(Icons.star, color: Colors.white, size: 16),
                     const SizedBox(width: 4),
                     Text(
                       movie.voteAverage.toStringAsFixed(1),
@@ -126,16 +128,11 @@ class MovieHeader extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                      ),
+                      border: Border.all(color: Colors.white.withOpacity(0.3)),
                     ),
                     child: Text(
                       genre.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   );
                 }).toList(),
@@ -149,29 +146,29 @@ class MovieHeader extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: // In the Play Button onPressed callback:
-ElevatedButton.icon(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => WatchProvidersScreen(
-          movieId: movie.id,
-          movieTitle: movie.title,
-        ),
-      ),
-    );
-  },
-  icon: const Icon(Icons.play_arrow),
-  label: const Text('Play'),
-  style: ElevatedButton.styleFrom(
-    backgroundColor: const Color(0xFFE21221),
-    foregroundColor: Colors.white,
-    padding: const EdgeInsets.symmetric(vertical: 12),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-    ),
-  ),
-),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => WatchProvidersScreen(
+                              movieId: movie.id,
+                              movieTitle: movie.title,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.play_arrow),
+                      label: Text(l10n.play),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE21221),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 12),
 
@@ -179,7 +176,8 @@ ElevatedButton.icon(
                   BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
                       final isInWishlist = state.maybeWhen(
-                        loaded: (profile) => (profile.wishlistMoviesIds ?? []).contains(movie.id),
+                        loaded: (profile) => (profile.wishlistMoviesIds ?? [])
+                            .contains(movie.id),
                         orElse: () => false,
                       );
 
@@ -190,18 +188,15 @@ ElevatedButton.icon(
                         onTap: () {
                           if (isInWishlist) {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.removeWishlistMovie(
-                                    userId,
-                                    movie.id,
-                                  ),
-                                );
+                              ProfileEvent.removeWishlistMovie(
+                                userId,
+                                movie.id,
+                              ),
+                            );
                           } else {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.addWishlistMovie(
-                                    userId,
-                                    movie.id,
-                                  ),
-                                );
+                              ProfileEvent.addWishlistMovie(userId, movie.id),
+                            );
                           }
                         },
                       );
@@ -213,28 +208,27 @@ ElevatedButton.icon(
                   BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
                       final isFavorite = state.maybeWhen(
-                        loaded: (profile) =>
-                           (profile.favoriteMoviesIds??[]).contains(movie.id),
+                        loaded: (profile) => (profile.favoriteMoviesIds ?? [])
+                            .contains(movie.id),
                         orElse: () => false,
                       );
 
                       return _ActionButton(
-                        icon: isFavorite ? Icons.favorite : Icons.favorite_border,
+                        icon: isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         onTap: () {
                           if (isFavorite) {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.removeFavoriteMovie(
-                                    userId,
-                                    movie.id,
-                                  ),
-                                );
+                              ProfileEvent.removeFavoriteMovie(
+                                userId,
+                                movie.id,
+                              ),
+                            );
                           } else {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.addFavoriteMovie(
-                                    userId,
-                                    movie.id,
-                                  ),
-                                );
+                              ProfileEvent.addFavoriteMovie(userId, movie.id),
+                            );
                           }
                         },
                       );
@@ -243,11 +237,7 @@ ElevatedButton.icon(
                   const SizedBox(width: 12),
 
                   // Download Button
-                  _ActionButton(
-                    icon: Icons.download,
-                    onTap: () {
-                    },
-                  ),
+                  _ActionButton(icon: Icons.download, onTap: () {}),
                 ],
               ),
             ],
@@ -262,10 +252,7 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _ActionButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _ActionButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -277,15 +264,9 @@ class _ActionButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3)),
         ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
-        ),
+        child: Icon(icon, color: Colors.white, size: 20),
       ),
     );
   }

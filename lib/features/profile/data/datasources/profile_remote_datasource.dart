@@ -63,6 +63,11 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       // Update timestamp
       final profileWithTimestamp = profile.copyWith(
         updatedAt: DateTime.now(),
+        favoriteMoviesIds: profile.favoriteMoviesIds ?? [],
+        wishlistMoviesIds: profile.wishlistMoviesIds ?? [],
+        wishlistTvIds: profile.wishlistTvIds ?? [],
+        favoritePersonIds: profile.favoritePersonIds ?? [],
+        favoriteTvIds: profile.favoriteTvIds ?? [],
       );
 
       // Update in Firestore

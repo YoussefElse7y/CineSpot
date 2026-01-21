@@ -5,6 +5,7 @@ import 'package:cine_spot/features/language/presentation/bloc/language_bloc.dart
 import 'package:cine_spot/features/language/presentation/bloc/language_state.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
 import 'package:cine_spot/features/movie/presentation/screens/movie_details_screen.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +15,7 @@ class RecommendationsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<MovieBloc, MovieState>(
       buildWhen: (previous, current) =>
@@ -52,7 +54,7 @@ class RecommendationsSection extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Recommendations',
+                  l10n.recommendations,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

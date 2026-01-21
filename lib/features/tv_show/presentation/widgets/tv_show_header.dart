@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entity.dart';
 import 'package:cine_spot/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class TvShowHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final l10n = AppLocalizations.of(context)!;
 
     return Stack(
       fit: StackFit.expand,
@@ -27,9 +29,8 @@ class TvShowHeader extends StatelessWidget {
               BackdropSize.w1280,
             ),
             fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              color: isDark ? Colors.grey[850] : Colors.grey[300],
-            ),
+            placeholder: (context, url) =>
+                Container(color: isDark ? Colors.grey[850] : Colors.grey[300]),
             errorWidget: (context, url, error) => Container(
               color: isDark ? Colors.grey[850] : Colors.grey[300],
               child: const Icon(Icons.tv, size: 80),
@@ -73,11 +74,7 @@ class TvShowHeader extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
-                      Icons.star,
-                      color: Colors.white,
-                      size: 16,
-                    ),
+                    const Icon(Icons.star, color: Colors.white, size: 16),
                     const SizedBox(width: 4),
                     Text(
                       tvShow.voteAverage.toStringAsFixed(1),
@@ -118,16 +115,11 @@ class TvShowHeader extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                      ),
+                      border: Border.all(color: Colors.white.withOpacity(0.3)),
                     ),
                     child: Text(
                       genre.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   );
                 }).toList(),
@@ -141,10 +133,9 @@ class TvShowHeader extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.play_arrow),
-                      label: const Text('Play'),
+                      label: Text(l10n.play),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFE21221),
                         foregroundColor: Colors.white,
@@ -161,7 +152,8 @@ class TvShowHeader extends StatelessWidget {
                   BlocBuilder<ProfileBloc, ProfileState>(
                     builder: (context, state) {
                       final isInWishlist = state.maybeWhen(
-                        loaded: (profile) => (profile.wishlistTvIds ?? []).contains(tvShow.id),
+                        loaded: (profile) =>
+                            (profile.wishlistTvIds ?? []).contains(tvShow.id),
                         orElse: () => false,
                       );
 
@@ -172,18 +164,15 @@ class TvShowHeader extends StatelessWidget {
                         onTap: () {
                           if (isInWishlist) {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.removeWishlistTvShow(
-                                    userId,
-                                    tvShow.id,
-                                  ),
-                                );
+                              ProfileEvent.removeWishlistTvShow(
+                                userId,
+                                tvShow.id,
+                              ),
+                            );
                           } else {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.addWishlistTvShow(
-                                    userId,
-                                    tvShow.id,
-                                  ),
-                                );
+                              ProfileEvent.addWishlistTvShow(userId, tvShow.id),
+                            );
                           }
                         },
                       );
@@ -196,27 +185,26 @@ class TvShowHeader extends StatelessWidget {
                     builder: (context, state) {
                       final isFavorite = state.maybeWhen(
                         loaded: (profile) =>
-                           (profile.favoriteTvIds ?? []).contains(tvShow.id),
+                            (profile.favoriteTvIds ?? []).contains(tvShow.id),
                         orElse: () => false,
                       );
 
                       return _ActionButton(
-                        icon: isFavorite ? Icons.favorite : Icons.favorite_border,
+                        icon: isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         onTap: () {
                           if (isFavorite) {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.removeFavoriteTvShow(
-                                    userId,
-                                    tvShow.id,
-                                  ),
-                                );
+                              ProfileEvent.removeFavoriteTvShow(
+                                userId,
+                                tvShow.id,
+                              ),
+                            );
                           } else {
                             context.read<ProfileBloc>().add(
-                                  ProfileEvent.addFavoriteTvShow(
-                                    userId,
-                                    tvShow.id,
-                                  ),
-                                );
+                              ProfileEvent.addFavoriteTvShow(userId, tvShow.id),
+                            );
                           }
                         },
                       );
@@ -225,11 +213,7 @@ class TvShowHeader extends StatelessWidget {
                   const SizedBox(width: 12),
 
                   // Share Button
-                  _ActionButton(
-                    icon: Icons.share,
-                    onTap: () {
-                    },
-                  ),
+                  _ActionButton(icon: Icons.share, onTap: () {}),
                 ],
               ),
             ],
@@ -244,10 +228,7 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _ActionButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _ActionButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -259,15 +240,9 @@ class _ActionButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3)),
         ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
-        ),
+        child: Icon(icon, color: Colors.white, size: 20),
       ),
     );
   }

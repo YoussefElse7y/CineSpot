@@ -10,6 +10,7 @@ class TrailersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<MovieBloc, MovieState>(
       buildWhen: (previous, current) =>
@@ -48,7 +49,7 @@ class TrailersSection extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Videos',
+                  l10n.videos,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -108,8 +109,11 @@ class _TrailerCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                VideoPlayerScreen(videoKey: videoKey, title: title ,language: language,),
+            builder: (context) => VideoPlayerScreen(
+              videoKey: videoKey,
+              title: title,
+              language: language,
+            ),
           ),
         );
       },

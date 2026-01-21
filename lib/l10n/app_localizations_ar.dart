@@ -185,6 +185,115 @@ class AppLocalizationsAr extends AppLocalizations {
   String get suggested => 'مقترَح';
 
   @override
+  String get top_searches_today => 'أكثر عمليات البحث اليوم';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get not_found => 'غير موجود';
+
+  @override
+  String get not_found_message =>
+      'عذرًا، لم يتم العثور على الكلمة التي أدخلتها. يرجى المحاولة باستخدام كلمات أخرى.';
+
+  @override
+  String get people => 'الأشخاص';
+
+  @override
+  String get companies => 'الشركات';
+
+  @override
+  String get genres => 'الأنواع';
+
+  @override
+  String get details => 'التفاصيل';
+
+  @override
+  String get reviews => 'المراجعات';
+
+  @override
+  String get videos => 'الفيديوهات';
+
+  @override
+  String get recommendations => 'التوصيات';
+
+  @override
+  String get similar => 'مشابه';
+
+  @override
+  String get cast => 'طاقم التمثيل';
+
+  @override
+  String get crew => 'فريق العمل';
+
+  @override
+  String get seasons => 'المواسم';
+
+  @override
+  String get episodes => 'الحلقات';
+
+  @override
+  String get episode => 'حلقة';
+
+  @override
+  String get season => 'موسم';
+
+  @override
+  String get tagline => 'الشعار';
+
+  @override
+  String get overview => 'نظرة عامة';
+
+  @override
+  String get release_date => 'تاريخ الإصدار';
+
+  @override
+  String get first_air => 'أول عرض';
+
+  @override
+  String get last_air_date => 'تاريخ آخر عرض';
+
+  @override
+  String get status => 'الحالة';
+
+  @override
+  String get original_language => 'اللغة الأصلية';
+
+  @override
+  String get created_by => 'من إنشاء';
+
+  @override
+  String get number_of_seasons => 'عدد المواسم';
+
+  @override
+  String get networks => 'الشبكات';
+
+  @override
+  String get read_more => 'اقرأ المزيد';
+
+  @override
+  String get read_less => 'اقرأ أقل';
+
+  @override
+  String get guest_stars => 'النجوم الضيوف';
+
+  @override
+  String get rating => 'التقييم';
+
+  @override
+  String get run_time => 'مدة العرض';
+
+  @override
+  String get budget => 'الميزانية';
+
+  @override
+  String get revenue => 'الإيرادات';
+
+  @override
+  String get production_companies => 'شركات الإنتاج';
+
+  @override
   String itemCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

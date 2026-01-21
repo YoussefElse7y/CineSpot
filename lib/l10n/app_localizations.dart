@@ -448,6 +448,222 @@ abstract class AppLocalizations {
   /// **'Suggested'**
   String get suggested;
 
+  /// No description provided for @top_searches_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Searches Today'**
+  String get top_searches_today;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Found'**
+  String get not_found;
+
+  /// No description provided for @not_found_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry. The keyword you entered could not be found. Please try again with different keywords.'**
+  String get not_found_message;
+
+  /// No description provided for @people.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get people;
+
+  /// No description provided for @companies.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies'**
+  String get companies;
+
+  /// No description provided for @genres.
+  ///
+  /// In en, this message translates to:
+  /// **'Genres'**
+  String get genres;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
+
+  /// No description provided for @reviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviews;
+
+  /// No description provided for @videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get videos;
+
+  /// No description provided for @recommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendations;
+
+  /// No description provided for @similar.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar'**
+  String get similar;
+
+  /// No description provided for @cast.
+  ///
+  /// In en, this message translates to:
+  /// **'Cast'**
+  String get cast;
+
+  /// No description provided for @crew.
+  ///
+  /// In en, this message translates to:
+  /// **'Crew'**
+  String get crew;
+
+  /// No description provided for @seasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasons'**
+  String get seasons;
+
+  /// No description provided for @episodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Episodes'**
+  String get episodes;
+
+  /// No description provided for @episode.
+  ///
+  /// In en, this message translates to:
+  /// **'Episode'**
+  String get episode;
+
+  /// No description provided for @season.
+  ///
+  /// In en, this message translates to:
+  /// **'Season'**
+  String get season;
+
+  /// No description provided for @tagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Tagline'**
+  String get tagline;
+
+  /// No description provided for @overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// No description provided for @release_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Date'**
+  String get release_date;
+
+  /// No description provided for @first_air.
+  ///
+  /// In en, this message translates to:
+  /// **'First Air'**
+  String get first_air;
+
+  /// No description provided for @last_air_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Air Date'**
+  String get last_air_date;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @original_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Language'**
+  String get original_language;
+
+  /// No description provided for @created_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Created By'**
+  String get created_by;
+
+  /// No description provided for @number_of_seasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of Seasons'**
+  String get number_of_seasons;
+
+  /// No description provided for @networks.
+  ///
+  /// In en, this message translates to:
+  /// **'Networks'**
+  String get networks;
+
+  /// No description provided for @read_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Read More'**
+  String get read_more;
+
+  /// No description provided for @read_less.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Less'**
+  String get read_less;
+
+  /// No description provided for @guest_stars.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest Stars'**
+  String get guest_stars;
+
+  /// No description provided for @rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get rating;
+
+  /// No description provided for @run_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Run Time'**
+  String get run_time;
+
+  /// No description provided for @budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get budget;
+
+  /// No description provided for @revenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get revenue;
+
+  /// No description provided for @production_companies.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Companies'**
+  String get production_companies;
+
   /// Number of items
   ///
   /// In en, this message translates to:

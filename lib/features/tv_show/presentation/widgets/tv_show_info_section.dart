@@ -1,5 +1,6 @@
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/tv_show/domain/entities/tv_show_details_entity.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class TvShowInfoSection extends StatelessWidget {
@@ -10,6 +11,7 @@ class TvShowInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -22,24 +24,24 @@ class TvShowInfoSection extends StatelessWidget {
             runSpacing: 12,
             children: [
               _StatItem(
-                label: 'First Air',
+                label: l10n.first_air,
                 value: tvShow.firstAirDate.isNotEmpty
                     ? tvShow.firstAirDate.split('-')[0]
                     : 'N/A',
                 isDark: isDark,
               ),
               _StatItem(
-                label: 'Seasons',
+                label: l10n.seasons,
                 value: tvShow.numberOfSeasons.toString(),
                 isDark: isDark,
               ),
               _StatItem(
-                label: 'Episodes',
+                label: l10n.episodes,
                 value: tvShow.numberOfEpisodes.toString(),
                 isDark: isDark,
               ),
               _StatItem(
-                label: 'Rating',
+                label: l10n.rating,
                 value: tvShow.voteAverage.toStringAsFixed(1),
                 isDark: isDark,
               ),
@@ -49,7 +51,7 @@ class TvShowInfoSection extends StatelessWidget {
 
           // Overview
           Text(
-            'Overview',
+            l10n.overview,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -69,12 +71,16 @@ class TvShowInfoSection extends StatelessWidget {
 
           // Additional Info
           if (tvShow.tagline != null && tvShow.tagline!.isNotEmpty) ...[
-            _InfoRow(label: 'Tagline', value: tvShow.tagline!, isDark: isDark),
+            _InfoRow(
+              label: l10n.tagline,
+              value: tvShow.tagline!,
+              isDark: isDark,
+            ),
             const SizedBox(height: 12),
           ],
 
           _InfoRow(
-            label: 'Status',
+            label: l10n.status,
             value: tvShow.inProduction ? 'In Production' : 'Ended',
             isDark: isDark,
           ),
@@ -82,7 +88,7 @@ class TvShowInfoSection extends StatelessWidget {
 
           if (tvShow.lastAirDate != null && tvShow.lastAirDate!.isNotEmpty) ...[
             _InfoRow(
-              label: 'Last Air Date',
+              label: l10n.last_air_date,
               value: tvShow.lastAirDate!,
               isDark: isDark,
             ),
@@ -93,7 +99,7 @@ class TvShowInfoSection extends StatelessWidget {
           if (tvShow.createdBy.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
-              'Created By',
+              l10n.created_by,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -123,7 +129,7 @@ class TvShowInfoSection extends StatelessWidget {
           if (tvShow.networks.isNotEmpty) ...[
             const SizedBox(height: 16),
             Text(
-              'Networks',
+              l10n.networks,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -145,19 +151,16 @@ class TvShowInfoSection extends StatelessWidget {
                             network.logoPath!,
                             LogoSize.w92,
                           ),
-                          width: 24,
-                          height: 24,
                         ),
-                        const SizedBox(width: 4),
+                      ] else ...[
+                        Text(
+                          network.name,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
                       ],
-                      SizedBox(width: 4),
-                      Text(
-                        network.name,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: isDark ? Colors.white : Colors.black,
-                        ),
-                      ),
                     ],
                   ),
                   backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],

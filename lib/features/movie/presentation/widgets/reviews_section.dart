@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ class ReviewsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<MovieBloc, MovieState>(
       buildWhen: (previous, current) =>
@@ -48,7 +50,7 @@ class ReviewsSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Reviews',
+                      l10n.reviews,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -56,7 +58,7 @@ class ReviewsSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${state.reviews!.length} Reviews',
+                      '${state.reviews!.length} ${l10n.reviews}',
                       style: TextStyle(
                         fontSize: 14,
                         color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -141,6 +143,7 @@ class _ReviewCardState extends State<_ReviewCard> {
   Widget build(BuildContext context) {
     final maxLines = _isExpanded ? null : 4;
     final showReadMore = widget.content.length > 200;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -268,7 +271,7 @@ class _ReviewCardState extends State<_ReviewCard> {
                 minimumSize: const Size(0, 32),
               ),
               child: Text(
-                _isExpanded ? 'Read Less' : 'Read More',
+                _isExpanded ? l10n.read_less : l10n.read_more,
                 style: const TextStyle(
                   color: Color(0xFFE21221),
                   fontSize: 12,

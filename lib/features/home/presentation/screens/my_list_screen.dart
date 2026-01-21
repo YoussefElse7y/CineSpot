@@ -235,7 +235,7 @@ class _MyListScreenState extends State<MyListScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Movies',
+                            l10n.movies,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -308,7 +308,7 @@ class _MyListScreenState extends State<MyListScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'TV Shows',
+                            l10n.tvShows,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

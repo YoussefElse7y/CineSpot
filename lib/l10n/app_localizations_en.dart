@@ -185,6 +185,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String get suggested => 'Suggested';
 
   @override
+  String get top_searches_today => 'Top Searches Today';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get not_found => 'Not Found';
+
+  @override
+  String get not_found_message =>
+      'Sorry. The keyword you entered could not be found. Please try again with different keywords.';
+
+  @override
+  String get people => 'People';
+
+  @override
+  String get companies => 'Companies';
+
+  @override
+  String get genres => 'Genres';
+
+  @override
+  String get details => 'Details';
+
+  @override
+  String get reviews => 'Reviews';
+
+  @override
+  String get videos => 'Videos';
+
+  @override
+  String get recommendations => 'Recommendations';
+
+  @override
+  String get similar => 'Similar';
+
+  @override
+  String get cast => 'Cast';
+
+  @override
+  String get crew => 'Crew';
+
+  @override
+  String get seasons => 'Seasons';
+
+  @override
+  String get episodes => 'Episodes';
+
+  @override
+  String get episode => 'Episode';
+
+  @override
+  String get season => 'Season';
+
+  @override
+  String get tagline => 'Tagline';
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get release_date => 'Release Date';
+
+  @override
+  String get first_air => 'First Air';
+
+  @override
+  String get last_air_date => 'Last Air Date';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get original_language => 'Original Language';
+
+  @override
+  String get created_by => 'Created By';
+
+  @override
+  String get number_of_seasons => 'Number of Seasons';
+
+  @override
+  String get networks => 'Networks';
+
+  @override
+  String get read_more => 'Read More';
+
+  @override
+  String get read_less => 'Read Less';
+
+  @override
+  String get guest_stars => 'Guest Stars';
+
+  @override
+  String get rating => 'Rating';
+
+  @override
+  String get run_time => 'Run Time';
+
+  @override
+  String get budget => 'Budget';
+
+  @override
+  String get revenue => 'Revenue';
+
+  @override
+  String get production_companies => 'Production Companies';
+
+  @override
   String itemCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

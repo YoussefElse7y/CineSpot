@@ -25,7 +25,6 @@ void main() async {
   // Optional debug optimizations
   debugProfileBuildsEnabled = false;
   debugPrintRebuildDirtyWidgets = false;
-
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

@@ -1,5 +1,6 @@
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/domain/entities/movie_details_entity.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class MovieInfoSection extends StatelessWidget {
@@ -28,6 +29,7 @@ class MovieInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -38,19 +40,19 @@ class MovieInfoSection extends StatelessWidget {
           Row(
             children: [
               _StatItem(
-                label: 'Release Date',
+                label: l10n.release_date,
                 value: movie.releaseDate.split('-')[0],
                 isDark: isDark,
               ),
               const SizedBox(width: 24),
               _StatItem(
-                label: 'Runtime',
+                label: l10n.run_time,
                 value: _formatRuntime(movie.runtime),
                 isDark: isDark,
               ),
               const SizedBox(width: 24),
               _StatItem(
-                label: 'Rating',
+                label: l10n.rating,
                 value: movie.voteAverage.toStringAsFixed(1),
                 isDark: isDark,
               ),
@@ -60,7 +62,7 @@ class MovieInfoSection extends StatelessWidget {
 
           // Overview
           Text(
-            'Overview',
+            l10n.overview,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -80,15 +82,19 @@ class MovieInfoSection extends StatelessWidget {
 
           // Additional Info
           if (movie.tagline != null && movie.tagline!.isNotEmpty) ...[
-            _InfoRow(label: 'Tagline', value: movie.tagline!, isDark: isDark),
+            _InfoRow(
+              label: l10n.tagline,
+              value: movie.tagline!,
+              isDark: isDark,
+            ),
             const SizedBox(height: 12),
           ],
 
-          _InfoRow(label: 'Status', value: movie.status, isDark: isDark),
+          _InfoRow(label: l10n.status, value: movie.status, isDark: isDark),
           const SizedBox(height: 12),
 
           _InfoRow(
-            label: 'Original Language',
+            label: l10n.original_language,
             value: movie.originalLanguage.toUpperCase(),
             isDark: isDark,
           ),
@@ -96,7 +102,7 @@ class MovieInfoSection extends StatelessWidget {
 
           if (movie.budget != null && movie.budget! > 0) ...[
             _InfoRow(
-              label: 'Budget',
+              label: l10n.budget,
               value: _formatBudget(movie.budget),
               isDark: isDark,
             ),
@@ -105,7 +111,7 @@ class MovieInfoSection extends StatelessWidget {
 
           if (movie.revenue != null && movie.revenue! > 0) ...[
             _InfoRow(
-              label: 'Revenue',
+              label: l10n.revenue,
               value: _formatBudget(movie.revenue),
               isDark: isDark,
             ),
@@ -116,7 +122,7 @@ class MovieInfoSection extends StatelessWidget {
           if (movie.productionCompanies.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
-              'Production Companies',
+              l10n.production_companies,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -139,19 +145,16 @@ class MovieInfoSection extends StatelessWidget {
                             company.logoPath!,
                             LogoSize.w92,
                           ),
-                          width: 24,
-                          height: 24,
                         ),
-                        const SizedBox(width: 4),
+                      ] else ...[
+                        Text(
+                          company.name,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                        ),
                       ],
-                      SizedBox(width: 4),
-                      Text(
-                        company.name,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: isDark ? Colors.white : Colors.black,
-                        ),
-                      ),
                     ],
                   ),
                   backgroundColor: isDark ? Colors.grey[800] : Colors.grey[200],

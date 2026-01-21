@@ -16,7 +16,8 @@ class TvShowRecommendationsSection extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.recommendationsStatus != current.recommendationsStatus,
       builder: (context, state) {
-        if (state.recommendationsStatus == TvShowRecommendationsStatus.loading) {
+        if (state.recommendationsStatus ==
+            TvShowRecommendationsStatus.loading) {
           return const SizedBox(
             height: 200,
             child: Center(child: CircularProgressIndicator()),

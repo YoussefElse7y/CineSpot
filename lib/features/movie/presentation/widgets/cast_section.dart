@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cine_spot/core/network/tmdb_image_helper.dart';
 import 'package:cine_spot/features/movie/presentation/bloc/movie_bloc.dart';
+import 'package:cine_spot/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,6 +12,7 @@ class CastSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<MovieBloc, MovieState>(
       buildWhen: (previous, current) =>
@@ -19,9 +21,7 @@ class CastSection extends StatelessWidget {
         if (state.creditsStatus == MovieCreditsStatus.loading) {
           return const SizedBox(
             height: 200,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -46,7 +46,7 @@ class CastSection extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'Cast',
+                  l10n.cast,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -111,9 +111,7 @@ class _CastCard extends StatelessWidget {
         children: [
           // Profile Image
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(12),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             child: profilePath != null
                 ? CachedNetworkImage(
                     imageUrl: TMDBImageHelper.getProfile(
@@ -124,14 +122,18 @@ class _CastCard extends StatelessWidget {
                     width: 100,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Shimmer.fromColors(
-    baseColor: isDark ? const Color(0xFF1F1F1F) : const Color(0xFFE0E0E0),
-    highlightColor: isDark ? const Color(0xFF4A4A4A) : const Color(0xFFF5F5F5),
-    child: Container(
-      height: 120,
-      width: 100,
-      color: Colors.white,
-    ),
-  ),
+                      baseColor: isDark
+                          ? const Color(0xFF1F1F1F)
+                          : const Color(0xFFE0E0E0),
+                      highlightColor: isDark
+                          ? const Color(0xFF4A4A4A)
+                          : const Color(0xFFF5F5F5),
+                      child: Container(
+                        height: 120,
+                        width: 100,
+                        color: Colors.white,
+                      ),
+                    ),
                     errorWidget: (context, url, error) => Container(
                       color: isDark ? Colors.grey[800] : Colors.grey[300],
                       child: const Icon(

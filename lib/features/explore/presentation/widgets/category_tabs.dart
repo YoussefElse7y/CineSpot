@@ -15,15 +15,15 @@ class CategoryTabs extends StatelessWidget {
   String _getCategoryName(SearchCategory category, AppLocalizations l10n) {
     switch (category) {
       case SearchCategory.multi:
-        return 'All';
+        return l10n.all;
       case SearchCategory.movies:
         return l10n.movies;
       case SearchCategory.tvShows:
         return l10n.tvShows;
       case SearchCategory.people:
-        return 'People';
+        return l10n.people;
       case SearchCategory.companies:
-        return 'Companies';
+        return l10n.companies;
     }
   }
 
